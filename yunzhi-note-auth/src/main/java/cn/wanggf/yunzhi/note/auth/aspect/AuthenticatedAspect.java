@@ -1,6 +1,5 @@
 package cn.wanggf.yunzhi.note.auth.aspect;
 
-import cn.wanggf.donkey.blog.comm.auth.Subject;
 import cn.wanggf.yunzhi.note.auth.annotion.Authenticated;
 import cn.wanggf.yunzhi.note.auth.context.Subject;
 import cn.wanggf.yunzhi.note.auth.exception.AuthCheckException;

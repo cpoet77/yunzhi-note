@@ -1,6 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.constant;
 
-import cn.wanggf.donkey.blog.comm.auth.ValidatorType;
+
+import cn.wanggf.yunzhi.note.auth.context.ValidatorType;
 
 /**
  * 常用验证器类型定义

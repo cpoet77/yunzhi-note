@@ -2,9 +2,9 @@ package cn.wanggf.yunzhi.note.auth.interceptor;
 
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthPermissionMatchProperties;
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.wanggf.donkey.blog.comm.auth.LogicEnum;
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
-import cn.wanggf.donkey.blog.comm.auth.Subject;
+import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.context.AuthContext;
+import cn.wanggf.yunzhi.note.auth.context.Subject;
 import cn.wanggf.yunzhi.note.auth.exception.NotAuthSubjectException;
 import cn.wanggf.yunzhi.note.auth.exception.PermissionCheckException;
 import cn.wanggf.yunzhi.note.auth.exception.RoleCheckException;

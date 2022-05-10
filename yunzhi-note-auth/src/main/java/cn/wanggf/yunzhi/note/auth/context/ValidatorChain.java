@@ -1,5 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.context;
 
+import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
+
 /**
  * 验证链
  *

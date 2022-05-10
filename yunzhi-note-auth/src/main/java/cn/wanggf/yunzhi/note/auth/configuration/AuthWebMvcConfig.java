@@ -1,7 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.configuration;
 
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
+import cn.wanggf.yunzhi.note.auth.context.AuthContext;
 import cn.wanggf.yunzhi.note.auth.interceptor.AuthenticateInterceptor;
 import cn.wanggf.yunzhi.note.auth.resolver.AuthContextArgumentResolver;
 import cn.wanggf.yunzhi.note.auth.resolver.SubjectArgumentResolver;

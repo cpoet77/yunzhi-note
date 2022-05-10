@@ -1,6 +1,6 @@
 package cn.wanggf.yunzhi.note.auth.configuration.auto;
 
-import cn.wanggf.donkey.blog.comm.auth.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
 import lombok.Data;
 
 import java.util.List;

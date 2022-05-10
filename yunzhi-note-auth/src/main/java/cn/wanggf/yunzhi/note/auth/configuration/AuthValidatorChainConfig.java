@@ -1,7 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.configuration;
 
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
-import cn.wanggf.donkey.blog.comm.auth.Validator;
+import cn.wanggf.yunzhi.note.auth.context.AuthContext;
+import cn.wanggf.yunzhi.note.auth.context.Validator;
 
 import java.util.List;
 

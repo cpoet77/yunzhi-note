@@ -1,7 +1,5 @@
 package cn.wanggf.yunzhi.note.auth.context;
 
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
-
 /**
  * 系统主体
  * <br />

@@ -1,7 +1,6 @@
 package cn.wanggf.yunzhi.note.auth.context;
 
 import cn.wanggf.yunzhi.note.auth.exception.NotAuthSubjectException;
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
 
 /**
  * 未认证主体

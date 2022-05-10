@@ -1,14 +1,17 @@
 package cn.wanggf.yunzhi.note.auth.configuration;
 
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
-import cn.wanggf.yunzhi.note.auth.context.SimpleAuthContext;
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.wanggf.donkey.blog.comm.auth.Subject;
+import cn.wanggf.yunzhi.note.auth.context.AuthContext;
+import cn.wanggf.yunzhi.note.auth.context.SimpleAuthContext;
+import cn.wanggf.yunzhi.note.auth.context.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
  * 认证配置

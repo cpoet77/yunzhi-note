@@ -1,7 +1,6 @@
 package cn.wanggf.yunzhi.note.auth.context;
 
 import cn.wanggf.yunzhi.note.auth.constant.JwtAuthClaimsConst;
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
 import io.jsonwebtoken.Claims;
 
 import java.util.Date;

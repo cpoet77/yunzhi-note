@@ -6,8 +6,6 @@ import cn.wanggf.yunzhi.note.auth.configuration.auto.RsaProperties;
 import cn.wanggf.yunzhi.note.auth.constant.JwtAuthClaimsConst;
 import cn.wanggf.yunzhi.note.auth.constant.JwtSignAlgorithms;
 import cn.wanggf.yunzhi.note.auth.util.JwtUtil;
-import cn.wanggf.donkey.blog.comm.auth.*;
-import cn.wanggf.donkey.blog.comm.util.RequestUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -116,10 +114,10 @@ public class SimpleAuthContext implements AuthContext {
 
     private void fillAdditionalClaims(Map<String, Object> claims) {
         HttpServletRequest request = getContextRequest();
-        String userAgent = RequestUtil.getUserAgent(request);
-        String ipAddress = RequestUtil.findIpAddress(request);
-        claims.put(JwtAuthClaimsConst.CLAIMS_USER_AGENT, userAgent);
-        claims.put(JwtAuthClaimsConst.CLAIMS_IP_ADDRESS, ipAddress);
+//        String userAgent = RequestUtil.getUserAgent(request);
+//        String ipAddress = RequestUtil.findIpAddress(request);
+//        claims.put(JwtAuthClaimsConst.CLAIMS_USER_AGENT, userAgent);
+//        claims.put(JwtAuthClaimsConst.CLAIMS_IP_ADDRESS, ipAddress);
     }
 
     @Override

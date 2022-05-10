@@ -1,9 +1,9 @@
 package cn.wanggf.yunzhi.note.auth.aspect;
 
 import cn.wanggf.yunzhi.note.auth.annotion.HasRole;
-import cn.wanggf.donkey.blog.comm.auth.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.context.Subject;
 import cn.wanggf.yunzhi.note.auth.exception.RoleCheckException;
-import cn.wanggf.donkey.blog.comm.auth.Subject;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

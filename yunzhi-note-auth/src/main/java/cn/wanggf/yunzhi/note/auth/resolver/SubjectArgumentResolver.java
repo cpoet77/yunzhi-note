@@ -1,6 +1,6 @@
 package cn.wanggf.yunzhi.note.auth.resolver;
 
-import cn.wanggf.donkey.blog.comm.auth.Subject;
+import cn.wanggf.yunzhi.note.auth.context.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;

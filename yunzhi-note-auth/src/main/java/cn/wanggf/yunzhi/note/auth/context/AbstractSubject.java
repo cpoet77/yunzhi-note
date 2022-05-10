@@ -1,10 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.context;
 
-import cn.wanggf.donkey.blog.comm.auth.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
 import cn.wanggf.yunzhi.note.auth.constant.ValidatorTypes;
-import cn.wanggf.donkey.blog.comm.auth.ValidatorChain;
-import cn.wanggf.donkey.blog.comm.auth.AuthContext;
-import cn.wanggf.donkey.blog.comm.auth.Subject;
 
 import java.util.Date;
 import java.util.Map;

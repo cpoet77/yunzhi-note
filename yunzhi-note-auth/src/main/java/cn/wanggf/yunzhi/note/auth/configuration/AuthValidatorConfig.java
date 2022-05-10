@@ -1,18 +1,7 @@
 package cn.wanggf.yunzhi.note.auth.configuration;
 
-import cn.wanggf.yunzhi.note.auth.constant.ValidatorTypes;
-import cn.wanggf.donkey.blog.comm.auth.Subject;
-import cn.wanggf.donkey.blog.comm.auth.Validator;
-import cn.wanggf.donkey.blog.comm.auth.ValidatorType;
-import cn.wanggf.donkey.blog.comm.service.IPermissionService;
-import cn.wanggf.donkey.blog.comm.service.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.context.annotation.Bean;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 默认实现基于角色和资源的验证
@@ -26,50 +15,50 @@ public class AuthValidatorConfig {
     private final static String ROLE_CACHE_NAME = "&userHashRoleCache";
     private final static String PERMISSION_CACHE_NAME = "&userHashPermissionCache";
 
-    private final IRoleService iRoleService;
-    private final IPermissionService iPermissionService;
-
-    @Bean("roleValidator")
-    public Validator roleValidator() {
-        return new Validator() {
-            @Override
-            public boolean has(Subject subject, String name) {
-                Map<String, Boolean> cache = (Map<String, Boolean>) subject.getClaims()
-                    .computeIfAbsent(ROLE_CACHE_NAME, k -> Collections.synchronizedMap(new HashMap<>(5, 1F)));
-                Boolean hasRole = cache.get(name);
-                if (hasRole == null) {
-                    hasRole = iRoleService.hasRole(subject.getUid(), name);
-                    cache.put(name, hasRole);
-                }
-                return Boolean.TRUE.equals(hasRole);
-            }
-
-            @Override
-            public ValidatorType getType() {
-                return ValidatorTypes.ROLE;
-            }
-        };
-    }
-
-    @Bean("permissionValidator")
-    public Validator permissionValidator() {
-        return new Validator() {
-            @Override
-            public boolean has(Subject subject, String name) {
-                Map<String, Boolean> cache = (Map<String, Boolean>) subject.getClaims()
-                    .computeIfAbsent(PERMISSION_CACHE_NAME, k -> Collections.synchronizedMap(new HashMap<>(5, 1F)));
-                Boolean hasPermission = cache.get(name);
-                if (hasPermission == null) {
-                    hasPermission = iPermissionService.hasPermission(subject.getUid(), name);
-                    cache.put(name, hasPermission);
-                }
-                return Boolean.TRUE.equals(hasPermission);
-            }
-
-            @Override
-            public ValidatorType getType() {
-                return ValidatorTypes.PERMISSION;
-            }
-        };
-    }
+//    private final IRoleService iRoleService;
+//    private final IPermissionService iPermissionService;
+//
+//    @Bean("roleValidator")
+//    public Validator roleValidator() {
+//        return new Validator() {
+//            @Override
+//            public boolean has(Subject subject, String name) {
+//                Map<String, Boolean> cache = (Map<String, Boolean>) subject.getClaims()
+//                    .computeIfAbsent(ROLE_CACHE_NAME, k -> Collections.synchronizedMap(new HashMap<>(5, 1F)));
+//                Boolean hasRole = cache.get(name);
+//                if (hasRole == null) {
+//                    hasRole = iRoleService.hasRole(subject.getUid(), name);
+//                    cache.put(name, hasRole);
+//                }
+//                return Boolean.TRUE.equals(hasRole);
+//            }
+//
+//            @Override
+//            public ValidatorType getType() {
+//                return ValidatorTypes.ROLE;
+//            }
+//        };
+//    }
+//
+//    @Bean("permissionValidator")
+//    public Validator permissionValidator() {
+//        return new Validator() {
+//            @Override
+//            public boolean has(Subject subject, String name) {
+//                Map<String, Boolean> cache = (Map<String, Boolean>) subject.getClaims()
+//                    .computeIfAbsent(PERMISSION_CACHE_NAME, k -> Collections.synchronizedMap(new HashMap<>(5, 1F)));
+//                Boolean hasPermission = cache.get(name);
+//                if (hasPermission == null) {
+//                    hasPermission = iPermissionService.hasPermission(subject.getUid(), name);
+//                    cache.put(name, hasPermission);
+//                }
+//                return Boolean.TRUE.equals(hasPermission);
+//            }
+//
+//            @Override
+//            public ValidatorType getType() {
+//                return ValidatorTypes.PERMISSION;
+//            }
+//        };
+//    }
 }
