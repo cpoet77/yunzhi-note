@@ -14,6 +14,7 @@
   <artifactId>yunzhi-note</artifactId>
   <packaging>pom</packaging>
   <version>${project.version}</version>
+
   <modules>
     <module>yunzhi-note-comm</module>
     <module>yunzhi-note-auth</module>
