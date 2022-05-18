@@ -1,0 +1,17 @@
+server:
+  servlet:
+    context-path: /api/editor
+spring:
+  application:
+    name: yunzhi-note-editor
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        healthCheckPath: ${server.servlet.context-path}/actuator/health
+        healthCheckInterval: 60s
+      config:
+        format: YAML

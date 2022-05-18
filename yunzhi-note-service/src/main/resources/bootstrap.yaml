@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: yunzhi-note-service
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        healthCheckPath: ${server.servlet.context-path}/actuator/health
+        healthCheckInterval: 60s
+      config:
+        format: YAML

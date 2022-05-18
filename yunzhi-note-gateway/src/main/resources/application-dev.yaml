@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: initialCapacity=500,expireAfterWrite=5s
+    gateway:
+      routes:
+        - id: yunzhi-note-server
+          uri: lb://yunzhi-note-server
+          predicates:
+            - Path=/api/server/**

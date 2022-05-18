@@ -1,7 +1,5 @@
 package cn.wanggf.yunzhi.note.auth.util;
 
-import cn.wanggf.donkey.blog.comm.util.Md5Util;
-
 /**
  * 密码工具
  *
@@ -16,11 +14,11 @@ public class PassUtil {
     }
 
     public static String md5hex(String pass) {
-        return Md5Util.md5hex(pass);
+        return DigestUtil.md5hex(pass);
     }
 
     public static String md5hex(String pass, String salt) {
-        return Md5Util.md5hex(merge(pass, salt));
+        return DigestUtil.md5hex(merge(pass, salt));
     }
 
     public static String merge(String str1, String str2) {

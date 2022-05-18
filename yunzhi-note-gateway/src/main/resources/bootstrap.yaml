@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: yunzhi-note-gateway
+  main:
+    web-application-type: reactive
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        healthCheckInterval: 60s
+      config:
+        format: YAML
