@@ -16,12 +16,16 @@
       <groupId>io.ebean</groupId>
       <artifactId>ebean</artifactId>
     </dependency>
-      <dependency>
-          <groupId>pl.fhframework.aspects</groupId>
-          <artifactId>fhAspects</artifactId>
-          <version>4.9.26</version>
-          <scope>compile</scope>
-      </dependency>
+
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

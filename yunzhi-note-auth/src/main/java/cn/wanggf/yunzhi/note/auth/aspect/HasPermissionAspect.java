@@ -2,6 +2,7 @@ package cn.wanggf.yunzhi.note.auth.aspect;
 
 import cn.wanggf.yunzhi.note.auth.annotion.HasPermission;
 import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
+import cn.wanggf.yunzhi.note.auth.core.AuthContext;
 import cn.wanggf.yunzhi.note.auth.core.Subject;
 import cn.wanggf.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 public class HasPermissionAspect {
-    private final Subject subject;
+    private final AuthContext authContext;
 
     @Before("@annotation(hasPermission)")
     public void before(HasPermission hasPermission) {
@@ -28,7 +29,7 @@ public class HasPermissionAspect {
     }
 
     private void checkPermission(HasPermission hasPermission) {
-        if (!subject.hasPermission(hasPermission.logic(), hasPermission.value())) {
+        if (!authContext.getSubject().hasPermission(hasPermission.logic(), hasPermission.value())) {
             if (LogicEnum.AND.equals(hasPermission.logic())) {
                 throw new AuthCheckException("权限不足，该访问需要同时具有" + Arrays.toString(hasPermission.value()) + "权限.");
             }

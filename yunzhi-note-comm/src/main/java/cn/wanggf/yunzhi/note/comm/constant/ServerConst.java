@@ -12,11 +12,6 @@ public interface ServerConst {
     String SERVER_GATEWAY = ModuleConst.MODULE_GATEWAY;
 
     /**
-     * 复杂业务、计算支撑服务
-     */
-    String SERVER_SERVICE = ModuleConst.MODULE_SERVICE;
-
-    /**
      * 公共服务
      */
     String SERVER_SERVER = ModuleConst.MODULE_SERVER;

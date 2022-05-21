@@ -3,11 +3,13 @@ package cn.wanggf.yunzhi.note.auth.core;
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
 import cn.wanggf.yunzhi.note.auth.constant.JwtAuthClaimsConst;
 import cn.wanggf.yunzhi.note.auth.util.JwtUtil;
+import cn.wanggf.yunzhi.note.comm.util.ReqsUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,23 +31,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author wanggf
  */
 @Slf4j
+@RequiredArgsConstructor
 public class SimpleAuthContext implements AuthContext {
     public final static SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.RS256;
 
     private final static String AUTH_SUBJECT_ATTR_NAME = "cn.wanggf.yunzhi.note.auth@authSubjectModelCache";
 
-    private final KeyPairHold keyPairHold;
-    private final Subject systemSubject;
-    private final Subject notAuthSubject;
+    private final KeyPairHold keyPairHold = createKeyPair();
+    private final Subject systemSubject = new SystemSubject(this);
+    private final Subject guestSubject = new GuestSubject(this);
     private final Map<String, ValidatorChain> validatorChains = new ConcurrentHashMap<>();
-    private final AuthenticateProperties authenticateProperties;
 
-    public SimpleAuthContext(AuthenticateProperties authenticateProperties) {
-        this.authenticateProperties = authenticateProperties;
-        systemSubject = new SystemSubject(this);
-        notAuthSubject = new NotAuthSubject(this);
-        keyPairHold = createKeyPair();
-    }
+    private final AuthenticateProperties authenticateProperties;
 
     @Override
     public Subject getSubject() {
@@ -70,7 +67,7 @@ public class SimpleAuthContext implements AuthContext {
                 log.debug("解析jwt[token = {}]失败，原因：{}", e.getMessage(), e);
             }
         }
-        return notAuthSubject;
+        return guestSubject;
     }
 
     @Override
@@ -94,12 +91,21 @@ public class SimpleAuthContext implements AuthContext {
         Map<String, Object> rightClaims = new HashMap<>(claims);
         rightClaims.put(JwtAuthClaimsConst.CLAIMS_USER_ID, uid);
         rightClaims.put(JwtAuthClaimsConst.CLAIMS_USER_ACCOUNT, account);
+        fillAdditionalClaims(rightClaims);
         Key privateKey = keyPairHold.getPrivateKey();
         Key publicKey = keyPairHold.getPublicKey();
         String token = JwtUtil.encode(privateKey, String.valueOf(uid), tokenDuration.toMillis(), rightClaims, SIGNATURE_ALGORITHM);
         Subject subject = new AuthSubject(this, token, JwtUtil.decode(publicKey, token));
         request.setAttribute(AUTH_SUBJECT_ATTR_NAME, subject);
         return subject;
+    }
+
+    private void fillAdditionalClaims(Map<String, Object> claims) {
+        HttpServletRequest request = getContextRequest();
+        String userAgent = ReqsUtil.getUserAgent(request);
+        String ipAddress = ReqsUtil.findIpAddress(request);
+        claims.put(JwtAuthClaimsConst.CLAIMS_USER_AGENT, userAgent);
+        claims.put(JwtAuthClaimsConst.CLAIMS_IP_ADDRESS, ipAddress);
     }
 
     @Override

@@ -15,4 +15,14 @@ public interface JwtAuthClaimsConst {
      * 账号
      */
     String CLAIMS_USER_ACCOUNT = "cn.wanggf.yunzhi.note.auth@account";
+
+    /**
+     * 请求UA
+     */
+    String CLAIMS_USER_AGENT = "cn.wanggf.yunzhi.note.auth@user-agent";
+
+    /**
+     * ip地址
+     */
+    String CLAIMS_IP_ADDRESS = "cn.wanggf.yunzhi.note.auth@ip-ddress";
 }

@@ -1,6 +1,3 @@
-server:
-  servlet:
-    context-path: /api/server
 spring:
   application:
     name: yunzhi-note-server

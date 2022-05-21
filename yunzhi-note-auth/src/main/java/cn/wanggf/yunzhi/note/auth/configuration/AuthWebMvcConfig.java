@@ -34,11 +34,11 @@ public class AuthWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> authUrl = authenticateProperties.getAuthUrl();
-        List<String> ignoredAuthUrl = authenticateProperties.getIgnoredAuthUrl();
-        registry
-            .addInterceptor(new AuthenticateInterceptor(authContext, authenticateProperties))
-            .addPathPatterns(CollectionUtils.isEmpty(authUrl) ? Collections.emptyList() : authUrl)
-            .excludePathPatterns(CollectionUtils.isEmpty(ignoredAuthUrl) ? Collections.emptyList() : ignoredAuthUrl);
+//        List<String> authUrl = authenticateProperties.getAuthUrl();
+//        List<String> ignoredAuthUrl = authenticateProperties.getIgnoredAuthUrl();
+//        registry
+//            .addInterceptor(new AuthenticateInterceptor(authContext, authenticateProperties))
+//            .addPathPatterns(CollectionUtils.isEmpty(authUrl) ? Collections.emptyList() : authUrl)
+//            .excludePathPatterns(CollectionUtils.isEmpty(ignoredAuthUrl) ? Collections.emptyList() : ignoredAuthUrl);
     }
 }

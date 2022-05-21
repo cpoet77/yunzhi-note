@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   cloud:
     loadbalancer:
@@ -14,3 +13,5 @@ spring:
           uri: lb://yunzhi-note-server
           predicates:
             - Path=/api/server/**
+          filters:
+            - StripPrefix=2

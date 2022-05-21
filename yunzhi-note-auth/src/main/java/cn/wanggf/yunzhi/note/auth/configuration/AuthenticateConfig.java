@@ -23,7 +23,7 @@ import java.util.List;
  * @author wanggf
  */
 @ComponentScan(basePackages = "cn.wanggf.yunzhi.note.auth.aspect")
-@ImportAutoConfiguration({AuthWebMvcConfig.class})
+@ImportAutoConfiguration({AuthValidatorConfig.class, AuthWebMvcConfig.class})
 @RequiredArgsConstructor
 public class AuthenticateConfig {
     @Bean

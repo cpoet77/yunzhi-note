@@ -2,7 +2,7 @@ package cn.wanggf.yunzhi.note.auth.aspect;
 
 import cn.wanggf.yunzhi.note.auth.annotion.HasRole;
 import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
-import cn.wanggf.yunzhi.note.auth.core.Subject;
+import cn.wanggf.yunzhi.note.auth.core.AuthContext;
 import cn.wanggf.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 public class HasRoleAspect {
-    private final Subject subject;
+    private final AuthContext authContext;
 
     @Before("@annotation(hasRole)")
     public void before(HasRole hasRole) {
@@ -28,7 +28,7 @@ public class HasRoleAspect {
     }
 
     private void checkRole(HasRole hasRole) {
-        if (!subject.hasRole(hasRole.logic(), hasRole.value())) {
+        if (!authContext.getSubject().hasRole(hasRole.logic(), hasRole.value())) {
             if (LogicEnum.AND.equals(hasRole.logic())) {
                 throw new AuthCheckException("权限不足，该访问需要同时具有" + Arrays.toString(hasRole.value()) + "角色.");
             }

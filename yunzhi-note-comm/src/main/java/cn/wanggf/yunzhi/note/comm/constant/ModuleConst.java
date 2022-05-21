@@ -42,11 +42,6 @@ public interface ModuleConst {
     String MODULE_SERVER = MODULE_PREFIX + "server";
 
     /**
-     * 服务支撑模块
-     */
-    String MODULE_SERVICE = MODULE_PREFIX + "service";
-
-    /**
      * 后台管理模块
      */
     String MODULE_ADMIN = MODULE_PREFIX + "admin";

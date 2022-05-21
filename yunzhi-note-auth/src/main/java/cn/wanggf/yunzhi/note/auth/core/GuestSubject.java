@@ -7,8 +7,8 @@ import cn.wanggf.yunzhi.note.auth.exception.AuthException;
  *
  * @author wanggf
  */
-public class NotAuthSubject extends AbstractSubject {
-    public NotAuthSubject(AuthContext authContext) {
+public class GuestSubject extends AbstractSubject {
+    public GuestSubject(AuthContext authContext) {
         super(authContext);
     }
 

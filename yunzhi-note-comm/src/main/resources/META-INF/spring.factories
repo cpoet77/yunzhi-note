@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.wanggf.yunzhi.note.comm.configuration.CommConfiguration
+  cn.wanggf.yunzhi.note.comm.configuration.CommConfig
