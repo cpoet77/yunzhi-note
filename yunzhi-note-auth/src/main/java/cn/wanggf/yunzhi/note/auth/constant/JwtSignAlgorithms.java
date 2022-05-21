@@ -16,6 +16,7 @@ public enum JwtSignAlgorithms {
      * 非对称算法
      */
     RS256(SignatureAlgorithm.RS256),
+
     /**
      * 对称算法
      */

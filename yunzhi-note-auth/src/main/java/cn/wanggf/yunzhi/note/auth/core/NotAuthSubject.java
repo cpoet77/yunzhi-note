@@ -1,6 +1,6 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
-import cn.wanggf.yunzhi.note.auth.exception.NotAuthSubjectException;
+import cn.wanggf.yunzhi.note.auth.exception.AuthException;
 
 /**
  * 未认证主体
@@ -14,12 +14,12 @@ public class NotAuthSubject extends AbstractSubject {
 
     @Override
     public long getUid() {
-        throw new NotAuthSubjectException("用户未登录，获取uid失败.");
+        throw new AuthException("用户未登录，获取uid失败.");
     }
 
     @Override
     public String getAccount() {
-        throw new NotAuthSubjectException("用户未登录，获取用户名失败.");
+        throw new AuthException("用户未登录，获取用户名失败.");
     }
 
     @Override

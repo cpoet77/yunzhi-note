@@ -1,24 +1,18 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.wanggf.yunzhi.note.auth.configuration.auto.HmacProperties;
-import cn.wanggf.yunzhi.note.auth.configuration.auto.RsaProperties;
 import cn.wanggf.yunzhi.note.auth.constant.JwtAuthClaimsConst;
-import cn.wanggf.yunzhi.note.auth.constant.JwtSignAlgorithms;
 import cn.wanggf.yunzhi.note.auth.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
@@ -36,12 +30,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class SimpleAuthContext implements AuthContext {
-    private final static String AUTH_SUBJECT_ATTR_NAME = "&authSubjectModelCache";
+    public final static SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.RS256;
+
+    private final static String AUTH_SUBJECT_ATTR_NAME = "cn.wanggf.yunzhi.note.auth@authSubjectModelCache";
 
     private final KeyPairHold keyPairHold;
     private final Subject systemSubject;
     private final Subject notAuthSubject;
-    private final SignatureAlgorithm signatureAlgorithm;
     private final Map<String, ValidatorChain> validatorChains = new ConcurrentHashMap<>();
     private final AuthenticateProperties authenticateProperties;
 
@@ -49,11 +44,7 @@ public class SimpleAuthContext implements AuthContext {
         this.authenticateProperties = authenticateProperties;
         systemSubject = new SystemSubject(this);
         notAuthSubject = new NotAuthSubject(this);
-        JwtSignAlgorithms jwtSignAlgorithms = authenticateProperties.getJwtSignAlgorithms();
-        signatureAlgorithm = jwtSignAlgorithms.getAlgorithm();
-        keyPairHold = JwtSignAlgorithms.HS256.equals(jwtSignAlgorithms)
-            ? createSecretKey(authenticateProperties.getHmac())
-            : createKeyPair(authenticateProperties.getRsa());
+        keyPairHold = createKeyPair();
     }
 
     @Override
@@ -103,43 +94,29 @@ public class SimpleAuthContext implements AuthContext {
         Map<String, Object> rightClaims = new HashMap<>(claims);
         rightClaims.put(JwtAuthClaimsConst.CLAIMS_USER_ID, uid);
         rightClaims.put(JwtAuthClaimsConst.CLAIMS_USER_ACCOUNT, account);
-        fillAdditionalClaims(rightClaims);
         Key privateKey = keyPairHold.getPrivateKey();
         Key publicKey = keyPairHold.getPublicKey();
-        String token = JwtUtil.encode(privateKey, String.valueOf(uid), tokenDuration.toMillis(), rightClaims, signatureAlgorithm);
+        String token = JwtUtil.encode(privateKey, String.valueOf(uid), tokenDuration.toMillis(), rightClaims, SIGNATURE_ALGORITHM);
         Subject subject = new AuthSubject(this, token, JwtUtil.decode(publicKey, token));
         request.setAttribute(AUTH_SUBJECT_ATTR_NAME, subject);
         return subject;
     }
 
-    private void fillAdditionalClaims(Map<String, Object> claims) {
-        HttpServletRequest request = getContextRequest();
-//        String userAgent = RequestUtil.getUserAgent(request);
-//        String ipAddress = RequestUtil.findIpAddress(request);
-//        claims.put(JwtAuthClaimsConst.CLAIMS_USER_AGENT, userAgent);
-//        claims.put(JwtAuthClaimsConst.CLAIMS_IP_ADDRESS, ipAddress);
-    }
-
     @Override
     public AuthContext addValidator(Validator validator) {
-        return addValidator(validator.getType(), validator);
-    }
-
-    @Override
-    public AuthContext addValidator(ValidatorType validatorType, Validator validator) {
-        String name = validatorType.getName();
+        String name = validator.getName();
         validatorChains.put(name, ValidatorChain.of(validator, validatorChains.get(name)));
         return this;
     }
 
     @Override
-    public boolean hasValidatorChain(ValidatorType validatorType) {
-        return validatorChains.containsKey(validatorType.getName());
+    public boolean hasValidatorChain(String name) {
+        return getValidatorChain(name) != null;
     }
 
     @Override
-    public ValidatorChain getValidatorChain(ValidatorType validatorType) {
-        return validatorChains.get(validatorType.getName());
+    public ValidatorChain getValidatorChain(String name) {
+        return validatorChains.get(name);
     }
 
     @Override
@@ -184,20 +161,8 @@ public class SimpleAuthContext implements AuthContext {
         return attr == null ? null : ((ServletRequestAttributes) attr).getResponse();
     }
 
-    private KeyPairHold createSecretKey(HmacProperties hmacProperties) {
-        boolean isRandom = Boolean.TRUE.equals(hmacProperties.getRandom());
-        if (isRandom) {
-            SecretKey secretKey = Keys.secretKeyFor(JwtSignAlgorithms.HS256.getAlgorithm());
-            return new KeyPairHold(secretKey, secretKey);
-        }
-        String secret = hmacProperties.getSecretKey();
-        Assert.hasText(secret, "用于HMAC算法签名的key不能为空.");
-        SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
-        return new KeyPairHold(secretKey, secretKey);
-    }
-
-    private KeyPairHold createKeyPair(RsaProperties rsaProperties) {
-        KeyPair keyPair = Keys.keyPairFor(JwtSignAlgorithms.RS256.getAlgorithm());
+    private KeyPairHold createKeyPair() {
+        KeyPair keyPair = Keys.keyPairFor(SIGNATURE_ALGORITHM);
         return new KeyPairHold(keyPair.getPrivate(), keyPair.getPublic());
     }
 

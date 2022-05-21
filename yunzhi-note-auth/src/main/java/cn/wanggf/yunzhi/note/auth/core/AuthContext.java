@@ -1,4 +1,4 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
 import java.util.List;
 import java.util.Map;
@@ -51,29 +51,20 @@ public interface AuthContext {
     AuthContext addValidator(Validator validator);
 
     /**
-     * 添加权限验证器
-     *
-     * @param validatorType 验证器类型
-     * @param validator     验证器
-     * @return 认证上下文
-     */
-    AuthContext addValidator(ValidatorType validatorType, Validator validator);
-
-    /**
      * 是否存在指定类型的权限验证链
      *
-     * @param validatorType 验证器类型
+     * @param name 验证器名称
      * @return bool
      */
-    boolean hasValidatorChain(ValidatorType validatorType);
+    boolean hasValidatorChain(String name);
 
     /**
      * 获取指定类型的权限验证链
      *
-     * @param validatorType 验证器类型
+     * @param name 验证器名称
      * @return 权限验证链
      */
-    ValidatorChain getValidatorChain(ValidatorType validatorType);
+    ValidatorChain getValidatorChain(String name);
 
     /**
      * 获取所有权限验证链

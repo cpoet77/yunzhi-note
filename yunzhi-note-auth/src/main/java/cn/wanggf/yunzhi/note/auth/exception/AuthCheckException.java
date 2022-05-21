@@ -7,11 +7,11 @@ package cn.wanggf.yunzhi.note.auth.exception;
  * @author wanggf
  */
 public class AuthCheckException extends AuthException {
-    public AuthCheckException(String msg) {
-        super(msg);
+    public AuthCheckException(String message) {
+        super(message);
     }
 
-    public AuthCheckException(String msg, Throwable cause) {
-        super(msg, cause);
+    public AuthCheckException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

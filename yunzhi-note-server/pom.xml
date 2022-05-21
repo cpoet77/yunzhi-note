@@ -46,5 +46,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
+      <dependency>
+          <groupId>pl.fhframework.aspects</groupId>
+          <artifactId>fhAspects</artifactId>
+          <version>4.9.26</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 </project>

@@ -7,6 +7,5 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author wanggf
  */
-@EnableFeignClients("cn.wanggf.yunzhi.note.comm.service")
 public class CommConfiguration {
 }

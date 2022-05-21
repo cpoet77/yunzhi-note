@@ -1,4 +1,4 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
 import cn.wanggf.yunzhi.note.auth.constant.JwtAuthClaimsConst;
 import io.jsonwebtoken.Claims;

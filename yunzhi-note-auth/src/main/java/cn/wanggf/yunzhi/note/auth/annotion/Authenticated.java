@@ -17,11 +17,4 @@ public @interface Authenticated {
      * @return 是否已登录
      */
     boolean logged() default true;
-
-    /**
-     * 必要性
-     *
-     * @return 必要性
-     */
-    boolean required() default true;
 }

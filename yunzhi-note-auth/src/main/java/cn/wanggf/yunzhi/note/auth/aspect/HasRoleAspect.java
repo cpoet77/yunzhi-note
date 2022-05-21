@@ -2,8 +2,8 @@ package cn.wanggf.yunzhi.note.auth.aspect;
 
 import cn.wanggf.yunzhi.note.auth.annotion.HasRole;
 import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
-import cn.wanggf.yunzhi.note.auth.context.Subject;
-import cn.wanggf.yunzhi.note.auth.exception.RoleCheckException;
+import cn.wanggf.yunzhi.note.auth.core.Subject;
+import cn.wanggf.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -30,9 +30,9 @@ public class HasRoleAspect {
     private void checkRole(HasRole hasRole) {
         if (!subject.hasRole(hasRole.logic(), hasRole.value())) {
             if (LogicEnum.AND.equals(hasRole.logic())) {
-                throw new RoleCheckException("权限不足，该访问需要同时具有" + Arrays.toString(hasRole.value()) + "角色.");
+                throw new AuthCheckException("权限不足，该访问需要同时具有" + Arrays.toString(hasRole.value()) + "角色.");
             }
-            throw new RoleCheckException("权限不足，该访问需要具有" + Arrays.toString(hasRole.value()) + "中任意角色.");
+            throw new AuthCheckException("权限不足，该访问需要具有" + Arrays.toString(hasRole.value()) + "中任意角色.");
         }
     }
 }

@@ -1,6 +1,5 @@
 package cn.wanggf.yunzhi.note.auth.configuration.auto;
 
-import cn.wanggf.yunzhi.note.auth.constant.JwtSignAlgorithms;
 import lombok.Data;
 
 import java.time.Duration;
@@ -14,21 +13,6 @@ import java.util.Map;
  */
 @Data
 public class AuthenticateProperties {
-    /**
-     * 默认使用RSA算法
-     */
-    private JwtSignAlgorithms jwtSignAlgorithms = JwtSignAlgorithms.HS256;
-
-    /**
-     * RSA算法配置
-     */
-    private RsaProperties rsa = new RsaProperties();
-
-    /**
-     * hmac算法配置
-     */
-    private HmacProperties hmac = new HmacProperties();
-
     /**
      * token header中的名称
      */

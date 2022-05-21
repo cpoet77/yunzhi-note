@@ -3,11 +3,9 @@ package cn.wanggf.yunzhi.note.auth.interceptor;
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthPermissionMatchProperties;
 import cn.wanggf.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
 import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
-import cn.wanggf.yunzhi.note.auth.context.AuthContext;
-import cn.wanggf.yunzhi.note.auth.context.Subject;
-import cn.wanggf.yunzhi.note.auth.exception.NotAuthSubjectException;
-import cn.wanggf.yunzhi.note.auth.exception.PermissionCheckException;
-import cn.wanggf.yunzhi.note.auth.exception.RoleCheckException;
+import cn.wanggf.yunzhi.note.auth.core.AuthContext;
+import cn.wanggf.yunzhi.note.auth.core.Subject;
+import cn.wanggf.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -46,7 +44,7 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
                 }
             }
         } else {
-            throw new NotAuthSubjectException("用户未登录，拒绝访问.");
+            throw new AuthCheckException("用户未登录，拒绝访问.");
         }
     }
 
@@ -55,11 +53,11 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
             LogicEnum logic = permissionMatchProperties.getLogic();
             List<String> roles = permissionMatchProperties.getRoles();
             if (!CollectionUtils.isEmpty(roles) && !subject.hasRole(logic, roles.toArray(new String[0]))) {
-                throw new RoleCheckException("访问权限不足.");
+                throw new AuthCheckException("访问权限不足.");
             }
             List<String> permissions = permissionMatchProperties.getPermissions();
             if (!CollectionUtils.isEmpty(permissions) && !subject.hasPermission(logic, permissions.toArray(new String[0]))) {
-                throw new PermissionCheckException("访问权限不足.");
+                throw new AuthCheckException("访问权限不足.");
             }
         }
     }

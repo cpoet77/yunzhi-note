@@ -1,4 +1,4 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
 /**
  * 系统主体
@@ -8,18 +8,22 @@ package cn.wanggf.yunzhi.note.auth.context;
  * @author wanggf
  */
 public class SystemSubject extends AbstractSubject {
+    public final static long SYS_ID = -1L;
+
+    public final static String SYS_ACCOUNT = "systemd";
+
     protected SystemSubject(AuthContext authContext) {
         super(authContext);
     }
 
     @Override
     public long getUid() {
-        return -1;
+        return SYS_ID;
     }
 
     @Override
     public String getAccount() {
-        return "systemd";
+        return SYS_ACCOUNT;
     }
 
     @Override

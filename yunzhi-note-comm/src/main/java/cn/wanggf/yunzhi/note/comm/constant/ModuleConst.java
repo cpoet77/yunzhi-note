@@ -12,9 +12,9 @@ public interface ModuleConst {
     String MODULE_PREFIX = "yunzhi-note-";
 
     /**
-     * 认证模块
+     * 认证核心模块
      */
-    String MODULE_AUTH = MODULE_PREFIX + "auth";
+    String MODULE_AUTH = MODULE_PREFIX + "auth-core";
 
     /**
      * 认证模块客户端
