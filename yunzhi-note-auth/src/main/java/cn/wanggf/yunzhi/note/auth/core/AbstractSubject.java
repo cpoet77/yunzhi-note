@@ -1,7 +1,6 @@
-package cn.wanggf.yunzhi.note.auth.context;
+package cn.wanggf.yunzhi.note.auth.core;
 
 import cn.wanggf.yunzhi.note.auth.constant.LogicEnum;
-import cn.wanggf.yunzhi.note.auth.constant.ValidatorTypes;
 
 import java.util.Date;
 import java.util.Map;
@@ -28,7 +27,7 @@ public abstract class AbstractSubject implements Subject {
 
     @Override
     public boolean hasRole(LogicEnum logic, String... roles) {
-        ValidatorChain validatorChain = authContext.getValidatorChain(ValidatorTypes.ROLE);
+        ValidatorChain validatorChain = authContext.getValidatorChain(RoleValidator.NAME);
         return validatorChain != null && validatorChain.has(authContext.getSubject(), logic, roles);
     }
 
@@ -39,7 +38,7 @@ public abstract class AbstractSubject implements Subject {
 
     @Override
     public boolean hasPermission(LogicEnum logic, String... permissions) {
-        ValidatorChain validatorChain = authContext.getValidatorChain(ValidatorTypes.PERMISSION);
+        ValidatorChain validatorChain = authContext.getValidatorChain(PermissionValidator.NAME);
         return validatorChain != null && validatorChain.has(authContext.getSubject(), logic, permissions);
     }
 
