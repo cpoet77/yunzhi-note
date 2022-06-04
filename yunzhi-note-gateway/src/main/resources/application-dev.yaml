@@ -13,5 +13,3 @@ spring:
           uri: lb://yunzhi-note-server
           predicates:
             - Path=/api/server/**
-          filters:
-            - StripPrefix=2
