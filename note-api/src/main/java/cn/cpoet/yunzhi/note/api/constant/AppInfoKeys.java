@@ -34,20 +34,20 @@ public interface AppInfoKeys {
     /**
      * 主版本号
      */
-    String VERSION_MAJOR = "version_major";
+    String VERSION_MAJOR = "version.major";
 
     /**
      * 次版本号
      */
-    String VERSION_MINOR = "version_minor";
+    String VERSION_MINOR = "version.minor";
 
     /**
      * 修正版本号
      */
-    String VERSION_REVISION = "version_revision";
+    String VERSION_REVISION = "version.revision";
 
     /**
      * 编译版本号
      */
-    String VERSION_BUILD = "version_build";
+    String VERSION_BUILD = "version.build";
 }

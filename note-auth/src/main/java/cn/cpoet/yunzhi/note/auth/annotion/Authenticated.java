@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.auth.annotion;
 
-import cn.cpoet.yunzhi.note.auth.constant.SubjectType;
+import cn.cpoet.yunzhi.note.api.constant.SubjectType;
 
 import java.lang.annotation.*;
 

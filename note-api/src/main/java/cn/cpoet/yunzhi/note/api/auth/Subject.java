@@ -18,6 +18,13 @@ public interface Subject {
     long getUid();
 
     /**
+     * 获取用户组id
+     *
+     * @return 用户组id
+     */
+    long getGroupId();
+
+    /**
      * 获取当前主体账号
      *
      * @return 账号

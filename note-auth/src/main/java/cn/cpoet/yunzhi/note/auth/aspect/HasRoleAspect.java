@@ -1,9 +1,9 @@
 package cn.cpoet.yunzhi.note.auth.aspect;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
+import cn.cpoet.yunzhi.note.api.constant.LogicEnum;
 import cn.cpoet.yunzhi.note.auth.annotion.HasRole;
-import cn.cpoet.yunzhi.note.auth.constant.LogicEnum;
 import cn.cpoet.yunzhi.note.auth.exception.AuthCheckException;
-import cn.cpoet.yunzhi.note.auth.core.AuthContext;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

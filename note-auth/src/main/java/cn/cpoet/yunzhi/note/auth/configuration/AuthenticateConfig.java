@@ -1,8 +1,8 @@
 package cn.cpoet.yunzhi.note.auth.configuration;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
+import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.cpoet.yunzhi.note.auth.core.AuthContext;
-import cn.cpoet.yunzhi.note.auth.core.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,19 +16,18 @@ import org.springframework.context.annotation.ScopedProxyMode;
  *
  * @author CPoet
  */
-@ComponentScan(basePackages = "cn.wanggf.yunzhi.note.auth.aspect")
+@ComponentScan(basePackages = "cn.cpoet.yunzhi.note.auth.aspect")
 @RequiredArgsConstructor
 public class AuthenticateConfig {
     @Bean
-    @ConfigurationProperties(prefix = "donkey.blog.auth")
+    @ConfigurationProperties(prefix = "note.auth")
     public AuthenticateProperties authenticateProperties() {
         return new AuthenticateProperties();
     }
 
-    @Bean({"defaultAuthContext", "simpleAuthContext"})
+    @Bean
     @ConditionalOnMissingBean
     public AuthContext authContext(AuthenticateProperties authenticateProperties) {
-
         return null;
     }
 

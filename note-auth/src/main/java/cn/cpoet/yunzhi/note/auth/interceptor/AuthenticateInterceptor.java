@@ -1,10 +1,10 @@
 package cn.cpoet.yunzhi.note.auth.interceptor;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
+import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.api.constant.LogicEnum;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthPermissionMatchProperties;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
-import cn.cpoet.yunzhi.note.auth.constant.LogicEnum;
-import cn.cpoet.yunzhi.note.auth.core.AuthContext;
-import cn.cpoet.yunzhi.note.auth.core.Subject;
 import cn.cpoet.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;

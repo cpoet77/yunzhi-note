@@ -1,7 +1,7 @@
 package cn.cpoet.yunzhi.note.auth.aspect;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.auth.annotion.Authenticated;
-import cn.cpoet.yunzhi.note.auth.core.AuthContext;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

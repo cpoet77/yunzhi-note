@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.auth.annotion;
 
-import cn.cpoet.yunzhi.note.auth.constant.LogicEnum;
+import cn.cpoet.yunzhi.note.api.constant.LogicEnum;
 
 import java.lang.annotation.*;
 

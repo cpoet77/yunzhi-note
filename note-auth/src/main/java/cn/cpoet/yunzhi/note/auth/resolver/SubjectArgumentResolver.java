@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.auth.resolver;
 
-import cn.cpoet.yunzhi.note.auth.core.Subject;
+import cn.cpoet.yunzhi.note.api.auth.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
