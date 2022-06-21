@@ -1,5 +1,6 @@
 package cn.cpoet.yunzhi.note.api.core;
 
+import cn.cpoet.yunzhi.note.api.constant.AppInfoKeys;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -15,12 +16,17 @@ public final class AppInfo {
     /**
      * 应用信息文件
      */
-    private final static String APP_INFO_FILE = "version.properties";
+    private final static String APP_INFO_FILE = "app.info";
 
     /**
      * 应用名称
      */
     public final static String NAME;
+
+    /**
+     * 作者
+     */
+    public final static String AUTHOR;
 
     /**
      * 公司
@@ -43,20 +49,24 @@ public final class AppInfo {
     public final static Version VERSION;
 
     static {
+        // 加载应用相关信息，默认使用Properties格式
         Properties info = new Properties();
         ClassPathResource pathResource = new ClassPathResource(APP_INFO_FILE);
         try (InputStream in = pathResource.getInputStream()) {
             info.load(in);
         } catch (IOException ignored) {
         }
-        NAME = info.getProperty("name");
-        COMPANY = info.getProperty("company");
-        EMAIL = info.getProperty("email");
-        SITE = info.getProperty("site");
-        String major = info.getProperty("version.major");
-        String minor = info.getProperty("version.minor");
-        String revision = info.getProperty("version.revision");
-        String build = info.getProperty("version.build");
+        // 应用信息
+        NAME = info.getProperty(AppInfoKeys.NAME);
+        AUTHOR = info.getProperty(AppInfoKeys.AUTHOR);
+        COMPANY = info.getProperty(AppInfoKeys.COMPANY);
+        EMAIL = info.getProperty(AppInfoKeys.EMAIL);
+        SITE = info.getProperty(AppInfoKeys.SITE);
+        // 应用版本信息
+        String major = info.getProperty(AppInfoKeys.VERSION_MAJOR);
+        String minor = info.getProperty(AppInfoKeys.VERSION_MINOR);
+        String revision = info.getProperty(AppInfoKeys.VERSION_REVISION);
+        String build = info.getProperty(AppInfoKeys.VERSION_BUILD);
         VERSION = new Version(major == null ? 0 : Integer.parseInt(major), minor == null ? 0 : Integer.parseInt(minor),
             revision == null ? 0 : Integer.parseInt(revision), build);
     }
