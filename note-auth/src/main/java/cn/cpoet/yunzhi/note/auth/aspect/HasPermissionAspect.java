@@ -17,7 +17,6 @@ import java.util.Arrays;
  * @author CPoet
  */
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class HasPermissionAspect {
     private final AuthContext authContext;

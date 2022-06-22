@@ -2,11 +2,9 @@ package cn.cpoet.yunzhi.note.auth.core;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 认证上下文
@@ -14,39 +12,42 @@ import javax.servlet.http.HttpServletRequest;
  * @author CPoet
  */
 @Slf4j
+@RequiredArgsConstructor
 public class SimpleAuthContext implements AuthContext {
+    private final RequestWrapper globalRequestWrapper;
+
     /**
      * 主体信息
      */
-    private final ThreadLocal<Subject> subjectTL = ThreadLocal.withInitial(this::doGetSubject);
+    private final ThreadLocal<Subject> subjectTL = ThreadLocal.withInitial(() -> null);
 
     @Override
     public Subject getSubject() {
-        return subjectTL.get();
+        return getSubject(globalRequestWrapper);
     }
 
-    protected Subject doGetSubject() {
-        HttpServletRequest request = currentRequest();
-        if (request == null) {
+    @Override
+    public Subject getSubject(RequestWrapper request) {
+        Subject subject = subjectTL.get();
+        if (subject != null) {
+            return subject;
+        }
+        subject = doGetSubject(request);
+        subjectTL.set(subject);
+        return subject;
+    }
+
+    protected Subject doGetSubject(RequestWrapper request) {
+        if (request == null || !request.requesting()) {
             return SysSubject.INSTANCE;
         }
+        Object reqsSubject = globalRequestWrapper.getAttribute("");
         // 判断请求上下文中是否已经存在解析的用户信息
-        Object reqsSubject = request.getAttribute("");
         if (reqsSubject instanceof Subject) {
             return (Subject) reqsSubject;
         }
-        // 解析网关传递的用户信息
-        return null;
-    }
+        // 解析Jwt获取用户信息
 
-    protected final HttpServletRequest currentRequest() {
-        try {
-            return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        } catch (Exception e) {
-            if (log.isDebugEnabled()) {
-                log.debug("获取请求上下文信息失败：{}", e.getMessage(), e);
-            }
-        }
-        return null;
+        return GuestSubject.INSTANCE;
     }
 }

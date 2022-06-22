@@ -1,15 +1,26 @@
 package cn.cpoet.yunzhi.note.auth.core;
 
-import org.springframework.util.CollectionUtils;
+import cn.cpoet.yunzhi.note.api.auth.Subject;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.function.Function;
 
 /**
+ * 会对{@link Subject#getRoles()}和{@link Subject#getPermissions()}进行代理
+ *
  * @author CPoet
  */
 public class AuthSubjectBuilder {
+    public final static String GET_ROLES_FUNC_NAME = "getRoles";
+
+    public final static String GET_PERMISSIONS_FUNC_NAME = "getPermissions";
+
     private final AuthSubject subject;
+
+    private Function<Long, Collection<String>> getRolesFunc;
+    private Function<Long, Collection<String>> getPermissionsFunc;
 
     public AuthSubjectBuilder() {
         subject = new AuthSubject();
@@ -30,17 +41,34 @@ public class AuthSubjectBuilder {
         return this;
     }
 
-    public AuthSubjectBuilder withRoles(Collection<String> roles) {
-        subject.setRoles(CollectionUtils.isEmpty(roles) ? Collections.emptyList() : roles);
+    public AuthSubjectBuilder withGetRoles(Function<Long, Collection<String>> getRolesFunc) {
+        this.getRolesFunc = getRolesFunc;
         return this;
     }
 
-    public AuthSubjectBuilder withPermissions(Collection<String> permissions) {
-        subject.setPermissions(CollectionUtils.isEmpty(permissions) ? Collections.emptyList() : permissions);
+    public AuthSubjectBuilder withGetPermissions(Function<Long, Collection<String>> getPermissionsFunc) {
+        this.getPermissionsFunc = getPermissionsFunc;
         return this;
     }
 
     public AuthSubject build() {
-        return subject;
+        // 未设置权限获取函数，不创建代理对象
+        if (getRolesFunc == null && getPermissionsFunc == null) {
+            return subject;
+        }
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(AuthSubject.class);
+        enhancer.setUseCache(true);
+        // 拦截方法目标方法代理
+        enhancer.setCallback((MethodInterceptor) (o, method, objects, methodProxy) -> {
+            if (getRolesFunc != null && GET_ROLES_FUNC_NAME.equals(method.getName())) {
+                return getRolesFunc.apply(subject.getUid());
+            }
+            if (getPermissionsFunc != null && GET_PERMISSIONS_FUNC_NAME.equals(method.getName())) {
+                return getPermissionsFunc.apply(subject.getUid());
+            }
+            return methodProxy.invoke(subject, objects);
+        });
+        return (AuthSubject) enhancer.create();
     }
 }

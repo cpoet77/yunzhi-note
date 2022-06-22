@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.auth.configuration;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
 import cn.cpoet.yunzhi.note.auth.core.SimpleAuthContext;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -18,8 +19,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
  *
  * @author CPoet
  */
-@ComponentScan(basePackages = "cn.cpoet.yunzhi.note.auth.aspect")
 @RequiredArgsConstructor
+@Import({AuthenticateReactiveConfig.class, AuthenticateServletConfig.class})
 public class AuthenticateConfig {
     @Bean
     @RefreshScope
@@ -30,8 +31,8 @@ public class AuthenticateConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public AuthContext authContext() {
-        return new SimpleAuthContext();
+    public AuthContext authContext(RequestWrapper requestWrapper) {
+        return new SimpleAuthContext(requestWrapper);
     }
 
     @Bean

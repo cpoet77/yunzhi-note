@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * @author CPoet
  */
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class AuthenticatedAspect {
     private final AuthContext authContext;

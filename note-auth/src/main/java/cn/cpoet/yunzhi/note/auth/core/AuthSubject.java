@@ -30,18 +30,7 @@ public class AuthSubject extends GuestSubject {
      */
     private String account;
 
-    /**
-     * 用户角色
-     */
-    private Collection<String> roles;
-
-    /**
-     * 用户权限
-     */
-    private Collection<String> permissions;
-
     AuthSubject() {
-
     }
 
     @Override
@@ -71,7 +60,7 @@ public class AuthSubject extends GuestSubject {
 
     @Override
     public boolean hasRole(LogicEnum logic, String... roles) {
-        return isContainVal(this.roles, roles, logic);
+        return isContainVal(getRoles(), roles, logic);
     }
 
     @Override
@@ -81,7 +70,7 @@ public class AuthSubject extends GuestSubject {
 
     @Override
     public boolean hasPermission(LogicEnum logic, String... permissions) {
-        return isContainVal(this.permissions, permissions, logic);
+        return isContainVal(getPermissions(), permissions, logic);
     }
 
     private boolean isContainVal(Collection<String> targets, String[] values, LogicEnum logic) {

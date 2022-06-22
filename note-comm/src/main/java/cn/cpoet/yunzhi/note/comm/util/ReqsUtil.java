@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.comm.util;
 
-import javax.servlet.http.HttpServletRequest;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 
 /**
  * request工具
@@ -19,7 +19,7 @@ public class ReqsUtil {
      * @param request 请求
      * @return UA
      */
-    public static String getUserAgent(HttpServletRequest request) {
+    public static String getUserAgent(RequestWrapper request) {
         return request == null ? "" : request.getHeader(HEADER_USER_AGENT);
     }
 
@@ -29,7 +29,8 @@ public class ReqsUtil {
      * @param request 请求
      * @return ip地址
      */
-    public static String findIpAddress(HttpServletRequest request) {
+    @SuppressWarnings("all")
+    public static String findIpAddress(RequestWrapper request) {
         if (request == null) {
             return "";
         }

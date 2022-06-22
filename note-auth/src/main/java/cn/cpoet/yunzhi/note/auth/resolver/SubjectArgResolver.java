@@ -1,26 +1,29 @@
 package cn.cpoet.yunzhi.note.auth.resolver;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
+import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * 认证上下文方法参数注入
+ * 认证主体方法参数解析器
  *
  * @author CPoet
  */
 @RequiredArgsConstructor
-public class AuthContextArgumentResolver implements HandlerMethodArgumentResolver {
-    private final ApplicationContext applicationContext;
+public class SubjectArgResolver implements HandlerMethodArgumentResolver {
+    private final AuthContext authContext;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return AuthContext.class == methodParameter.getParameterType();
+        return Subject.class == methodParameter.getParameterType();
     }
 
     @Override
@@ -28,6 +31,7 @@ public class AuthContextArgumentResolver implements HandlerMethodArgumentResolve
                                   ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) {
-        return applicationContext.getBean(AuthContext.class);
+        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+        return authContext.getSubject(ServletRequestWrapper.wrapper(request));
     }
 }

@@ -4,6 +4,8 @@ package cn.cpoet.yunzhi.note.api.auth;
 import cn.cpoet.yunzhi.note.api.constant.LogicEnum;
 import cn.cpoet.yunzhi.note.api.constant.SubjectType;
 
+import java.util.Collection;
+
 /**
  * 当前操作主体
  *
@@ -37,6 +39,20 @@ public interface Subject {
      * @return 主体类型
      */
     SubjectType getType();
+
+    /**
+     * 获取主体所有角色
+     *
+     * @return 角色
+     */
+    Collection<String> getRoles();
+
+    /**
+     * 获取主体所有权限
+     *
+     * @return 权限
+     */
+    Collection<String> getPermissions();
 
     /**
      * 判断当前主体是否具有角色

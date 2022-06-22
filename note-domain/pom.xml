@@ -13,6 +13,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>cn.cpoet</groupId>
+      <artifactId>note-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>ebean</artifactId>
     </dependency>

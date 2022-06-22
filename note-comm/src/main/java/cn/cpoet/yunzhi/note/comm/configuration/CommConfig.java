@@ -1,12 +1,12 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author CPoet
  */
-@ComponentScan("cn.wanggf.yunzhi.note.comm.component")
 @EnableFeignClients("cn.cpoet.yunzhi.note.comm.feign")
+@Import({CommReactiveConfig.class, CommServletConfig.class})
 public class CommConfig {
 }

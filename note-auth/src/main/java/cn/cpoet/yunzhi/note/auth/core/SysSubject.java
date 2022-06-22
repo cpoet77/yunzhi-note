@@ -5,6 +5,9 @@ import cn.cpoet.yunzhi.note.api.constant.LogicEnum;
 import cn.cpoet.yunzhi.note.api.constant.SubjectType;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * 系统主体
  *
@@ -35,6 +38,16 @@ public class SysSubject implements Subject {
     @Override
     public SubjectType getType() {
         return SubjectType.SYSTEM;
+    }
+
+    @Override
+    public Collection<String> getRoles() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Collection<String> getPermissions() {
+        return Collections.emptyList();
     }
 
     @Override
