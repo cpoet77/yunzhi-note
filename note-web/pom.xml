@@ -17,6 +17,7 @@
     <module>note-web-comm</module>
     <module>note-web-admin</module>
     <module>note-web-space</module>
+      <module>note-web-wsocket</module>
   </modules>
 
   <dependencies>
