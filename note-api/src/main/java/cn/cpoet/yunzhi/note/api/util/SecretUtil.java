@@ -4,7 +4,6 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -49,28 +48,44 @@ public class SecretUtil {
         return new SecretKeySpec(ofBase64(secretKey), ALGORITHM_DES);
     }
 
-    public static String encrypt(PublicKey publicKey, String plaintext) throws GeneralSecurityException {
+    public static byte[] encrypt(PublicKey publicKey, byte[] plaintext) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(ALGORITHM_RSA);
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        return toBase64(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+        return cipher.doFinal(plaintext);
     }
 
-    public static String decrypt(PrivateKey privateKey, String ciphertext) throws GeneralSecurityException {
+    public static String encrypt2base64(PublicKey publicKey, byte[] plaintext) throws GeneralSecurityException {
+        return toBase64(encrypt(publicKey, plaintext));
+    }
+
+    public static byte[] decrypt(PrivateKey privateKey, byte[] ciphertext) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(ALGORITHM_RSA);
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        return new String(cipher.doFinal(ofBase64(ciphertext)));
+        return cipher.doFinal(ciphertext);
     }
 
-    public static String encrypt(SecretKey secretKey, String plaintext) throws GeneralSecurityException {
+    public static byte[] decrypt4base64(PrivateKey privateKey, String ciphertext) throws GeneralSecurityException {
+        return decrypt(privateKey, ofBase64(ciphertext));
+    }
+
+    public static byte[] encrypt(SecretKey secretKey, byte[] plaintext) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        return toBase64(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+        return cipher.doFinal(plaintext);
     }
 
-    public static String decrypt(SecretKey secretKey, String ciphertext) throws GeneralSecurityException {
+    public static String encrypt2base64(SecretKey secretKey, byte[] plaintext) throws GeneralSecurityException {
+        return toBase64(encrypt(secretKey, plaintext));
+    }
+
+    public static byte[] decrypt(SecretKey secretKey, byte[] ciphertext) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        return new String(cipher.doFinal(ofBase64(ciphertext)));
+        return cipher.doFinal(ciphertext);
+    }
+
+    public static byte[] decrypt4base64(SecretKey secretKey, String ciphertext) throws GeneralSecurityException {
+        return decrypt(secretKey, ofBase64(ciphertext));
     }
 
     public static String toBase64(byte[] data) {

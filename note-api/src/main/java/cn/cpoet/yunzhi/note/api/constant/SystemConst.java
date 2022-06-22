@@ -30,4 +30,9 @@ public interface SystemConst {
      * 全局ID生成器名称
      */
     String GLOBAL_ID_GENERATOR = "yunzhi@global-id-generator";
+
+    /**
+     * 全局UUID生成器名称
+     */
+    String GLOBAL_UUID_GENERATOR = "yunzhi@global-uuid-generator";
 }

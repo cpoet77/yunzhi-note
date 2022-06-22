@@ -29,5 +29,5 @@ public interface IdGeneratorFeign extends IdGenerator<Long> {
      */
     @Override
     @RequestMapping(value = "/id-generator/next", method = RequestMethod.GET)
-    Long next();
+    Long nextId();
 }

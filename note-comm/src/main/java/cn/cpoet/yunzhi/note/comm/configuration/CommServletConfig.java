@@ -1,7 +1,8 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
-import cn.cpoet.yunzhi.note.comm.component.CommResponseAdvice;
+import cn.cpoet.yunzhi.note.comm.core.CommResponseAdvice;
 import cn.cpoet.yunzhi.note.comm.core.AbstractServletRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,7 +39,7 @@ public class CommServletConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public CommResponseAdvice commResponseAdvice() {
-        return new CommResponseAdvice();
+    public CommResponseAdvice commResponseAdvice(AuthContext authContext) {
+        return new CommResponseAdvice(authContext);
     }
 }

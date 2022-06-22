@@ -23,6 +23,6 @@ public class IdGeneratorWrapper implements IdGenerator {
 
     @Override
     public Object nextValue() {
-        return thisIdGenerator.next();
+        return thisIdGenerator.nextId();
     }
 }

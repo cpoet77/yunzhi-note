@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "note.snow-flake",
+      "type": "cn.cpoet.yunzhi.note.web.comm.configuration.auto.SnowFlakeProperties",
+      "sourceType": "cn.cpoet.yunzhi.note.web.comm.configuration.IdGeneratorConfig",
+      "sourceMethod": "snowFlakeProperties()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "note.snow-flake.sequence",
+      "type": "java.lang.Long",
+      "sourceType": "cn.cpoet.yunzhi.note.web.comm.configuration.auto.SnowFlakeProperties"
+    },
+    {
+      "name": "note.snow-flake.worker-id",
+      "type": "java.lang.Long",
+      "sourceType": "cn.cpoet.yunzhi.note.web.comm.configuration.auto.SnowFlakeProperties"
+    }
+  ],
+  "hints": []
+}

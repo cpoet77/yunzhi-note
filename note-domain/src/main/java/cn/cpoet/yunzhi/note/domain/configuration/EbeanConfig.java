@@ -1,8 +1,11 @@
 package cn.cpoet.yunzhi.note.domain.configuration;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
+import cn.cpoet.yunzhi.note.api.constant.CipherAlgorithms;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.core.IdGenerator;
+import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
+import cn.cpoet.yunzhi.note.api.util.SecretUtil;
 import cn.cpoet.yunzhi.note.domain.common.IdGeneratorWrapper;
 import cn.cpoet.yunzhi.note.domain.configuration.auto.DataSourceProperties;
 import io.ebean.Database;
@@ -18,6 +21,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
+import javax.crypto.SecretKey;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,12 +39,26 @@ public class EbeanConfig {
     @Bean
     @RefreshScope
     @ConditionalOnMissingBean
-    public DataSourceConfig dataSourceConfig(DataSourceProperties dataSourceProperties) {
+    public DataSourceConfig dataSourceConfig(DataSourceProperties dataSourceProperties,
+                                             ObjectProvider<SystemKeyHolder> systemKeyHolders) throws GeneralSecurityException {
         DataSourceConfig config = new DataSourceConfig();
         config.setDriver(dataSourceProperties.getDriverClassName());
         config.setUrl(dataSourceProperties.getUrl());
-        config.setUsername(dataSourceProperties.getUsername());
-        config.setPassword(dataSourceProperties.getPassword());
+        if (CipherAlgorithms.NONE.equals(dataSourceProperties.getAlgorithm())) {
+            config.setUsername(dataSourceProperties.getUsername());
+            config.setPassword(dataSourceProperties.getPassword());
+        } else {
+            SystemKeyHolder systemKeyHolder = systemKeyHolders.getIfAvailable();
+            if (CipherAlgorithms.RSA.equals(dataSourceProperties.getAlgorithm())) {
+                PrivateKey privateKey = systemKeyHolder.getPrivateKey();
+                config.setUsername(new String(SecretUtil.decrypt4base64(privateKey, dataSourceProperties.getUsername())));
+                config.setPassword(new String(SecretUtil.decrypt4base64(privateKey, dataSourceProperties.getPassword())));
+            } else {
+                SecretKey secretKey = systemKeyHolder.getSecretKey();
+                config.setUsername(new String(SecretUtil.decrypt4base64(secretKey, dataSourceProperties.getUsername())));
+                config.setPassword(new String(SecretUtil.decrypt4base64(secretKey, dataSourceProperties.getPassword())));
+            }
+        }
         return config;
     }
 

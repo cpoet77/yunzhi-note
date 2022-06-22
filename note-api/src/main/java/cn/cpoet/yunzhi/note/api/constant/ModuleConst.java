@@ -9,7 +9,7 @@ public interface ModuleConst {
     /**
      * 模块名称前缀
      */
-    String MODULE_PREFIX = "note-";
+    String MODULE_PREFIX = "yunzhi-note-";
 
     /**
      * WEB模块名称前缀

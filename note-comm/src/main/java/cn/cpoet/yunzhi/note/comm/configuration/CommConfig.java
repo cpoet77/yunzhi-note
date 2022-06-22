@@ -1,8 +1,11 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.api.util.SecretUtil;
+import cn.cpoet.yunzhi.note.comm.aspect.FeignTargetAspect;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.SecretProperties;
+import cn.cpoet.yunzhi.note.comm.core.SimpleUUIDGenerator;
 import cn.cpoet.yunzhi.note.comm.core.SystemKeyHolderImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,7 +24,7 @@ import java.security.PublicKey;
  * @author CPoet
  */
 @EnableFeignClients("cn.cpoet.yunzhi.note.comm.feign")
-@Import({CommReactiveConfig.class, CommServletConfig.class})
+@Import({FeignConfig.class, CommReactiveConfig.class, CommServletConfig.class})
 public class CommConfig {
     @Bean
     @RefreshScope
@@ -38,5 +41,16 @@ public class CommConfig {
         PublicKey publicKey = SecretUtil.decodePublicKey(secretProperties.getPublicKey());
         SecretKey secretKey = SecretUtil.decodeSecretKey(secretProperties.getSecretKey());
         return new SystemKeyHolderImpl(new KeyPair(publicKey, privateKey), secretKey);
+    }
+
+    @Bean
+    public FeignTargetAspect feignTargetAspect(AuthContext authContext) {
+        return new FeignTargetAspect(authContext);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SimpleUUIDGenerator simpleUuidGenerator() {
+        return new SimpleUUIDGenerator();
     }
 }

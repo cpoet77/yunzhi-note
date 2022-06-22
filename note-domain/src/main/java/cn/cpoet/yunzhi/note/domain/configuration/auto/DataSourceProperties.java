@@ -1,5 +1,6 @@
 package cn.cpoet.yunzhi.note.domain.configuration.auto;
 
+import cn.cpoet.yunzhi.note.api.constant.CipherAlgorithms;
 import lombok.Data;
 
 /**
@@ -9,6 +10,12 @@ import lombok.Data;
  */
 @Data
 public class DataSourceProperties {
+    /**
+     * 用户名和密码是否已加密
+     * <p>默认使用{@link CipherAlgorithms#DES}算法加密</p>
+     */
+    private CipherAlgorithms algorithm = CipherAlgorithms.DES;
+
     /**
      * 数据源名称
      */

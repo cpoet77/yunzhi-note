@@ -19,5 +19,5 @@ public interface IdGenerator<T> {
      *
      * @return 支持类型的id
      */
-    T next();
+    T nextId();
 }
