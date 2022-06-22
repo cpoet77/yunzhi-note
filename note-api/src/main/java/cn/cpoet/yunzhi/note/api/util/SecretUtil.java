@@ -80,11 +80,4 @@ public class SecretUtil {
     public static byte[] ofBase64(String data) {
         return Base64.getDecoder().decode(data);
     }
-
-    public static void main(String[] args) throws GeneralSecurityException {
-        KeyPair keyPair = genKeyPair();
-        String s = encodeKey(keyPair.getPrivate());
-        System.out.println(s);
-        System.out.println(decodePrivateKey(s));
-    }
 }
