@@ -6,6 +6,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
@@ -35,8 +36,8 @@ public class SecretUtil {
     }
 
     public static PrivateKey decodePrivateKey(String privateKey) throws GeneralSecurityException {
-        X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(ofBase64(privateKey));
-        return KeyFactory.getInstance(ALGORITHM_RSA).generatePrivate(x509EncodedKeySpec);
+        PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(ofBase64(privateKey));
+        return KeyFactory.getInstance(ALGORITHM_RSA).generatePrivate(pkcs8EncodedKeySpec);
     }
 
     public static PublicKey decodePublicKey(String publicKey) throws GeneralSecurityException {
