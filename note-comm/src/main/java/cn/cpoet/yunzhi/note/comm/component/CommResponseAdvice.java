@@ -1,21 +1,18 @@
 package cn.cpoet.yunzhi.note.comm.component;
 
+import cn.cpoet.yunzhi.note.comm.constant.CommStatus;
 import cn.cpoet.yunzhi.note.comm.vo.ResultVO;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
  * @author CPoet
  */
-@Component
 @SuppressWarnings("all")
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class CommResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType,
@@ -30,6 +27,6 @@ public class CommResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
-        return null;
+        return body == null ? ResultVO.EMPTY_OK : ResultVO.of(CommStatus.SUCCESS, body);
     }
 }

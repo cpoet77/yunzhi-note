@@ -1,6 +1,7 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
+import cn.cpoet.yunzhi.note.comm.component.CommResponseAdvice;
 import cn.cpoet.yunzhi.note.comm.core.AbstractServletRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,5 +34,11 @@ public class CommServletConfig {
                 return null;
             }
         };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CommResponseAdvice commResponseAdvice() {
+        return new CommResponseAdvice();
     }
 }

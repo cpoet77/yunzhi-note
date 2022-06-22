@@ -3,8 +3,11 @@ package cn.cpoet.yunzhi.note.auth.core;
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 /**
  * 认证上下文
@@ -41,13 +44,26 @@ public class SimpleAuthContext implements AuthContext {
         if (request == null || !request.requesting()) {
             return SysSubject.INSTANCE;
         }
-        Object reqsSubject = globalRequestWrapper.getAttribute("");
+        Object reqsSubject = request.getAttribute("");
         // 判断请求上下文中是否已经存在解析的用户信息
         if (reqsSubject instanceof Subject) {
             return (Subject) reqsSubject;
         }
         // 解析Jwt获取用户信息
-
+        String token = request.getHeader("");
+        if (StringUtils.hasText(token)) {
+            try {
+                DecodedJWT decodedJWT = JWT
+                    .require(null)
+                    .build()
+                    .verify(token);
+                decodedJWT.getClaim("");
+            } catch (Exception e) {
+                if (log.isDebugEnabled()) {
+                    log.debug("无效的Token[token={}]：{}", token, e.getMessage());
+                }
+            }
+        }
         return GuestSubject.INSTANCE;
     }
 }

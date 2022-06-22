@@ -1,5 +1,6 @@
 package cn.cpoet.yunzhi.note.comm.vo;
 
+import cn.cpoet.yunzhi.note.comm.constant.CommStatus;
 import cn.cpoet.yunzhi.note.comm.constant.Status;
 
 import java.io.Serializable;
@@ -14,7 +15,10 @@ import java.util.Set;
  * @author CPoet
  */
 public class ResultVO implements Map<String, Object>, Serializable {
+
     private static final long serialVersionUID = -2888247893297733056L;
+
+    public final static ResultVO EMPTY_OK = of(CommStatus.SUCCESS);
 
     public final static String _CODE_KEY = "code";
     public final static String _MESSAGE_KEY = "msg";
@@ -103,6 +107,11 @@ public class ResultVO implements Map<String, Object>, Serializable {
         return instance.entrySet();
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     public static ResultVO of(Status status) {
         return of(status, null);
     }
@@ -119,7 +128,9 @@ public class ResultVO implements Map<String, Object>, Serializable {
         ResultVO returnVo = new ResultVO();
         returnVo.setCode(status);
         returnVo.setMessage(message);
-        returnVo.setData(data);
+        if (data != null) {
+            returnVo.setData(data);
+        }
         returnVo.setTimestamp(System.currentTimeMillis());
         return returnVo;
     }
