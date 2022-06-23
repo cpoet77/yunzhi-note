@@ -21,10 +21,10 @@ public class AuthenticateProperties {
     /**
      * 跳过认证的url
      */
-    private List<String> ignoredAuthUrl;
+    private List<String> ignored;
 
     /**
      * 访问权限匹配，当且仅当{@link #authUrl}有效时
      */
-    private Map<String, AuthPermissionMatchProperties> authPermissionMatch;
+    private Map<String, AuthPermissionMatchProperties> match;
 }

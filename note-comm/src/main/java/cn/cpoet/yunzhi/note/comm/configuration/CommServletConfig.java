@@ -1,10 +1,8 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
-import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.comm.core.AbstractServletRequestWrapper;
 import cn.cpoet.yunzhi.note.comm.core.WebMvcResponseAdvice;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -38,7 +36,7 @@ public class CommServletConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public WebMvcResponseAdvice commResponseAdvice(AuthContext authContext, ObjectMapper objectMapper) {
-        return new WebMvcResponseAdvice(authContext, objectMapper);
+    public WebMvcResponseAdvice commResponseAdvice() {
+        return new WebMvcResponseAdvice();
     }
 }

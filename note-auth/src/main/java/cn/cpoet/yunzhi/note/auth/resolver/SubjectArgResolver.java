@@ -3,7 +3,7 @@ package cn.cpoet.yunzhi.note.auth.resolver;
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author CPoet
  */
-@RequiredArgsConstructor
 public class SubjectArgResolver implements HandlerMethodArgumentResolver {
-    private final AuthContext authContext;
+    @Autowired
+    private AuthContext authContext;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {

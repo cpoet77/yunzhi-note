@@ -6,7 +6,7 @@ import cn.cpoet.yunzhi.note.comm.constant.ReqsStatus;
 import cn.cpoet.yunzhi.note.comm.vo.ResultVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,10 +20,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @ControllerAdvice
 @SuppressWarnings("all")
-@RequiredArgsConstructor
 public class WebMvcResponseAdvice implements ResponseBodyAdvice<Object> {
-    private final AuthContext authContext;
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private AuthContext authContext;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public boolean supports(MethodParameter returnType,

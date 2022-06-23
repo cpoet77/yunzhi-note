@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.nio.charset.StandardCharsets;
@@ -19,15 +20,14 @@ import java.security.GeneralSecurityException;
  *
  * @author CPoet
  */
-@RequiredArgsConstructor
 public class FeignRequestInterceptor implements RequestInterceptor {
-
     @Value("${spring.application.name}")
     private String applicationName;
 
-    private final ObjectMapper objectMapper;
-
-    private final SystemKeyHolder systemKeyHolder;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private SystemKeyHolder systemKeyHolder;
 
     @Override
     public void apply(RequestTemplate template) {

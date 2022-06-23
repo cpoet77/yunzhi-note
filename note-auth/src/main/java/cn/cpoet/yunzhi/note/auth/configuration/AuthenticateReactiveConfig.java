@@ -13,15 +13,13 @@ import org.springframework.context.annotation.Bean;
 @RequiredArgsConstructor
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class AuthenticateReactiveConfig {
-    private final AuthContext authContext;
-
     @Bean
     public AuthContextReactiveArgResolver authContextReactiveArgResolver() {
-        return new AuthContextReactiveArgResolver(authContext);
+        return new AuthContextReactiveArgResolver();
     }
 
     @Bean
     public SubjectReactiveArgResolver subjectReactiveArgResolver() {
-        return new SubjectReactiveArgResolver(authContext);
+        return new SubjectReactiveArgResolver();
     }
 }

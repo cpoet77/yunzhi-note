@@ -1,9 +1,7 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
-import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.FeignProperties;
 import cn.cpoet.yunzhi.note.comm.core.FeignRequestInterceptor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -30,7 +28,7 @@ public class FeignConfig {
     }
 
     @Bean
-    public FeignRequestInterceptor feignRequestInterceptor(ObjectMapper objectMapper, SystemKeyHolder systemKeyHolder) {
-        return new FeignRequestInterceptor(objectMapper, systemKeyHolder);
+    public FeignRequestInterceptor feignRequestInterceptor() {
+        return new FeignRequestInterceptor();
     }
 }

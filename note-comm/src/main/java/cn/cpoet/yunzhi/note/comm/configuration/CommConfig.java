@@ -1,6 +1,5 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
-import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.api.util.SecretUtil;
 import cn.cpoet.yunzhi.note.comm.aspect.FeignTargetAspect;
@@ -46,8 +45,8 @@ public class CommConfig {
     }
 
     @Bean
-    public FeignTargetAspect feignTargetAspect(AuthContext authContext) {
-        return new FeignTargetAspect(authContext);
+    public FeignTargetAspect feignTargetAspect() {
+        return new FeignTargetAspect();
     }
 
     @Bean

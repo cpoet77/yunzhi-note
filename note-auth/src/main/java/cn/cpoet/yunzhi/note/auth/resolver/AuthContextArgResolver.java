@@ -1,7 +1,7 @@
 package cn.cpoet.yunzhi.note.auth.resolver;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -13,9 +13,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  *
  * @author CPoet
  */
-@RequiredArgsConstructor
 public class AuthContextArgResolver implements HandlerMethodArgumentResolver {
-    private final AuthContext authContext;
+    @Autowired
+    private AuthContext authContext;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {

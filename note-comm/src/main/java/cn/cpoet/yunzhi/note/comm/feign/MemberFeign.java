@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * @author CPoet
  */
-@FeignClient(value = ModuleConst.WEB_COMM, contextId = "MemberFeign", path = "/member")
+@FeignClient(value = ModuleConst.WEB_COMM, contextId = "MemberFeign", path = "/member", primary = false)
 public interface MemberFeign {
     /**
      * 获取角色列表
