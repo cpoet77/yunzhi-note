@@ -11,6 +11,10 @@
 
   <artifactId>note-web-gateway</artifactId>
 
+  <dependencyManagement>
+
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>

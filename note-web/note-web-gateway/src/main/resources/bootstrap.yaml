@@ -15,4 +15,3 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         # 配置格式
         file-extension: yaml
-

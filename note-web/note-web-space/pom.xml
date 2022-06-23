@@ -11,4 +11,50 @@
 
   <artifactId>note-web-space</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>cn.cpoet</groupId>
+      <artifactId>note-domain</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.ebean</groupId>
+      <artifactId>ebean-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.repaint.maven</groupId>
+        <artifactId>tiles-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <tiles>
+            <tile>io.ebean.tile:enhancement:${ebean.version}</tile>
+          </tiles>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+            <path>
+              <groupId>io.ebean</groupId>
+              <artifactId>querybean-generator</artifactId>
+              <version>${ebean.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

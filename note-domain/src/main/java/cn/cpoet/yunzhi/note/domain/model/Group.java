@@ -1,6 +1,10 @@
 package cn.cpoet.yunzhi.note.domain.model;
 
+import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 人员分组
@@ -8,5 +12,7 @@ import lombok.Data;
  * @author CPoet
  */
 @Data
-public class Group {
+@Entity
+@Table(name = "sys_group")
+public class Group extends BaseModel {
 }

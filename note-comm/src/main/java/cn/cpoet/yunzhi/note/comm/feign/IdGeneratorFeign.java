@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  * @author CPoet
  */
-@FeignClient(value = ModuleConst.WEB_COMM, contextId = "IdGeneratorFeign")
+@FeignClient(value = ModuleConst.WEB_COMM, contextId = "IdGeneratorFeign", path = "/id-generator", primary = false)
 public interface IdGeneratorFeign extends IdGenerator<Long> {
     /**
      * 获取生成器的名称
@@ -19,7 +19,7 @@ public interface IdGeneratorFeign extends IdGenerator<Long> {
      * @return 生成器名称
      */
     @Override
-    @RequestMapping(value = "/id-generator/getName", method = RequestMethod.GET)
+    @RequestMapping(value = "/getName", method = RequestMethod.GET)
     String getName();
 
     /**
@@ -28,6 +28,6 @@ public interface IdGeneratorFeign extends IdGenerator<Long> {
      * @return 有效ID
      */
     @Override
-    @RequestMapping(value = "/id-generator/next", method = RequestMethod.GET)
+    @RequestMapping(value = "/next", method = RequestMethod.GET)
     Long nextId();
 }

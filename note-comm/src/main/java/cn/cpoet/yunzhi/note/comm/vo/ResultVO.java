@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.comm.vo;
 
-import cn.cpoet.yunzhi.note.comm.constant.CommStatus;
+import cn.cpoet.yunzhi.note.comm.constant.ReqsStatus;
 import cn.cpoet.yunzhi.note.comm.constant.Status;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class ResultVO implements Map<String, Object>, Serializable {
 
     private static final long serialVersionUID = -2888247893297733056L;
 
-    public final static ResultVO EMPTY_OK = of(CommStatus.SUCCESS);
+    public final static ResultVO EMPTY_OK = of(ReqsStatus.SUCCESS);
 
     public final static String _CODE_KEY = "code";
     public final static String _MESSAGE_KEY = "msg";

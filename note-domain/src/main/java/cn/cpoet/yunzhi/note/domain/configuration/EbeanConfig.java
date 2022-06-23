@@ -64,6 +64,7 @@ public class EbeanConfig {
 
     @Bean
     @RefreshScope
+    @ConditionalOnMissingBean
     public Database ebeanDatabase(DataSourceConfig dataSourceConfig,
                                   ObjectProvider<AuthContext> authContexts,
                                   List<IdGenerator<?>> idGenerators) {

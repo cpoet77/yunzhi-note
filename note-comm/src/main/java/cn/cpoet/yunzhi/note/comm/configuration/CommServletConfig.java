@@ -2,8 +2,9 @@ package cn.cpoet.yunzhi.note.comm.configuration;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
-import cn.cpoet.yunzhi.note.comm.core.CommResponseAdvice;
 import cn.cpoet.yunzhi.note.comm.core.AbstractServletRequestWrapper;
+import cn.cpoet.yunzhi.note.comm.core.WebMvcResponseAdvice;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -28,9 +29,7 @@ public class CommServletConfig {
                 try {
                     return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
                 } catch (Exception e) {
-                    if (CommServletConfig.log.isDebugEnabled()) {
-                        CommServletConfig.log.debug("获取请求上下文失败：{}", e.getMessage());
-                    }
+                    CommServletConfig.log.debug("获取请求上下文失败：{}", e.getMessage());
                 }
                 return null;
             }
@@ -39,7 +38,7 @@ public class CommServletConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public CommResponseAdvice commResponseAdvice(AuthContext authContext) {
-        return new CommResponseAdvice(authContext);
+    public WebMvcResponseAdvice commResponseAdvice(AuthContext authContext, ObjectMapper objectMapper) {
+        return new WebMvcResponseAdvice(authContext, objectMapper);
     }
 }

@@ -1,9 +1,12 @@
 package cn.cpoet.yunzhi.note.api.util;
 
+import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -94,5 +97,17 @@ public class SecretUtil {
 
     public static byte[] ofBase64(String data) {
         return Base64.getDecoder().decode(data);
+    }
+
+
+    public static void main(String[] args) throws GeneralSecurityException {
+        String username = "root";
+        String password = "123456";
+
+        SecretKey secretKey = decodeSecretKey(SystemKeyHolder.DEFAULT_SECRET_KEY);
+
+        System.out.println(encrypt2base64(secretKey, username.getBytes(StandardCharsets.UTF_8)));
+        System.out.println();
+        System.out.println(encrypt2base64(secretKey, password.getBytes(StandardCharsets.UTF_8)));
     }
 }

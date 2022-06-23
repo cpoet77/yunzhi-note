@@ -26,12 +26,6 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>io.ebean</groupId>
-      <artifactId>ebean-test</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>

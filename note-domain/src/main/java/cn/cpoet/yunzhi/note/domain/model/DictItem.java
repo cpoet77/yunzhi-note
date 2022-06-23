@@ -1,6 +1,10 @@
 package cn.cpoet.yunzhi.note.domain.model;
 
+import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * 字典项
@@ -8,5 +12,7 @@ import lombok.Data;
  * @author CPoet
  */
 @Data
-public class DictItem {
+@Entity
+@Table(name = "sys_dict_item")
+public class DictItem extends BaseModel {
 }

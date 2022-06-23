@@ -4,9 +4,6 @@ import cn.cpoet.yunzhi.note.api.auth.Subject;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 
-import java.util.Collection;
-import java.util.function.Function;
-
 /**
  * 会对{@link Subject#getRoles()}和{@link Subject#getPermissions()}进行代理
  *
@@ -19,8 +16,8 @@ public class AuthSubjectBuilder {
 
     private final AuthSubject subject;
 
-    private Function<Long, Collection<String>> getRolesFunc;
-    private Function<Long, Collection<String>> getPermissionsFunc;
+    private AclQueryFunction getRolesFunc;
+    private AclQueryFunction getPermissionsFunc;
 
     public AuthSubjectBuilder() {
         subject = new AuthSubject();
@@ -41,12 +38,12 @@ public class AuthSubjectBuilder {
         return this;
     }
 
-    public AuthSubjectBuilder withGetRoles(Function<Long, Collection<String>> getRolesFunc) {
+    public AuthSubjectBuilder withGetRoles(AclQueryFunction getRolesFunc) {
         this.getRolesFunc = getRolesFunc;
         return this;
     }
 
-    public AuthSubjectBuilder withGetPermissions(Function<Long, Collection<String>> getPermissionsFunc) {
+    public AuthSubjectBuilder withGetPermissions(AclQueryFunction getPermissionsFunc) {
         this.getPermissionsFunc = getPermissionsFunc;
         return this;
     }

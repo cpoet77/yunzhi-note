@@ -17,6 +17,11 @@ public interface SystemConst {
     long GUEST_ID = -1L;
 
     /**
+     * 默认排序值
+     */
+    int DEFAULT_SORED = 99;
+
+    /**
      * 默认实体ID
      */
     long DEFAULT_ENTITY_ID = SYS_ID;

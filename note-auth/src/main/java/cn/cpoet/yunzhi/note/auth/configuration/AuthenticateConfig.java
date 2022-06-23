@@ -1,7 +1,6 @@
 package cn.cpoet.yunzhi.note.auth.configuration;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
-import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthenticateProperties;
@@ -9,19 +8,21 @@ import cn.cpoet.yunzhi.note.auth.core.SimpleAuthContext;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.FeignProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
  * 认证配置
  *
  * @author CPoet
  */
+@Slf4j
 @RequiredArgsConstructor
 @Import({AuthenticateReactiveConfig.class, AuthenticateServletConfig.class})
 public class AuthenticateConfig {
@@ -37,7 +38,13 @@ public class AuthenticateConfig {
     public AuthContext authContext(ObjectMapper objectMapper,
                                    SystemKeyHolder systemKeyHolder,
                                    FeignProperties feignProperties,
-                                   RequestWrapper requestWrapper) {
-        return new SimpleAuthContext(objectMapper, systemKeyHolder, feignProperties, requestWrapper);
+                                   ObjectProvider<RequestWrapper> requestWrapper) {
+        RequestWrapper wrapper = null;
+        try {
+            wrapper = requestWrapper.getIfAvailable();
+        } catch (BeansException e) {
+            log.warn("未配置全局请求上下文包装器：{}", e.getMessage());
+        }
+        return new SimpleAuthContext(objectMapper, systemKeyHolder, feignProperties, wrapper);
     }
 }

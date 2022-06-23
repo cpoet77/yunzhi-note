@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import javax.crypto.SecretKey;
@@ -23,6 +24,7 @@ import java.security.PublicKey;
 /**
  * @author CPoet
  */
+@ComponentScan("cn.cpoet.yunzhi.note.comm.component")
 @EnableFeignClients("cn.cpoet.yunzhi.note.comm.feign")
 @Import({FeignConfig.class, CommReactiveConfig.class, CommServletConfig.class})
 public class CommConfig {

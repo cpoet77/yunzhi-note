@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.time.Duration;
 import java.util.Objects;
@@ -105,9 +104,7 @@ public class SimpleAuthContext implements AuthContext {
                     .verify(token);
                 decodedJWT.getClaim("");
             } catch (Exception e) {
-                if (log.isDebugEnabled()) {
-                    log.debug("无效的Token[token={}]：{}", token, e.getMessage());
-                }
+                log.debug("无效的Token[token={}]：{}", token, e.getMessage());
             }
         }
         return GuestSubject.INSTANCE;

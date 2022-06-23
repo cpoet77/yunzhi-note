@@ -11,11 +11,13 @@
     {
       "name": "note.snow-flake.sequence",
       "type": "java.lang.Long",
+      "description": "id起始序列（毫秒内）",
       "sourceType": "cn.cpoet.yunzhi.note.web.comm.configuration.auto.SnowFlakeProperties"
     },
     {
       "name": "note.snow-flake.worker-id",
       "type": "java.lang.Long",
+      "description": "机器id",
       "sourceType": "cn.cpoet.yunzhi.note.web.comm.configuration.auto.SnowFlakeProperties"
     }
   ],

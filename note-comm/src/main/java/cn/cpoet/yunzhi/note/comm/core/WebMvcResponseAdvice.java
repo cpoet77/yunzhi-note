@@ -1,8 +1,11 @@
 package cn.cpoet.yunzhi.note.comm.core;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
-import cn.cpoet.yunzhi.note.comm.constant.CommStatus;
+import cn.cpoet.yunzhi.note.api.exception.NoteException;
+import cn.cpoet.yunzhi.note.comm.constant.ReqsStatus;
 import cn.cpoet.yunzhi.note.comm.vo.ResultVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -18,13 +21,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @ControllerAdvice
 @SuppressWarnings("all")
 @RequiredArgsConstructor
-public class CommResponseAdvice implements ResponseBodyAdvice<Object> {
+public class WebMvcResponseAdvice implements ResponseBodyAdvice<Object> {
     private final AuthContext authContext;
+    private final ObjectMapper objectMapper;
 
     @Override
     public boolean supports(MethodParameter returnType,
                             Class<? extends HttpMessageConverter<?>> converterType) {
-        // 如果是Feign调用则不进行数据包装
+        // Feign调用的情况下不进行数据包装
         return !authContext.isFeignCalled() && !returnType.getParameterType().isAssignableFrom(ResultVO.class);
     }
 
@@ -35,6 +39,20 @@ public class CommResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
-        return body == null ? ResultVO.EMPTY_OK : ResultVO.of(CommStatus.SUCCESS, body);
+        if (body == null) {
+            return ResultVO.EMPTY_OK;
+        }
+        // 返回String类型时需要进行特殊处理
+        if (body instanceof String) {
+            try {
+                String content = objectMapper.writeValueAsString(ResultVO.of(ReqsStatus.SUCCESS, body));
+                // 设置响应的格式为JSON
+                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+                return content;
+            } catch (JsonProcessingException e) {
+                throw new NoteException(e);
+            }
+        }
+        return ResultVO.of(ReqsStatus.SUCCESS, body);
     }
 }

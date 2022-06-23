@@ -8,8 +8,16 @@ import lombok.RequiredArgsConstructor;
  * @author CPoet
  */
 @RequiredArgsConstructor
-public enum CommStatus implements Status {
-    SUCCESS(0, "success");
+public enum ReqsStatus implements Status {
+    /**
+     * OK
+     */
+    SUCCESS(0, "success"),
+
+    /**
+     * 系统错误
+     */
+    SYS_ERROR(2500, "系统错误");
 
     /**
      * 状态码
