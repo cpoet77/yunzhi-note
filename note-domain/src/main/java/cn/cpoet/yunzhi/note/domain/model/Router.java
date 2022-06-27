@@ -4,6 +4,7 @@ import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.Index;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -13,52 +14,39 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 网关路由管理
- *
  * @author CPoet
  */
 @Data
 @Entity
 @Table(name = "sys_router")
+@Schema(title = "网关路由管理")
 public class Router extends BaseModel {
 
-    /**
-     * 路由断言
-     */
     @DbJsonB
     @Column(name = "predicates")
+    @Schema(title = "路由断言")
     private List<String> predicates;
 
-    /**
-     * 过滤
-     */
     @DbJsonB
     @Column(name = "filters")
+    @Schema(title = "过滤")
     private List<String> filters;
 
-    /**
-     * URL
-     */
     @Column(name = "uri")
+    @Schema(title = "URL")
     private String uri;
 
-    /**
-     * 元数据
-     */
     @DbJsonB
     @Column(name = "metadata")
+    @Schema(title = "元数据")
     private Map<String, Object> metadata;
 
-    /**
-     * 路由排序
-     */
     @Index
     @Column(name = "sorted", nullable = false)
+    @Schema(title = "路由排序")
     private Integer sorted;
 
-    /**
-     * 状态
-     */
     @Column(name = "status", nullable = false)
+    @Schema(title = "状态")
     private CommStatus status;
 }

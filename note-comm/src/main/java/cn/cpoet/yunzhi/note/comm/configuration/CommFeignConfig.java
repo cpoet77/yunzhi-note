@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
  * @author CPoet
  */
 @Slf4j
-public class FeignConfig {
+public class CommFeignConfig {
 
     @Bean
     @RefreshScope

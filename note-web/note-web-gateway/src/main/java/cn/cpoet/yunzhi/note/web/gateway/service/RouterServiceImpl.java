@@ -39,6 +39,16 @@ public class RouterServiceImpl implements RouterService, ApplicationEventPublish
     private Set<Long> routerIds;
     private ApplicationEventPublisher applicationEventPublisher;
 
+
+    @Override
+    public void syncRouter() {
+        try {
+            syncRemoteRouter();
+        } catch (Exception e) {
+            log.warn("远程路由信息同步失败：{}", e.getMessage());
+        }
+    }
+
     private void syncRemoteRouter() {
         synchronized (LOCK) {
             List<RouterDTO> routers = routerFeign.list();
@@ -104,8 +114,8 @@ public class RouterServiceImpl implements RouterService, ApplicationEventPublish
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        log.info("应用启动完毕，初始化路由信息.");
-        syncRemoteRouter();
+        log.info("初始化路由信息.");
+        syncRouter();
     }
 
     @Override

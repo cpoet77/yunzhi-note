@@ -7,8 +7,8 @@ import java.security.MessageDigest;
  *
  * @author CPoet
  */
-public class Md5Util {
-    private Md5Util() {
+public class DigestUtil {
+    private DigestUtil() {
     }
 
     public static String md5hex(String str) {

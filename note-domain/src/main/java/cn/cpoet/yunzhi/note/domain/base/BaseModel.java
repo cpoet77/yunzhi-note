@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.base;
 
 import io.ebean.annotation.WhenModified;
 import io.ebean.annotation.WhoModified;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,12 +16,14 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
+@Schema(title = "实体基数")
 public abstract class BaseModel extends BaseRecordModel {
     /**
      * 更新人员
      */
     @WhoModified
     @Column(name = "updated_member")
+    @Schema(title = "更新人员")
     private Long updatedMember;
 
     /**
@@ -28,5 +31,6 @@ public abstract class BaseModel extends BaseRecordModel {
      */
     @WhenModified
     @Column(name = "updated_time")
+    @Schema(title = "更新时间")
     private LocalDateTime updatedTime;
 }

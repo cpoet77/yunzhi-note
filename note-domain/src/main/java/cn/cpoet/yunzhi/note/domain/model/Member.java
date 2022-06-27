@@ -49,6 +49,12 @@ public class Member extends BaseModel {
     private String salt;
 
     /**
+     * 用户组id
+     */
+    @Column(name = "group_id")
+    private Long groupId;
+
+    /**
      * 个人简介
      */
     @Column(name = "summary", length = 512)

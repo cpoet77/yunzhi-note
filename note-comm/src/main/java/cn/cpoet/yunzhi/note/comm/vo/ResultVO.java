@@ -1,7 +1,11 @@
 package cn.cpoet.yunzhi.note.comm.vo;
 
-import cn.cpoet.yunzhi.note.comm.constant.ReqsStatus;
-import cn.cpoet.yunzhi.note.comm.constant.Status;
+import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
+import cn.cpoet.yunzhi.note.api.constant.Status;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperties;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,15 +14,20 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 统一响应体
- *
  * @author CPoet
  */
+@Schema(title = "统一响应体")
+@SchemaProperties({
+    @SchemaProperty(name = ResultVO._CODE_KEY, schema = @Schema(title = "响应码", implementation = Integer.class)),
+    @SchemaProperty(name = ResultVO._MESSAGE_KEY, schema = @Schema(title = "提示信息", implementation = String.class)),
+    @SchemaProperty(name = ResultVO._DATA_KEY, schema = @Schema(title = "结果数据", implementation = Object.class)),
+    @SchemaProperty(name = ResultVO._TIMESTAMP_KEY, schema = @Schema(title = "响应时间戳", implementation = Long.class))
+})
 public class ResultVO implements Map<String, Object>, Serializable {
 
     private static final long serialVersionUID = -2888247893297733056L;
 
-    public final static ResultVO EMPTY_OK = of(ReqsStatus.SUCCESS);
+    public final static ResultVO EMPTY_OK = of(CommReqsStatus.SUCCESS);
 
     public final static String _CODE_KEY = "code";
     public final static String _MESSAGE_KEY = "msg";
@@ -35,6 +44,7 @@ public class ResultVO implements Map<String, Object>, Serializable {
         instance.put(_CODE_KEY, status);
     }
 
+    @Hidden
     public void setMessage(String message) {
         instance.put(_MESSAGE_KEY, message);
     }
@@ -52,6 +62,7 @@ public class ResultVO implements Map<String, Object>, Serializable {
         return instance.size();
     }
 
+    @Hidden
     @Override
     public boolean isEmpty() {
         return instance.isEmpty();

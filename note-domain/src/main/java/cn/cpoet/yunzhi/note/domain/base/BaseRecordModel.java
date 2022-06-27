@@ -5,6 +5,8 @@ import io.ebean.Model;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhoCreated;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,27 +19,27 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
+@Schema(title = "记录型实体基类")
 public abstract class BaseRecordModel extends Model {
-    /**
-     * ID
-     */
     @Id
     @Column(name = "id")
+    @Schema(title = "Id")
     @GeneratedValue(generator = SystemConst.GLOBAL_ID_GENERATOR)
     private Long id;
 
-    /**
-     * 版本
-     */
+    @Hidden
     @Version
     @Column(name = "version")
+    @Schema(title = "数据版本")
     private Integer version;
 
     /**
      * 软删除
      */
+    @Hidden
     @SoftDelete
     @Column(name = "deleted")
+    @Schema(title = "删除标记")
     private Boolean deleted;
 
     /**
@@ -45,6 +47,7 @@ public abstract class BaseRecordModel extends Model {
      */
     @WhoCreated
     @Column(name = "created_member")
+    @Schema(title = "创建人")
     private Long createdMember;
 
     /**
@@ -52,5 +55,6 @@ public abstract class BaseRecordModel extends Model {
      */
     @WhenCreated
     @Column(name = "created_time")
+    @Schema(title = "创建时间")
     private LocalDateTime createdTime;
 }

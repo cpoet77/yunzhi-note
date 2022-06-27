@@ -40,6 +40,8 @@
     <java-jwt.version>3.19.2</java-jwt.version>
     <!-- open-api -->
     <springdoc-openapi-webmvc-core.version>1.6.9</springdoc-openapi-webmvc-core.version>
+    <!-- open-api-plugin -->
+    <springdoc-openapi-maven-plugin.version>1.4</springdoc-openapi-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -172,11 +174,6 @@
     </resources>
 
     <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-
       <!-- 打包时跳过Test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -193,6 +190,20 @@
           <groupId>io.repaint.maven</groupId>
           <artifactId>tiles-maven-plugin</artifactId>
           <version>${tiles-maven-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.springdoc</groupId>
+          <artifactId>springdoc-openapi-maven-plugin</artifactId>
+          <version>${springdoc-openapi-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>integration-test</id>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>

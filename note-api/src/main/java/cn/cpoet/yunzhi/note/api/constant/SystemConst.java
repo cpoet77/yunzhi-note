@@ -32,6 +32,16 @@ public interface SystemConst {
     long DEFAULT_PARENT_ID = DEFAULT_ENTITY_ID;
 
     /**
+     * 系统前缀
+     */
+    String SYSTEM_PREFIX = "yunzhi";
+
+    /**
+     * 系统前缀带"-"
+     */
+    String SYSTEM_PREFIX_ = SYSTEM_PREFIX + "-";
+
+    /**
      * 全局ID生成器名称
      */
     String GLOBAL_ID_GENERATOR = "yunzhi@global-id-generator";

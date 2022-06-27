@@ -1,4 +1,4 @@
-package cn.cpoet.yunzhi.note.comm.constant;
+package cn.cpoet.yunzhi.note.api.constant;
 
 /**
  * 程序状态

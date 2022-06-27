@@ -2,7 +2,7 @@ package cn.cpoet.yunzhi.note.comm.core;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.exception.NoteException;
-import cn.cpoet.yunzhi.note.comm.constant.ReqsStatus;
+import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
 import cn.cpoet.yunzhi.note.comm.vo.ResultVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * @author CPoet
  */
-@ControllerAdvice
 @SuppressWarnings("all")
+@ControllerAdvice("cn.cpoet")
 public class WebMvcResponseAdvice implements ResponseBodyAdvice<Object> {
     @Autowired
     private AuthContext authContext;
@@ -46,7 +46,7 @@ public class WebMvcResponseAdvice implements ResponseBodyAdvice<Object> {
         // 返回String类型时需要进行特殊处理
         if (body instanceof String) {
             try {
-                String content = objectMapper.writeValueAsString(ResultVO.of(ReqsStatus.SUCCESS, body));
+                String content = objectMapper.writeValueAsString(ResultVO.of(CommReqsStatus.SUCCESS, body));
                 // 设置响应的格式为JSON
                 response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                 return content;
@@ -54,6 +54,6 @@ public class WebMvcResponseAdvice implements ResponseBodyAdvice<Object> {
                 throw new NoteException(e);
             }
         }
-        return ResultVO.of(ReqsStatus.SUCCESS, body);
+        return ResultVO.of(CommReqsStatus.SUCCESS, body);
     }
 }
