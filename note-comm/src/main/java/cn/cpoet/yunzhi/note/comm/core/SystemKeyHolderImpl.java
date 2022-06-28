@@ -1,7 +1,10 @@
 package cn.cpoet.yunzhi.note.comm.core;
 
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
-import lombok.RequiredArgsConstructor;
+import cn.cpoet.yunzhi.note.api.util.SecretUtil;
+import cn.cpoet.yunzhi.note.comm.configuration.auto.SecretProperties;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.crypto.SecretKey;
 import java.security.KeyPair;
@@ -13,28 +16,52 @@ import java.security.PublicKey;
  *
  * @author CPoet
  */
-@RequiredArgsConstructor
-public class SystemKeyHolderImpl implements SystemKeyHolder {
-    private final KeyPair keyPair;
-    private final SecretKey secretKey;
+public class SystemKeyHolderImpl implements SystemKeyHolder, InitializingBean {
+
+    @Autowired
+    private SecretProperties secretProperties;
+
+    private SecretKey sysSecret;
+    private SecretKey secretKey;
+
+    private PublicKey publicKey;
+    private PrivateKey privateKey;
 
     @Override
     public KeyPair getRsaKeyPair() {
-        return keyPair;
+        return new KeyPair(publicKey, privateKey);
     }
 
     @Override
     public PrivateKey getPrivateKey() {
-        return keyPair.getPrivate();
+        return privateKey;
     }
 
     @Override
     public PublicKey getPublicKey() {
-        return keyPair.getPublic();
+        return publicKey;
+    }
+
+    @Override
+    public boolean isSysSecret() {
+        return Boolean.TRUE.equals(secretProperties.getEnableSysSecret());
+    }
+
+    @Override
+    public SecretKey getSysKey() {
+        return sysSecret;
     }
 
     @Override
     public SecretKey getSecretKey() {
         return secretKey;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        privateKey = SecretUtil.decodePrivateKey(secretProperties.getPrivateKey());
+        publicKey = SecretUtil.decodePublicKey(secretProperties.getPublicKey());
+        sysSecret = SecretUtil.decodeSecretKey(secretProperties.getSysKey());
+        secretKey = SecretUtil.decodeSecretKey(secretProperties.getSecretKey());
     }
 }

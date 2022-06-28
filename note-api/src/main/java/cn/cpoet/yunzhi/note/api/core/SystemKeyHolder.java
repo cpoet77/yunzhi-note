@@ -28,6 +28,28 @@ public interface SystemKeyHolder {
     String DEFAULT_SECRET_KEY = "FnYjs5g0EPs=";
 
     /**
+     * 是否开启系统级加密
+     * <p>针对配置文件的敏感数据进行加密和解密操作</p>
+     *
+     * @return bool
+     */
+    boolean isSysSecret();
+
+    /**
+     * 获取系统级密钥
+     *
+     * @return 系统级密钥
+     */
+    SecretKey getSysKey();
+
+    /**
+     * 获取常规密钥
+     *
+     * @return 常规密钥
+     */
+    SecretKey getSecretKey();
+
+    /**
      * 获取密钥对
      *
      * @return 密钥对
@@ -47,11 +69,4 @@ public interface SystemKeyHolder {
      * @return 公钥
      */
     PublicKey getPublicKey();
-
-    /**
-     * 获取密钥
-     *
-     * @return 密钥
-     */
-    SecretKey getSecretKey();
 }

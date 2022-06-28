@@ -1,6 +1,11 @@
 server:
-  port: 8090
+  port: 8093
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yunzhi_note?serverTimezone=Asia/Shanghai
+    username: NkU+1w/fE6Y=
+    password: E0hWZObeJz0=
   rabbitmq:
     host: 127.0.0.1
     port: 5672

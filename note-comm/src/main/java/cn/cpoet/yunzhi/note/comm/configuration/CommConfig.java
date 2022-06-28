@@ -2,7 +2,6 @@ package cn.cpoet.yunzhi.note.comm.configuration;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
-import cn.cpoet.yunzhi.note.api.util.SecretUtil;
 import cn.cpoet.yunzhi.note.comm.aspect.FeignTargetAspect;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.SecretProperties;
 import cn.cpoet.yunzhi.note.comm.core.SimpleUUIDGenerator;
@@ -18,11 +17,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
-import javax.crypto.SecretKey;
-import java.security.GeneralSecurityException;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.time.Duration;
 
 /**
@@ -42,11 +36,8 @@ public class CommConfig {
     @Bean
     @RefreshScope
     @ConditionalOnMissingBean
-    public SystemKeyHolder systemKeyHolder(SecretProperties secretProperties) throws GeneralSecurityException {
-        PrivateKey privateKey = SecretUtil.decodePrivateKey(secretProperties.getPrivateKey());
-        PublicKey publicKey = SecretUtil.decodePublicKey(secretProperties.getPublicKey());
-        SecretKey secretKey = SecretUtil.decodeSecretKey(secretProperties.getSecretKey());
-        return new SystemKeyHolderImpl(new KeyPair(publicKey, privateKey), secretKey);
+    public SystemKeyHolder systemKeyHolder() {
+        return new SystemKeyHolderImpl();
     }
 
     @Bean

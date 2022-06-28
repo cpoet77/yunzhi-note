@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -16,65 +17,46 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@Schema(title = "人员信息")
 @Table(name = "sys_member")
 public class Member extends BaseModel {
-    /**
-     * 用户姓名
-     */
+    @Schema(title = "用户姓名")
     @Column(name = "name")
     private String name;
 
-    /**
-     * 昵称
-     */
+    @Schema(title = "昵称")
     @Column(name = "nickName")
     private String nickName;
 
-    /**
-     * 用户账号
-     */
-    @Column(name = "account")
+    @Schema(title = "用户账号")
+    @Column(name = "account", unique = true)
     private String account;
 
-    /**
-     * 密码摘要
-     */
+    @Schema(title = "密码摘要")
     @Column(name = "password")
     private String password;
 
-    /**
-     * 密码摘要盐值
-     */
+    @Schema(title = "密码摘要盐值")
     @Column(name = "salt")
     private String salt;
 
-    /**
-     * 用户组id
-     */
+    @Schema(title = "用户组id")
     @Column(name = "group_id")
     private Long groupId;
 
-    /**
-     * 个人简介
-     */
+    @Schema(title = "个人简介")
     @Column(name = "summary", length = 512)
     private String summary;
 
-    /**
-     * 账号是否锁定
-     */
-    @Column(name = "locked")
+    @Schema(title = "账号是否锁定")
+    @Column(name = "locked", nullable = false)
     private Boolean locked;
 
-    /**
-     * 状态
-     */
-    @Column(name = "status")
+    @Schema(title = " 状态")
+    @Column(name = "status", nullable = false)
     private CommStatus status;
 
-    /**
-     * 账号过期时间
-     */
-    @Column(name = "expired_time")
+    @Schema(title = "账号过期时间")
+    @Column(name = "expired_time", nullable = false)
     private LocalDateTime expiredTime;
 }
