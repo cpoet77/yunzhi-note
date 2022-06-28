@@ -1,7 +1,6 @@
 package cn.cpoet.yunzhi.note.web.comm.controller;
 
 import cn.cpoet.yunzhi.note.comm.annotation.FeignTarget;
-import cn.cpoet.yunzhi.note.domain.dao.RouterDao;
 import cn.cpoet.yunzhi.note.domain.model.Router;
 import cn.cpoet.yunzhi.note.web.comm.service.RouterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/router")
 @RequiredArgsConstructor
-@Tag(name = "路由信息")
+@Tag(name = "Router", description = "路由信息")
 public class RouterController {
     private final RouterService routerService;
 

@@ -48,13 +48,13 @@ public class AuthSubjectBuilder {
         return this;
     }
 
-    public AuthSubject build() {
+    public Subject build() {
         // 未设置权限获取函数，不创建代理对象
         if (getRolesFunc == null && getPermissionsFunc == null) {
             return subject;
         }
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(AuthSubject.class);
+        enhancer.setInterfaces(new Class[]{Subject.class});
         enhancer.setUseCache(true);
         // 拦截方法目标方法代理
         enhancer.setCallback((MethodInterceptor) (o, method, objects, methodProxy) -> {
@@ -66,6 +66,6 @@ public class AuthSubjectBuilder {
             }
             return methodProxy.invoke(subject, objects);
         });
-        return (AuthSubject) enhancer.create();
+        return (Subject) enhancer.create();
     }
 }

@@ -1,5 +1,10 @@
 package cn.cpoet.yunzhi.note.api.constant;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * 系统级常量
  *
@@ -42,6 +47,21 @@ public interface SystemConst {
     String SYSTEM_PREFIX_ = SYSTEM_PREFIX + "-";
 
     /**
+     * profile: dev
+     */
+    String APP_PROFILE_DEV = "dev";
+
+    /**
+     * profile: test
+     */
+    String APP_PROFILE_TEST = "test";
+
+    /**
+     * profile: prod
+     */
+    String APP_PROFILE_PROD = "prod";
+
+    /**
      * 全局ID生成器名称
      */
     String GLOBAL_ID_GENERATOR = "yunzhi@global-id-generator";
@@ -50,4 +70,24 @@ public interface SystemConst {
      * 全局UUID生成器名称
      */
     String GLOBAL_UUID_GENERATOR = "yunzhi@global-uuid-generator";
+
+    /**
+     * 系统最大日期
+     */
+    LocalDate LOCAL_DATE_MAX = LocalDate.parse("2250-01-01", DateTimeFormatter.ISO_LOCAL_DATE);
+
+    /**
+     * 系统最小日期
+     */
+    LocalDate LOCAL_DATE_MIN = LocalDate.parse("2000-01-01", DateTimeFormatter.ISO_LOCAL_DATE);
+
+    /**
+     * 系统最大时间
+     */
+    LocalDateTime LOCAL_DATE_TIME_MAX = LocalDateTime.of(LOCAL_DATE_MAX, LocalTime.MAX);
+
+    /**
+     * 系统最小时间
+     */
+    LocalDateTime LOCAL_DATE_TIME_MIN = LocalDateTime.of(LOCAL_DATE_MIN, LocalTime.MIN);
 }

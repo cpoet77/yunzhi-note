@@ -7,6 +7,7 @@ import cn.cpoet.yunzhi.note.auth.exception.AuthCheckException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -16,6 +17,7 @@ import java.util.Arrays;
  * @author CPoet
  */
 @Aspect
+@Component
 @RequiredArgsConstructor
 public class HasRoleAspect {
     private final AuthContext authContext;

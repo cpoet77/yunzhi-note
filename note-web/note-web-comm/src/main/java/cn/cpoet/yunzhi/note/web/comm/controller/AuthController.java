@@ -1,5 +1,7 @@
 package cn.cpoet.yunzhi.note.web.comm.controller;
 
+import cn.cpoet.yunzhi.note.api.constant.SubjectType;
+import cn.cpoet.yunzhi.note.auth.annotion.Authenticated;
 import cn.cpoet.yunzhi.note.web.comm.dto.AccountPassDTO;
 import cn.cpoet.yunzhi.note.web.comm.service.AuthService;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
@@ -18,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "统一身份认证", description = "用户身份认证")
+@Tag(name = "Auth", description = "用户身份认证")
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
     @Operation(summary = "账号密码登录")
+    @Authenticated(subjects = SubjectType.GUEST)
     public AuthTokenVO login(@RequestBody @Validated AccountPassDTO accountPass) {
         return authService.login(accountPass.getAccount(), accountPass.getPassword());
     }

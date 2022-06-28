@@ -21,6 +21,22 @@ create table sys_catalog (
   constraint pk_sys_catalog primary key (id)
 );
 
+create table sys_catalog_item (
+  id                            number(19) not null,
+  catalog_id                    number(19) not null,
+  item_id                       number(19) not null,
+  item_type                     varchar2(7) not null,
+  sorted                        number(10) not null,
+  version                       number(10) not null,
+  deleted                       number(1) default 0 not null,
+  created_member                number(19) not null,
+  created_time                  timestamp not null,
+  updated_member                number(19) not null,
+  updated_time                  timestamp not null,
+  constraint ck_sys_catalog_item_item_type check ( item_type in ('note','file','todo','unknown')),
+  constraint pk_sys_catalog_item primary key (id)
+);
+
 create table spc_category (
   id                            number(19) not null,
   version                       number(10) not null,
@@ -67,37 +83,73 @@ create table sys_dict_item (
 
 create table sys_group (
   id                            number(19) not null,
+  parent_id                     number(19) not null,
+  name                          varchar2(255) not null,
+  description                   varchar2(255),
+  status                        varchar2(1) not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
   created_time                  timestamp not null,
   updated_member                number(19) not null,
   updated_time                  timestamp not null,
+  constraint ck_sys_group_status check ( status in ('0','1','2')),
   constraint pk_sys_group primary key (id)
 );
 
 create table sys_login_log (
   id                            number(19) not null,
+  member_id                     number(19) not null,
+  account                       varchar2(50) not null,
+  login_type                    varchar2(15) not null,
+  logout_type                   varchar2(1),
+  ip_addr                       varchar2(128),
+  user_agent                    varchar2(255),
+  os                            varchar2(255),
+  screen                        varchar2(255),
+  login_time                    timestamp not null,
+  logout_time                   timestamp,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
   created_time                  timestamp not null,
+  constraint ck_sys_login_log_login_type check ( login_type in ('account','mobile','email','qq-auth','wechat','wechat-mini-app','github','gitee','baidu')),
+  constraint ck_sys_login_log_logout_type check ( logout_type in ('1','2','3')),
   constraint pk_sys_login_log primary key (id)
 );
 
 create table sys_member (
   id                            number(19) not null,
   name                          varchar2(255),
+  nickname                      varchar2(255),
   account                       varchar2(255),
   password                      varchar2(255),
   salt                          varchar2(255),
+  group_id                      number(19),
+  summary                       varchar2(512),
+  locked                        number(1) not null,
+  status                        varchar2(1) not null,
+  expired_time                  timestamp not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
   created_time                  timestamp not null,
   updated_member                number(19) not null,
   updated_time                  timestamp not null,
+  constraint ck_sys_member_status check ( status in ('0','1','2')),
+  constraint uq_sys_member_account unique (account),
   constraint pk_sys_member primary key (id)
+);
+
+create table sys_member_role (
+  id                            number(19) not null,
+  member_id                     number(19) not null,
+  role_id                       number(19) not null,
+  version                       number(10) not null,
+  deleted                       number(1) default 0 not null,
+  created_member                number(19) not null,
+  created_time                  timestamp not null,
+  constraint pk_sys_member_role primary key (id)
 );
 
 create table sys_note (
@@ -133,24 +185,57 @@ create table spc_page (
 
 create table sys_permission (
   id                            number(19) not null,
+  parent_id                     number(19) not null,
+  code                          varchar2(255) not null,
+  name                          varchar2(255) not null,
+  icon                          varchar2(512),
+  description                   clob,
+  is_built_in                   number(1) not null,
+  status                        varchar2(1) not null,
+  sorted                        number(10) not null,
+  type                          varchar2(4) not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
   created_time                  timestamp not null,
   updated_member                number(19) not null,
   updated_time                  timestamp not null,
+  constraint ck_sys_permission_status check ( status in ('0','1','2')),
+  constraint ck_sys_permission_type check ( type in ('1','2','4','8','16','1024')),
+  constraint uq_sys_permission_code unique (code),
+  constraint uq_sys_permission_name unique (name),
   constraint pk_sys_permission primary key (id)
 );
 
 create table sys_role (
   id                            number(19) not null,
+  code                          varchar2(255) not null,
+  name                          varchar2(255) not null,
+  sorted                        number(10) not null,
+  description                   clob,
+  status                        varchar2(1) not null,
+  is_built_in                   number(1) not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
   created_time                  timestamp not null,
   updated_member                number(19) not null,
   updated_time                  timestamp not null,
+  constraint ck_sys_role_status check ( status in ('0','1','2')),
+  constraint uq_sys_role_code unique (code),
+  constraint uq_sys_role_name unique (name),
   constraint pk_sys_role primary key (id)
+);
+
+create table sys_role_permission (
+  id                            number(19) not null,
+  role_id                       number(19),
+  permission_id                 number(19),
+  version                       number(10) not null,
+  deleted                       number(1) default 0 not null,
+  created_member                number(19) not null,
+  created_time                  timestamp not null,
+  constraint pk_sys_role_permission primary key (id)
 );
 
 create table sys_router (

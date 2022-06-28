@@ -1,7 +1,7 @@
 package cn.cpoet.yunzhi.note.comm.vo;
 
-import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
 import cn.cpoet.yunzhi.note.api.constant.Status;
+import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperties;
@@ -23,11 +23,11 @@ import java.util.Set;
     @SchemaProperty(name = ResultVO._DATA_KEY, schema = @Schema(title = "结果数据", implementation = Object.class)),
     @SchemaProperty(name = ResultVO._TIMESTAMP_KEY, schema = @Schema(title = "响应时间戳", implementation = Long.class))
 })
-public class ResultVO implements Map<String, Object>, Serializable {
+public class ResultVO<T> implements Map<String, Object>, Serializable {
 
     private static final long serialVersionUID = -2888247893297733056L;
 
-    public final static ResultVO EMPTY_OK = of(CommReqsStatus.SUCCESS);
+    public final static ResultVO<Object> EMPTY_OK = of(CommReqsStatus.SUCCESS);
 
     public final static String _CODE_KEY = "code";
     public final static String _MESSAGE_KEY = "msg";
@@ -53,7 +53,7 @@ public class ResultVO implements Map<String, Object>, Serializable {
         instance.put(_TIMESTAMP_KEY, timestamp);
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         instance.put(_DATA_KEY, data);
     }
 
@@ -123,20 +123,20 @@ public class ResultVO implements Map<String, Object>, Serializable {
         return super.toString();
     }
 
-    public static ResultVO of(Status status) {
+    public static <T> ResultVO<T> of(Status status) {
         return of(status, null);
     }
 
-    public static ResultVO of(Status status, Object data) {
+    public static <T> ResultVO<T> of(Status status, T data) {
         return ofImpl(status.code(), status.message(), data);
     }
 
-    public static ResultVO of(Status status, String message, Object data) {
+    public static <T> ResultVO<T> of(Status status, String message, T data) {
         return ofImpl(status.code(), message, data);
     }
 
-    private static ResultVO ofImpl(int status, String message, Object data) {
-        ResultVO returnVo = new ResultVO();
+    private static <T> ResultVO<T> ofImpl(int status, String message, T data) {
+        ResultVO<T> returnVo = new ResultVO<>();
         returnVo.setCode(status);
         returnVo.setMessage(message);
         if (data != null) {

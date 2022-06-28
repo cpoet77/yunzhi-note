@@ -3,6 +3,7 @@ package cn.cpoet.yunzhi.note.web.comm.controller;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.comm.annotation.FeignTarget;
 import cn.cpoet.yunzhi.note.comm.feign.MemberFeign;
+import cn.cpoet.yunzhi.note.web.comm.service.MemberService;
 import cn.cpoet.yunzhi.note.web.comm.service.PermissionService;
 import cn.cpoet.yunzhi.note.web.comm.service.RoleService;
 import cn.cpoet.yunzhi.note.web.comm.vo.MemberInfoVO;
@@ -23,15 +24,16 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
-@Tag(name = "用户信息")
+@Tag(name = "Member", description = "用户信息")
 public class MemberController implements MemberFeign {
     private final RoleService roleService;
+    private final MemberService memberService;
     private final PermissionService permissionService;
 
     @GetMapping("/getInfo")
-    @Operation(summary = "获取用户基本信息", description = "")
+    @Operation(summary = "获取用户基本信息")
     public MemberInfoVO getInfo(Subject subject) {
-        return null;
+        return memberService.getInfo(subject);
     }
 
     @Override

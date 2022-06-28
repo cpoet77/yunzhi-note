@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/id-generator")
-@Tag(name = "Id生成器", description = "采用雪花算法")
+@Tag(name = "IdGenerator", description = "Id生成器-采用雪花算法")
 public class IdGeneratorController implements IdGeneratorFeign {
     private final SnowFlakeIdGenerator idGenerator;
 

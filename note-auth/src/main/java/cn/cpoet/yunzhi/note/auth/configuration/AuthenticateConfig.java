@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
  */
 @Slf4j
 @RequiredArgsConstructor
-@ComponentScan("cn.cpoet.yunzhi.note.auth.component")
+@ComponentScan({"cn.cpoet.yunzhi.note.auth.component", "cn.cpoet.yunzhi.note.auth.aspect"})
 @Import({AuthenticateReactiveConfig.class, AuthenticateServletConfig.class})
 public class AuthenticateConfig {
     @Bean

@@ -42,11 +42,6 @@ public class SimpleAuthContext implements AuthContext {
     @Autowired
     private AuthTokenProperties authTokenProperties;
 
-    /**
-     * 主体信息
-     */
-    private final ThreadLocal<Subject> subjectTL = ThreadLocal.withInitial(() -> null);
-
     @Override
     public Subject getSubject() {
         return getSubject(globalRequestWrapper);
@@ -54,13 +49,7 @@ public class SimpleAuthContext implements AuthContext {
 
     @Override
     public Subject getSubject(RequestWrapper request) {
-        Subject subject = subjectTL.get();
-        if (subject != null) {
-            return subject;
-        }
-        subject = doGetSubject(request);
-        subjectTL.set(subject);
-        return subject;
+        return doGetSubject(request);
     }
 
     @Override

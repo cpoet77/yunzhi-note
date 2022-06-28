@@ -20,7 +20,7 @@ public class RouterInitTest {
     private RouterDao routerDao;
 
     @Test
-    void initRouter() {
+    void init() {
         Router router = new Router();
         router.setUri("lb://" + ModuleConst.WEB_COMM);
         router.setPredicates(Collections.singletonList("Path=/api/**"));
