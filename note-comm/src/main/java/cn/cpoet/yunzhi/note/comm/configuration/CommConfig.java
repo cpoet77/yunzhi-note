@@ -73,6 +73,6 @@ public class CommConfig {
     @Bean
     @ConditionalOnMissingBean
     public SimpleUUIDGenerator simpleUuidGenerator() {
-        return new SimpleUUIDGenerator();
+        return SimpleUUIDGenerator.INSTANCE;
     }
 }

@@ -14,7 +14,7 @@ public class SimpleUUIDGenerator implements IdGenerator<String> {
     /**
      * 全局公用
      */
-    public final static IdGenerator<String> INSTANCE = new SimpleUUIDGenerator();
+    public final static SimpleUUIDGenerator INSTANCE = new SimpleUUIDGenerator();
 
     @Override
     public String getName() {

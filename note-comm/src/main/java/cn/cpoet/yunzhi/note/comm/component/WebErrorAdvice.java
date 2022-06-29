@@ -23,7 +23,7 @@ public class WebErrorAdvice {
      */
     @ExceptionHandler(ReqsException.class)
     @ResponseBody
-    public ResultVO reqsException(ReqsException e) {
+    public ResultVO<?> reqsException(ReqsException e) {
         if (log.isDebugEnabled()) {
             log.debug("系统请求异常: {}, 返回状态: {}", e.getMessage(), e.getStatus(), e);
         } else {
@@ -38,7 +38,7 @@ public class WebErrorAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ResultVO exception(Exception e) {
+    public ResultVO<?> exception(Exception e) {
         log.warn("系统异常：{}", e.getMessage(), e);
         return ResultVO.of(CommReqsStatus.SYS_ERROR);
     }
