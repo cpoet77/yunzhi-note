@@ -3,6 +3,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import cn.cpoet.yunzhi.note.domain.constant.CompatibleDbTypes;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,47 +11,39 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * RBAC - 角色
- *
  * @author CPoet
  */
 @Data
 @Entity
+@Schema(title = "RBAC - 角色")
 @Table(name = "sys_role")
 public class Role extends BaseModel {
-    /**
-     * 角色编码
-     */
+
+    @Schema(title = "角色编码")
     @Column(name = "code", unique = true, nullable = false)
     private String code;
 
-    /**
-     * 角色名称
-     */
+    @Schema(title = "角色名称")
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    /**
-     * 排序
-     */
+    @Schema(title = "排序")
     @Column(name = "sorted", nullable = false)
     private Integer sorted;
 
-    /**
-     * 介绍
-     */
+    @Schema(title = "介绍")
     @Column(name = "description", columnDefinition = CompatibleDbTypes.TEXT)
     private String description;
 
-    /**
-     * 状态
-     */
+    @Schema(title = "状态")
     @Column(name = "status", nullable = false)
     private CommStatus status;
 
-    /**
-     * 是否系统内置
-     */
+    @Schema(title = "绑定的i18n key")
+    @Column(name = "bind_i18n")
+    private String bindI18n;
+
+    @Schema(title = "是否系统内置")
     @Column(name = "is_built_in", nullable = false)
     private Boolean isBuiltIn;
 }

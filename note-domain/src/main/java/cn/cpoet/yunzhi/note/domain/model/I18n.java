@@ -12,8 +12,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Schema(title = "笔记分类（目录)")
-@Table(name = "sys_catalog")
-public class Catalog extends BaseModel {
-
+@Schema(title = "国际化I18n")
+@Table(name = "sys_i18n")
+public class I18n extends BaseModel {
 }

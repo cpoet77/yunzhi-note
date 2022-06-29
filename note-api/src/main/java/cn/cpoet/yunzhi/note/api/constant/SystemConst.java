@@ -72,6 +72,21 @@ public interface SystemConst {
     String GLOBAL_UUID_GENERATOR = "yunzhi@global-uuid-generator";
 
     /**
+     * 链路跟踪Id
+     */
+    String TRACE_ID = "traceId";
+
+    /**
+     * 链路跨度Id
+     */
+    String SPAN_ID = "spanId";
+
+    /**
+     * 链路跨度上级Id
+     */
+    String SPAN_PRE_ID = "spanPreId";
+
+    /**
      * 系统最大日期
      */
     LocalDate LOCAL_DATE_MAX = LocalDate.parse("2250-01-01", DateTimeFormatter.ISO_LOCAL_DATE);
