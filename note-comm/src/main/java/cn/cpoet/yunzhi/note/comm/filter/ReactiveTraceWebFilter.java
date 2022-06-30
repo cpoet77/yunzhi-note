@@ -1,6 +1,8 @@
 package cn.cpoet.yunzhi.note.comm.filter;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
+import cn.cpoet.yunzhi.note.comm.core.ReactiveRequestWrapper;
 import cn.cpoet.yunzhi.note.comm.util.UUIDUtil;
 import org.springframework.boot.web.reactive.filter.OrderedWebFilter;
 import org.springframework.http.HttpHeaders;

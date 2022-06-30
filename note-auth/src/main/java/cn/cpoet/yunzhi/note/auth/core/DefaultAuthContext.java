@@ -28,7 +28,7 @@ import java.util.Objects;
  * @author CPoet
  */
 @Slf4j
-public class SimpleAuthContext implements AuthContext {
+public class DefaultAuthContext implements AuthContext {
     @Autowired
     private JwtSupport jwtSupport;
     @Autowired
