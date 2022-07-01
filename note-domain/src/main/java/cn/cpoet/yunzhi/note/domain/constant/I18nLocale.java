@@ -35,7 +35,7 @@ public enum I18nLocale {
 
     @Getter(onMethod_ = {@JsonValue, @DbEnumValue})
     private final int code;
-    private final String name;
+    private final String desc;
 
     @JsonCreator
     public static I18nLocale ofCode(int code) {

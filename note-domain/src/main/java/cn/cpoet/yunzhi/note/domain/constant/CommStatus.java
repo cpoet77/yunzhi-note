@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.constant;
 
 import cn.cpoet.yunzhi.note.api.exception.EnumUndefinedException;
 import cn.cpoet.yunzhi.note.api.util.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.ebean.annotation.DbEnumValue;
 import lombok.Getter;
@@ -35,8 +36,9 @@ public enum CommStatus {
     @Getter(onMethod_ = {@DbEnumValue, @JsonValue})
     private final int code;
 
-    private final String name;
+    private final String desc;
 
+    @JsonCreator
     public static CommStatus ofCode(int code) {
         return EnumUtil.valueSafeOf(values(), CommStatus::code, code)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
