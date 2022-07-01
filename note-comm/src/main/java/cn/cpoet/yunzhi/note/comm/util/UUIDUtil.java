@@ -7,7 +7,7 @@ import java.util.UUID;
  *
  * @author CPoet
  */
-public class UUIDUtil {
+public abstract class UUIDUtil {
     /**
      * 产生随机uuid，带“-”
      *

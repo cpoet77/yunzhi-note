@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.ebean.annotation.DbEnumValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 目录项类型
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
  * @author CPoet
  */
 @Getter
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum CatalogItemType {
     /**
@@ -42,7 +44,7 @@ public enum CatalogItemType {
 
     @JsonCreator
     public static CatalogItemType ofCode(String code) {
-        return EnumUtil.valueSafeOf(values(), CatalogItemType::getCode, code)
+        return EnumUtil.valueSafeOf(values(), CatalogItemType::code, code)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.ebean.annotation.DbEnumValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 资源类型
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
  * @author CPoet
  */
 @Getter
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum PermissionType {
     /**
@@ -54,7 +56,7 @@ public enum PermissionType {
 
     @JsonCreator
     public static PermissionType ofCode(int code) {
-        return EnumUtil.valueSafeOf(values(), PermissionType::getCode, code)
+        return EnumUtil.valueSafeOf(values(), PermissionType::code, code)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }

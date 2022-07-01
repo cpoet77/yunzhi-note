@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author wanggf
  */
-public class PassUtil {
+public abstract class PassUtil {
     /**
      * 产生随机的盐(32bit)
      *

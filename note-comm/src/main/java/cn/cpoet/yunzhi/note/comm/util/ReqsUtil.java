@@ -7,7 +7,7 @@ import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
  *
  * @author CPoet
  */
-public class ReqsUtil {
+public abstract class ReqsUtil {
     public static final String HEADER_USER_AGENT = "User-Agent";
 
     private ReqsUtil() {

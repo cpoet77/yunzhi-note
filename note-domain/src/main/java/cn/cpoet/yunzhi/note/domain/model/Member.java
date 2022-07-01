@@ -59,4 +59,8 @@ public class Member extends BaseModel {
     @Schema(title = "账号过期时间")
     @Column(name = "expired_time", nullable = false)
     private LocalDateTime expiredTime;
+
+    @Schema(title = "是否内置")
+    @Column(name = "is_built_in", nullable = false)
+    private Boolean isBuiltIn;
 }

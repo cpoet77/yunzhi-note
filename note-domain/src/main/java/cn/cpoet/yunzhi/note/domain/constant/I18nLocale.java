@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.constant;
 
 import cn.cpoet.yunzhi.note.api.exception.EnumUndefinedException;
 import cn.cpoet.yunzhi.note.api.util.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.ebean.annotation.DbEnumValue;
 import lombok.Getter;
@@ -9,36 +10,36 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * 常用状态
+ * 国际化语言环境
  *
  * @author CPoet
  */
 @Getter
 @Accessors(fluent = true)
 @RequiredArgsConstructor
-public enum CommStatus {
+public enum I18nLocale {
     /**
-     * 禁用状态
+     * 美国英文
      */
-    DISABLED(0, "禁用"),
+    EN_US(0, "en-US"),
 
     /**
-     * 启用状态
+     * 中国大陆
      */
-    ENABLED(1, "启用"),
+    ZH_CN(1, "zh-CN"),
 
     /**
-     * 状态未设定
+     * 中国台湾
      */
-    NONE(2, "未设定");
+    ZH_TW(2, "zh-TW");
 
-    @Getter(onMethod_ = {@DbEnumValue, @JsonValue})
+    @Getter(onMethod_ = {@JsonValue, @DbEnumValue})
     private final int code;
-
     private final String name;
 
-    public static CommStatus ofCode(int code) {
-        return EnumUtil.valueSafeOf(values(), CommStatus::code, code)
+    @JsonCreator
+    public static I18nLocale ofCode(int code) {
+        return EnumUtil.valueSafeOf(values(), I18nLocale::code, code)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }

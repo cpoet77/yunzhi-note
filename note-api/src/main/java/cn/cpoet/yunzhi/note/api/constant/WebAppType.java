@@ -1,7 +1,9 @@
 package cn.cpoet.yunzhi.note.api.constant;
 
+import cn.cpoet.yunzhi.note.api.util.EnumUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.boot.WebApplicationType;
 
 /**
@@ -10,6 +12,7 @@ import org.springframework.boot.WebApplicationType;
  * @author CPoet
  */
 @Getter
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum WebAppType {
     /**
@@ -39,11 +42,6 @@ public enum WebAppType {
      * @return 映射类型
      */
     public static WebAppType ofType(WebApplicationType type) {
-        for (WebAppType value : values()) {
-            if (value.type == type) {
-                return value;
-            }
-        }
-        return null;
+        return EnumUtil.valueSafeOf(values(), WebAppType::type, type).orElse(null);
     }
 }

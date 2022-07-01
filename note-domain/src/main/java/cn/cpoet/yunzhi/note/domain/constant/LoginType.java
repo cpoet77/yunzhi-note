@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.ebean.annotation.DbEnumValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 登录方式
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
  * @author CPoet
  */
 @Getter
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum LoginType {
     /**
@@ -67,7 +69,7 @@ public enum LoginType {
 
     @JsonCreator
     public static LoginType ofName(String name) {
-        return EnumUtil.valueSafeOf(values(), LoginType::getName, name)
+        return EnumUtil.valueSafeOf(values(), LoginType::name, name)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }
