@@ -45,5 +45,10 @@ public abstract class AbstractServletRequestWrapper implements RequestWrapper {
         }
     }
 
+    /**
+     * 获取当前请求的上下文
+     *
+     * @return 请求上下文
+     */
     protected abstract HttpServletRequest getRequest();
 }
