@@ -37,12 +37,12 @@ public final class Version {
      *
      * @return 版本号
      */
-    public String version() {
+    public String visible() {
         return major + "." + minor + "." + revision + (build == null ? "" : " " + build);
     }
 
     @Override
     public String toString() {
-        return version();
+        return visible();
     }
 }

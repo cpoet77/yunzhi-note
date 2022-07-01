@@ -9,7 +9,7 @@ import java.util.function.Function;
  *
  * @author wanggf
  */
-public class EnumUtil {
+public abstract class EnumUtil {
     private EnumUtil() {
     }
 

@@ -27,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthTokenVO login(String account, String password) {
+        log.info("用户登录，测试测试。");
         Member member = memberDao.getByAccount(account);
         if (member == null) {
             throw new ReqsException(ReqsStatus.ACCOUNT_PASS_ERROR);

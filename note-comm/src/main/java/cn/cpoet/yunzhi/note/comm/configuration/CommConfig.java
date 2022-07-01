@@ -1,9 +1,12 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
+import cn.cpoet.yunzhi.note.api.core.AppContext;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
+import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.comm.aspect.FeignTargetAspect;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.SecretProperties;
+import cn.cpoet.yunzhi.note.comm.core.DefaultAppContext;
 import cn.cpoet.yunzhi.note.comm.core.SimpleUUIDGenerator;
 import cn.cpoet.yunzhi.note.comm.core.SystemKeyHolderImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -63,6 +66,12 @@ public class CommConfig {
         TaskSchedulingProperties taskSchedulingProperties = new TaskSchedulingProperties();
         taskSchedulingProperties.setThreadNamePrefix(SystemConst.SYSTEM_PREFIX_ + "sd-");
         return taskSchedulingProperties;
+    }
+
+    @Bean
+    @Primary
+    public AppContext appContext() {
+        return AppContextUtil.initialize(DefaultAppContext::new);
     }
 
     @Bean

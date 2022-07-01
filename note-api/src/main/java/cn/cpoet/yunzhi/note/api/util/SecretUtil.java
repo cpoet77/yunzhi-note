@@ -17,7 +17,7 @@ import java.util.Base64;
  *
  * @author CPoet
  */
-public class SecretUtil {
+public abstract class SecretUtil {
     public final static String ALGORITHM_RSA = "RSA";
 
     public final static String ALGORITHM_DES = "DES";

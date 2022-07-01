@@ -1,6 +1,10 @@
 package cn.cpoet.yunzhi.note.api.core;
 
 import cn.cpoet.yunzhi.note.api.constant.AppInfoKeys;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -12,6 +16,9 @@ import java.util.Properties;
  *
  * @author CPoet
  */
+@Getter
+@Accessors(fluent = true)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AppInfo {
     /**
      * 应用信息文件
@@ -19,36 +26,46 @@ public final class AppInfo {
     private final static String APP_INFO_FILE = "app.info";
 
     /**
+     * 应用信息实例
+     */
+    public final static AppInfo INSTANCE = loadInstance();
+
+    /**
      * 应用名称
      */
-    public final static String NAME;
+    private final String name;
 
     /**
      * 作者
      */
-    public final static String AUTHOR;
+    private final String author;
 
     /**
      * 公司
      */
-    public final static String COMPANY;
+    private final String company;
 
     /**
      * 邮箱
      */
-    public final static String EMAIL;
+    private final String email;
 
     /**
      * 网站
      */
-    public final static String SITE;
+    private final String site;
 
     /**
-     * 版本
+     * 版本信息
      */
-    public final static Version VERSION;
+    private final Version version;
 
-    static {
+    /**
+     * 加载应用信息
+     *
+     * @return 应用信息
+     */
+    private static AppInfo loadInstance() {
         // 加载应用相关信息，默认使用Properties格式
         Properties info = new Properties();
         ClassPathResource pathResource = new ClassPathResource(APP_INFO_FILE);
@@ -56,21 +73,19 @@ public final class AppInfo {
             info.load(in);
         } catch (IOException ignored) {
         }
-        // 应用信息
-        NAME = info.getProperty(AppInfoKeys.NAME);
-        AUTHOR = info.getProperty(AppInfoKeys.AUTHOR);
-        COMPANY = info.getProperty(AppInfoKeys.COMPANY);
-        EMAIL = info.getProperty(AppInfoKeys.EMAIL);
-        SITE = info.getProperty(AppInfoKeys.SITE);
         // 应用版本信息
         String major = info.getProperty(AppInfoKeys.VERSION_MAJOR);
         String minor = info.getProperty(AppInfoKeys.VERSION_MINOR);
         String revision = info.getProperty(AppInfoKeys.VERSION_REVISION);
         String build = info.getProperty(AppInfoKeys.VERSION_BUILD);
-        VERSION = new Version(major == null ? 0 : Integer.parseInt(major), minor == null ? 0 : Integer.parseInt(minor),
-            revision == null ? 0 : Integer.parseInt(revision), build);
-    }
-
-    private AppInfo() {
+        return new AppInfo(info.getProperty(AppInfoKeys.NAME),
+            info.getProperty(AppInfoKeys.AUTHOR),
+            info.getProperty(AppInfoKeys.COMPANY),
+            info.getProperty(AppInfoKeys.EMAIL),
+            info.getProperty(AppInfoKeys.SITE),
+            new Version(major == null ? 0 : Integer.parseInt(major),
+                minor == null ? 0 : Integer.parseInt(minor),
+                revision == null ? 0 : Integer.parseInt(revision),
+                build));
     }
 }

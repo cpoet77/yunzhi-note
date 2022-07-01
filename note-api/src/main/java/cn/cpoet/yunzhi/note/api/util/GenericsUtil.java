@@ -8,7 +8,10 @@ import java.lang.reflect.Type;
  *
  * @author CPoet
  */
-public class GenericsUtil {
+public abstract class GenericsUtil {
+    private GenericsUtil() {
+    }
+
     /**
      * 获取泛型实际类型
      *
@@ -17,8 +20,5 @@ public class GenericsUtil {
      */
     public static Type getActualTypeArg(Class<?> clazz) {
         return ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    private GenericsUtil() {
     }
 }

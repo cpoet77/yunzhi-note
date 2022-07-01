@@ -1,13 +1,12 @@
 package cn.cpoet.yunzhi.note.comm.filter;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
-import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
+import cn.cpoet.yunzhi.note.api.core.AppContext;
+import cn.cpoet.yunzhi.note.api.core.TraceInfo;
 import cn.cpoet.yunzhi.note.comm.core.ReactiveRequestWrapper;
-import cn.cpoet.yunzhi.note.comm.util.UUIDUtil;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.reactive.filter.OrderedWebFilter;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
@@ -18,6 +17,8 @@ import reactor.core.publisher.Mono;
  * @author CPoet
  */
 public class ReactiveTraceWebFilter implements OrderedWebFilter {
+    @Autowired
+    private AppContext appContext;
 
     @Override
     public int getOrder() {
@@ -26,15 +27,11 @@ public class ReactiveTraceWebFilter implements OrderedWebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
-        HttpHeaders headers = request.getHeaders();
-        String traceId = headers.getFirst(SystemConst.TRACE_ID);
-        if (!StringUtils.hasText(traceId)) {
-            headers.set(SystemConst.TRACE_ID, UUIDUtil.randomPure());
-        }
-        String spanId = headers.getFirst(SystemConst.SPAN_ID);
-        headers.set(SystemConst.SPAN_PRE_ID, spanId);
-        headers.set(SystemConst.SPAN_ID, UUIDUtil.randomPure());
+        // 获取链路信息
+        TraceInfo traceInfo = appContext.getTraceInfo(ReactiveRequestWrapper.wrapper(exchange));
+        // 将链路信息存储至MDC中
+        MDC.put(SystemConst.SPAN_ID, String.valueOf(traceInfo.getSpanId()));
+        MDC.put(SystemConst.TRACE_ID, traceInfo.getTraceId());
         return chain.filter(exchange);
     }
 }

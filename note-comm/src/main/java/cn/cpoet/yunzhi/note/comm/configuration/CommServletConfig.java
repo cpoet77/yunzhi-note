@@ -28,22 +28,28 @@ public class CommServletConfig {
     @Bean
     @ConditionalOnMissingBean
     public RequestWrapper requestWrapper() {
-        return new AbstractServletRequestWrapper() {
-            @Override
-            protected HttpServletRequest getRequest() {
-                try {
-                    return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-                } catch (Exception e) {
-                    CommServletConfig.log.debug("获取请求上下文失败：{}", e.getMessage());
-                }
-                return null;
-            }
-        };
+        return new GlobalRequestWrapper();
     }
 
     @Bean
     @ConditionalOnMissingBean
     public WebMvcResponseAdvice commResponseAdvice() {
         return new WebMvcResponseAdvice();
+    }
+
+    /**
+     * 全局请求上下文包装
+     * <p>仅适用于Servlet应用</p>
+     */
+    private static class GlobalRequestWrapper extends AbstractServletRequestWrapper {
+        @Override
+        protected HttpServletRequest getRequest() {
+            try {
+                return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+            } catch (Exception e) {
+                CommServletConfig.log.debug("获取请求上下文失败：{}", e.getMessage());
+            }
+            return null;
+        }
     }
 }

@@ -1,9 +1,8 @@
 package cn.cpoet.yunzhi.note.comm.configuration;
 
-import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
-import cn.cpoet.yunzhi.note.api.core.AppInfo;
+import cn.cpoet.yunzhi.note.api.core.AppContext;
 import cn.cpoet.yunzhi.note.comm.annotation.FeignTarget;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -22,17 +21,20 @@ public class OpenApiConfig {
     static {
         SpringDocUtils
             .getConfig()
-            .addRequestWrapperToIgnore(AuthContext.class, Subject.class);
+            .addRequestWrapperToIgnore(Subject.class);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public OpenAPI openApiInfo() {
+    public OpenAPI openApiInfo(AppContext appContext) {
         return new OpenAPI()
             .info(new Info()
-                .title(AppInfo.NAME)
-                .version(AppInfo.VERSION.version())
-                .contact(new Contact().name(AppInfo.AUTHOR).email(AppInfo.EMAIL).url(AppInfo.SITE)));
+                .title(appContext.appInfo().name())
+                .version(appContext.appInfo().version().visible())
+                .contact(new Contact()
+                    .name(appContext.appInfo().author())
+                    .email(appContext.appInfo().email())
+                    .url(appContext.appInfo().site())));
     }
 
     @Bean

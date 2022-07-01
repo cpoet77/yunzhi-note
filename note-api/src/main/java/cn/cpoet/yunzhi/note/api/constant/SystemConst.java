@@ -82,9 +82,9 @@ public interface SystemConst {
     String SPAN_ID = "spanId";
 
     /**
-     * 链路跨度上级Id
+     * 默认链路跨度id
      */
-    String SPAN_PRE_ID = "spanPreId";
+    int DEFAULT_SPAN_ID = 0;
 
     /**
      * 系统最大日期

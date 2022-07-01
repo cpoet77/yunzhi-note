@@ -1,7 +1,7 @@
 package cn.cpoet.yunzhi.note.auth.component;
 
 import cn.cpoet.yunzhi.note.api.auth.Subject;
-import cn.cpoet.yunzhi.note.api.core.AppInfo;
+import cn.cpoet.yunzhi.note.api.core.AppContext;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthTokenProperties;
 import cn.cpoet.yunzhi.note.auth.constant.JwtConst;
@@ -29,6 +29,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtSupport {
+    private final AppContext appContext;
     private final MemberFeign memberFeign;
     private final SystemKeyHolder systemKeyHolder;
     private final AuthTokenProperties authTokenProperties;
@@ -40,7 +41,7 @@ public class JwtSupport {
         return JWT
             .create()
             .withJWTId(UUIDUtil.random())
-            .withIssuer(AppInfo.NAME)
+            .withIssuer(appContext.appInfo().name())
             .withIssuedAt(new Date(millis))
             .withExpiresAt(new Date(millis + authTokenProperties.getTokenDuration().toMillis()))
             .withSubject(String.valueOf(subject.getUid()))

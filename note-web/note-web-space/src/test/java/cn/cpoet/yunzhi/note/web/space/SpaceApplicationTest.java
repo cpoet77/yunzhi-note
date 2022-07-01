@@ -24,7 +24,7 @@ public class SpaceApplicationTest {
         dbMigration.setServer(database);
         dbMigration.addPlatform(Platform.MYSQL);
         dbMigration.addPlatform(Platform.ORACLE);
-        dbMigration.setVersion(AppInfo.VERSION.version() + "." + System.currentTimeMillis());
+        dbMigration.setVersion(AppInfo.INSTANCE.version() + "." + System.currentTimeMillis());
         dbMigration.generateMigration();
     }
 

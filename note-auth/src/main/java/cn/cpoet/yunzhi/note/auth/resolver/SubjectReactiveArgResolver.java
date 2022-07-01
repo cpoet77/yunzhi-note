@@ -26,6 +26,6 @@ public class SubjectReactiveArgResolver implements HandlerMethodArgumentResolver
     public Mono<Object> resolveArgument(MethodParameter parameter,
                                         BindingContext bindingContext,
                                         ServerWebExchange exchange) {
-        return Mono.just(authContext.getSubject(ReactiveRequestWrapper.wrapper(exchange.getRequest())));
+        return Mono.just(authContext.getSubject(ReactiveRequestWrapper.wrapper(exchange)));
     }
 }
