@@ -35,7 +35,7 @@ public enum CommStatus {
     @Getter(onMethod_ = {@DbEnumValue, @JsonValue})
     private final int code;
 
-    private final String name;
+    private final String desc;
 
     public static CommStatus ofCode(int code) {
         return EnumUtil.valueSafeOf(values(), CommStatus::code, code)

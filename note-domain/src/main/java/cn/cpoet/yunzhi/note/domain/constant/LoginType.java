@@ -64,12 +64,12 @@ public enum LoginType {
     BAIDU("baidu", "百度授权");
 
     @Getter(onMethod_ = {@DbEnumValue, @JsonValue})
-    private final String name;
+    private final String code;
     private final String desc;
 
     @JsonCreator
     public static LoginType ofName(String name) {
-        return EnumUtil.valueSafeOf(values(), LoginType::name, name)
+        return EnumUtil.valueSafeOf(values(), LoginType::code, name)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }
