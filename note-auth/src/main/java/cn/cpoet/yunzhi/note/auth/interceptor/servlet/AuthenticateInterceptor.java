@@ -1,4 +1,4 @@
-package cn.cpoet.yunzhi.note.auth.interceptor;
+package cn.cpoet.yunzhi.note.auth.interceptor.servlet;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;

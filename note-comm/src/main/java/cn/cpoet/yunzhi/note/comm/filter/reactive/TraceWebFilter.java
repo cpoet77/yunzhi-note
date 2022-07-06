@@ -1,4 +1,4 @@
-package cn.cpoet.yunzhi.note.comm.filter;
+package cn.cpoet.yunzhi.note.comm.filter.reactive;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  *
  * @author CPoet
  */
-public class ReactiveTraceWebFilter implements OrderedWebFilter {
+public class TraceWebFilter implements OrderedWebFilter {
     @Autowired
     private AppContext appContext;
 
