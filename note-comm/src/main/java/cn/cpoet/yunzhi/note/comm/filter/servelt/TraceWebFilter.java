@@ -1,4 +1,4 @@
-package cn.cpoet.yunzhi.note.comm.filter;
+package cn.cpoet.yunzhi.note.comm.filter.servelt;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * @author CPoet
  */
-public class ServletTraceFilter implements OrderedFilter {
+public class TraceWebFilter implements OrderedFilter {
     @Autowired
     private AppContext appContext;
 

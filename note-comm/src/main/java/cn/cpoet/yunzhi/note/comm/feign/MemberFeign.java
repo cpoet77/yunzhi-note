@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Set;
 
 /**
+ * 人员基本信息远程调用
+ *
  * @author CPoet
  */
 @FeignClient(value = ModuleConst.WEB_COMM, contextId = "MemberFeign", path = "/member", primary = false)
@@ -26,7 +28,7 @@ public interface MemberFeign {
      * 获取权限列表
      *
      * @param uid 用户uid
-     * @return 角色列表
+     * @return 权限列表
      */
     @RequestMapping(value = "/listPermission", method = RequestMethod.GET)
     Set<String> listPermission(@RequestParam Long uid);

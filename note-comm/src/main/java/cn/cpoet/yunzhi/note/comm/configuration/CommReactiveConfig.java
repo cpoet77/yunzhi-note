@@ -2,12 +2,13 @@ package cn.cpoet.yunzhi.note.comm.configuration;
 
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.comm.core.ReactiveRequestWrapper;
-import cn.cpoet.yunzhi.note.comm.filter.ReactiveTraceWebFilter;
+import cn.cpoet.yunzhi.note.comm.filter.reactive.TraceWebFilter;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.HttpMessageConverter;
 
 import java.util.stream.Collectors;
@@ -15,12 +16,13 @@ import java.util.stream.Collectors;
 /**
  * @author CPoet
  */
+@ComponentScan("cn.cpoet.yunzhi.note.comm.feign.reactive")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class CommReactiveConfig {
 
     @Bean
-    public ReactiveTraceWebFilter reactiveTraceWebFilter() {
-        return new ReactiveTraceWebFilter();
+    public TraceWebFilter reactiveTraceWebFilter() {
+        return new TraceWebFilter();
     }
 
     @Bean
