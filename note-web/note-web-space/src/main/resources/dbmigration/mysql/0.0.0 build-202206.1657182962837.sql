@@ -95,6 +95,36 @@ create table sys_group (
   constraint pk_sys_group primary key (id)
 );
 
+create table sys_i18n (
+  id                            bigint not null,
+  name                          varchar(255),
+  scenes                        varchar(255) not null,
+  status                        varchar(1) not null,
+  is_built_in                   tinyint(1) not null,
+  version                       integer not null,
+  deleted                       tinyint(1) default 0 not null,
+  created_member                bigint not null,
+  created_time                  datetime(6) not null,
+  updated_member                bigint not null,
+  updated_time                  datetime(6) not null,
+  constraint uq_sys_i18n_name unique (name),
+  constraint pk_sys_i18n primary key (id)
+);
+
+create table sys_i18n_item (
+  id                            bigint not null,
+  i18n_id                       bigint,
+  content                       varchar(255),
+  locale                        varchar(1) not null,
+  version                       integer not null,
+  deleted                       tinyint(1) default 0 not null,
+  created_member                bigint not null,
+  created_time                  datetime(6) not null,
+  updated_member                bigint not null,
+  updated_time                  datetime(6) not null,
+  constraint pk_sys_i18n_item primary key (id)
+);
+
 create table sys_login_log (
   id                            bigint not null,
   member_id                     bigint not null,
@@ -126,6 +156,7 @@ create table sys_member (
   locked                        tinyint(1) not null,
   status                        varchar(1) not null,
   expired_time                  datetime(6) not null,
+  is_built_in                   tinyint(1) not null,
   version                       integer not null,
   deleted                       tinyint(1) default 0 not null,
   created_member                bigint not null,
@@ -183,8 +214,10 @@ create table sys_permission (
   parent_id                     bigint not null,
   code                          varchar(255) not null,
   name                          varchar(255) not null,
+  path                          longtext,
   icon                          varchar(512),
   description                   longtext,
+  bind_i18n                     varchar(255),
   is_built_in                   tinyint(1) not null,
   status                        varchar(1) not null,
   sorted                        integer not null,
@@ -207,6 +240,7 @@ create table sys_role (
   sorted                        integer not null,
   description                   longtext,
   status                        varchar(1) not null,
+  bind_i18n                     varchar(255),
   is_built_in                   tinyint(1) not null,
   version                       integer not null,
   deleted                       tinyint(1) default 0 not null,

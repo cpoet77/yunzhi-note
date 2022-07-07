@@ -5,23 +5,18 @@ import cn.cpoet.yunzhi.note.web.gateway.feign.RouterFeign;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -30,64 +25,64 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RouterServiceImpl implements RouterService, ApplicationEventPublisherAware, ApplicationListener<ApplicationReadyEvent> {
-    private final static Object LOCK = new Object();
+public class RouterServiceImpl implements RouterService, ApplicationListener<ApplicationReadyEvent> {
 
-    private final RouterFeign routerFeign;
-    private final RouteDefinitionWriter routeDefinitionWriter;
+    private RouterFeign routerFeign;
 
-    private Set<Long> routerIds;
-    private ApplicationEventPublisher applicationEventPublisher;
-
+    private final ThreadLocal<Boolean> reentrancyCache = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
     @Override
-    public void syncRouter() {
-        try {
-            syncRemoteRouter();
-        } catch (Exception e) {
-            log.warn("远程路由信息同步失败：{}", e.getMessage());
-        }
-    }
-
-    private void syncRemoteRouter() {
-        synchronized (LOCK) {
-            List<RouterDTO> routers = routerFeign.list();
-            if (CollectionUtils.isEmpty(routers)) {
-                if (!CollectionUtils.isEmpty(routerIds)) {
-                    for (Long routerId : routerIds) {
-                        routeDefinitionWriter.delete(Mono.just(String.valueOf(routerId))).subscribe();
+    public Flux<RouteDefinition> getRoutes() {
+        if (routerFeign != null) {
+            // 这里有个线程重入的问题，由Feign和Router的依赖关系引起
+            // 因此这里将对重入的线程进行过滤，避免循环引起服务宕机
+            Boolean isReentrancy = reentrancyCache.get();
+            if (Boolean.FALSE.equals(isReentrancy)) {
+                reentrancyCache.set(Boolean.TRUE);
+                log.info("Query remote routing information.");
+                try {
+                    List<RouterDTO> routers = routerFeign.list();
+                    if (!CollectionUtils.isEmpty(routers)) {
+                        return Flux
+                            .fromIterable(routers)
+                            .map(this::transform2routeDefinition);
                     }
-                    routerIds = null;
+                } catch (Exception e) {
+                    log.warn("Remote routing information query failed: {}", e.getMessage());
+                } finally {
+                    reentrancyCache.remove();
                 }
-            } else if (CollectionUtils.isEmpty(routerIds)) {
-                Set<Long> newRouterIds = new HashSet<>(routers.size());
-                for (RouterDTO router : routers) {
-                    routeDefinitionWriter
-                        .save(Mono.just(transform2rd(router)))
-                        .doOnSuccess(ret -> newRouterIds.add(router.getId()))
-                        .subscribe();
-                }
-                routerIds = newRouterIds;
-            } else {
-                Set<Long> newRouterIds = new HashSet<>(routers.size());
-                for (RouterDTO router : routers) {
-                    routerIds.remove(router.getId());
-                    routeDefinitionWriter
-                        .save(Mono.just(transform2rd(router)))
-                        .doOnSuccess(ret -> newRouterIds.add(router.getId()))
-                        .subscribe();
-                }
-                if (!CollectionUtils.isEmpty(routerIds)) {
-                    routerIds.forEach(id -> routeDefinitionWriter.delete(Mono.just(String.valueOf(id))).subscribe());
-                }
-                routerIds = newRouterIds;
             }
         }
-        // 发布事件
-        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+        return Flux.empty();
     }
 
-    private RouteDefinition transform2rd(RouterDTO router) {
+    @Override
+    public Mono<Void> save(Mono<RouteDefinition> route) {
+        log.info("Save route to remote.");
+        return Mono.empty();
+    }
+
+    @Override
+    public Mono<Void> delete(Mono<String> routeId) {
+        log.info("Remove remote routes.");
+        return Mono.empty();
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        this.routerFeign = event
+            .getApplicationContext()
+            .getBean(RouterFeign.class);
+    }
+
+    /**
+     * 路由信息适配转换
+     *
+     * @param router 路由信息Bean
+     * @return 适配的路由信息
+     */
+    private RouteDefinition transform2routeDefinition(RouterDTO router) {
         RouteDefinition route = new RouteDefinition();
         route.setId(String.valueOf(router.getId()));
         route.setUri(URI.create(router.getUri()));
@@ -110,16 +105,5 @@ public class RouterServiceImpl implements RouterService, ApplicationEventPublish
             route.setFilters(filterDefinitions);
         }
         return route;
-    }
-
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        log.info("初始化路由信息.");
-        syncRouter();
-    }
-
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
     }
 }

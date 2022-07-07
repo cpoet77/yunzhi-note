@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 /**
  * @author CPoet
  */
-@Import(EbeanConfig.class)
+@Import({EbeanConfig.class, ImportConfig.class})
 @ComponentScan("cn.cpoet.yunzhi.note.domain.dao")
 public class DomainConfig {
     @Bean

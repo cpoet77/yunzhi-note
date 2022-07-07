@@ -81,6 +81,31 @@
             <column name="updated_member" type="bigint" notnull="true"/>
             <column name="updated_time" type="localdatetime" notnull="true"/>
         </createTable>
+        <createTable name="sys_i18n" identityType="external" pkName="pk_sys_i18n">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="name" type="varchar" unique="uq_sys_i18n_name"/>
+            <column name="scenes" type="varchar" notnull="true"/>
+            <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_i18n_status"/>
+            <column name="is_built_in" type="boolean" notnull="true"/>
+            <column name="version" type="integer" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+            <column name="created_member" type="bigint" notnull="true"/>
+            <column name="created_time" type="localdatetime" notnull="true"/>
+            <column name="updated_member" type="bigint" notnull="true"/>
+            <column name="updated_time" type="localdatetime" notnull="true"/>
+        </createTable>
+        <createTable name="sys_i18n_item" identityType="external" pkName="pk_sys_i18n_item">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="i18n_id" type="bigint"/>
+            <column name="content" type="varchar"/>
+            <column name="locale" type="varchar(1)" notnull="true" checkConstraint="check ( locale in ('0','1','2'))" checkConstraintName="ck_sys_i18n_item_locale"/>
+            <column name="version" type="integer" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+            <column name="created_member" type="bigint" notnull="true"/>
+            <column name="created_time" type="localdatetime" notnull="true"/>
+            <column name="updated_member" type="bigint" notnull="true"/>
+            <column name="updated_time" type="localdatetime" notnull="true"/>
+        </createTable>
         <createTable name="sys_login_log" identityType="external" pkName="pk_sys_login_log">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="member_id" type="bigint" notnull="true"/>
@@ -110,6 +135,7 @@
             <column name="locked" type="boolean" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_member_status"/>
             <column name="expired_time" type="localdatetime" notnull="true"/>
+            <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
             <column name="created_member" type="bigint" notnull="true"/>
@@ -156,8 +182,10 @@
             <column name="parent_id" type="bigint" notnull="true"/>
             <column name="code" type="varchar" notnull="true" unique="uq_sys_permission_code"/>
             <column name="name" type="varchar" notnull="true" unique="uq_sys_permission_name"/>
+            <column name="path" type="CLOB"/>
             <column name="icon" type="varchar(512)"/>
             <column name="description" type="CLOB"/>
+            <column name="bind_i18n" type="varchar"/>
             <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_permission_status"/>
             <column name="sorted" type="integer" notnull="true"/>
@@ -176,6 +204,7 @@
             <column name="sorted" type="integer" notnull="true"/>
             <column name="description" type="CLOB"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_role_status"/>
+            <column name="bind_i18n" type="varchar"/>
             <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>

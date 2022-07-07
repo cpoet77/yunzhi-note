@@ -7,6 +7,8 @@ import cn.cpoet.yunzhi.note.web.comm.service.MemberService;
 import cn.cpoet.yunzhi.note.web.comm.service.PermissionService;
 import cn.cpoet.yunzhi.note.web.comm.service.RoleService;
 import cn.cpoet.yunzhi.note.web.comm.vo.MemberInfoVO;
+import cn.cpoet.yunzhi.note.web.comm.vo.PermissionTreeVO;
+import cn.cpoet.yunzhi.note.web.comm.vo.RoleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +37,18 @@ public class MemberController implements MemberFeign {
     @Operation(summary = "获取用户基本信息")
     public MemberInfoVO getInfo(Subject subject) {
         return memberService.getInfo(subject);
+    }
+
+    @GetMapping("/listMemberRole")
+    @Operation(summary = "获取用户拥有的角色列表")
+    public List<RoleVO> listMemberRole(Subject subject) {
+        return roleService.listRole(subject);
+    }
+
+    @GetMapping("/listMemberPermission")
+    @Operation(summary = "获取用户拥有的权限列表")
+    public List<PermissionTreeVO> listMemberPermission(Subject subject) {
+        return permissionService.listPermission(subject);
     }
 
     @Override
