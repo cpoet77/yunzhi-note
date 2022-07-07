@@ -238,7 +238,6 @@ create table sys_permission (
   constraint ck_sys_permission_status check ( status in ('0','1','2')),
   constraint ck_sys_permission_type check ( type in ('1','2','4','8','16','1024')),
   constraint uq_sys_permission_code unique (code),
-  constraint uq_sys_permission_name unique (name),
   constraint pk_sys_permission primary key (id)
 );
 

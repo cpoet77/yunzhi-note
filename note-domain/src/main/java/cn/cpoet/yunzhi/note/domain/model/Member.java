@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
+import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -31,6 +32,10 @@ public class Member extends BaseModel {
     @Schema(title = "用户账号")
     @Column(name = "account", unique = true)
     private String account;
+
+    @Schema(title = "头像地址")
+    @Column(name = "avatar", length = DbLenConst.AVATAR)
+    private String avatar;
 
     @Schema(title = "密码摘要")
     @Column(name = "password")

@@ -6,6 +6,7 @@
             "name": "admin",
             "nickName": "admin",
             "account": "admin",
+            "avatar": null,
             "password": "430e4990d288baa95e2baa3223a799b9",
             "salt": "dec56bfb055d4f0880d1554202e1cc18",
             "summary": "君问归期未有期！！",

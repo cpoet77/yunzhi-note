@@ -181,7 +181,7 @@
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="parent_id" type="bigint" notnull="true"/>
             <column name="code" type="varchar" notnull="true" unique="uq_sys_permission_code"/>
-            <column name="name" type="varchar" notnull="true" unique="uq_sys_permission_name"/>
+            <column name="name" type="varchar" notnull="true"/>
             <column name="path" type="CLOB"/>
             <column name="icon" type="varchar(512)"/>
             <column name="description" type="CLOB"/>
