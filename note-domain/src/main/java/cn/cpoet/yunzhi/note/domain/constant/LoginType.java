@@ -68,8 +68,8 @@ public enum LoginType {
     private final String desc;
 
     @JsonCreator
-    public static LoginType ofName(String name) {
-        return EnumUtil.valueSafeOf(values(), LoginType::code, name)
+    public static LoginType ofCode(String code) {
+        return EnumUtil.valueSafeOf(values(), LoginType::code, code)
             .orElseThrow(() -> EnumUndefinedException.DEFAULT);
     }
 }
