@@ -97,6 +97,38 @@ create table sys_group (
   constraint pk_sys_group primary key (id)
 );
 
+create table sys_i18n (
+  id                            number(19) not null,
+  name                          varchar2(255),
+  scenes                        varchar2(255) not null,
+  status                        varchar2(1) not null,
+  is_built_in                   number(1) not null,
+  version                       number(10) not null,
+  deleted                       number(1) default 0 not null,
+  created_member                number(19) not null,
+  created_time                  timestamp not null,
+  updated_member                number(19) not null,
+  updated_time                  timestamp not null,
+  constraint ck_sys_i18n_status check ( status in ('0','1','2')),
+  constraint uq_sys_i18n_name unique (name),
+  constraint pk_sys_i18n primary key (id)
+);
+
+create table sys_i18n_item (
+  id                            number(19) not null,
+  i18n_id                       number(19),
+  content                       varchar2(255),
+  locale                        varchar2(1) not null,
+  version                       number(10) not null,
+  deleted                       number(1) default 0 not null,
+  created_member                number(19) not null,
+  created_time                  timestamp not null,
+  updated_member                number(19) not null,
+  updated_time                  timestamp not null,
+  constraint ck_sys_i18n_item_locale check ( locale in ('0','1','2')),
+  constraint pk_sys_i18n_item primary key (id)
+);
+
 create table sys_login_log (
   id                            number(19) not null,
   member_id                     number(19) not null,
@@ -130,6 +162,7 @@ create table sys_member (
   locked                        number(1) not null,
   status                        varchar2(1) not null,
   expired_time                  timestamp not null,
+  is_built_in                   number(1) not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,
   created_member                number(19) not null,
@@ -188,8 +221,10 @@ create table sys_permission (
   parent_id                     number(19) not null,
   code                          varchar2(255) not null,
   name                          varchar2(255) not null,
+  path                          clob,
   icon                          varchar2(512),
   description                   clob,
+  bind_i18n                     varchar2(255),
   is_built_in                   number(1) not null,
   status                        varchar2(1) not null,
   sorted                        number(10) not null,
@@ -214,6 +249,7 @@ create table sys_role (
   sorted                        number(10) not null,
   description                   clob,
   status                        varchar2(1) not null,
+  bind_i18n                     varchar2(255),
   is_built_in                   number(1) not null,
   version                       number(10) not null,
   deleted                       number(1) default 0 not null,

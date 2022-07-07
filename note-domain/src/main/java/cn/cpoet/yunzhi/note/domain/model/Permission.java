@@ -30,8 +30,12 @@ public class Permission extends BaseModel {
     private String code;
 
     @Schema(title = "资源名称")
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Schema(title = "访问路径")
+    @Column(name = "path", columnDefinition = CompatibleDbTypes.TEXT)
+    private String path;
 
     @Schema(title = "资源图标")
     @Column(name = "icon", length = DbLenConst.URL)

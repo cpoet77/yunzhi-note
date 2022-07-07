@@ -29,30 +29,59 @@ public class RouterServiceImpl implements RouterService, ApplicationListener<App
 
     private RouterFeign routerFeign;
 
+    private final ThreadLocal<Boolean> reentrancyCache = ThreadLocal.withInitial(() -> Boolean.FALSE);
+
     @Override
     public Flux<RouteDefinition> getRoutes() {
-        return Flux
-            .from(subscriber -> {
-            })
-            .map(this::transform2routeDefinition);
-
+        if (routerFeign != null) {
+            // 这里有个线程重入的问题，由Feign和Router的依赖关系引起
+            // 因此这里将对重入的线程进行过滤，避免循环引起服务宕机
+            Boolean isReentrancy = reentrancyCache.get();
+            if (Boolean.FALSE.equals(isReentrancy)) {
+                reentrancyCache.set(Boolean.TRUE);
+                log.info("Query remote routing information.");
+                try {
+                    List<RouterDTO> routers = routerFeign.list();
+                    if (!CollectionUtils.isEmpty(routers)) {
+                        return Flux
+                            .fromIterable(routers)
+                            .map(this::transform2routeDefinition);
+                    }
+                } catch (Exception e) {
+                    log.warn("Remote routing information query failed: {}", e.getMessage());
+                } finally {
+                    reentrancyCache.remove();
+                }
+            }
+        }
+        return Flux.empty();
     }
 
     @Override
     public Mono<Void> save(Mono<RouteDefinition> route) {
-        return null;
+        log.info("Save route to remote.");
+        return Mono.empty();
     }
 
     @Override
     public Mono<Void> delete(Mono<String> routeId) {
-        return null;
+        log.info("Remove remote routes.");
+        return Mono.empty();
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        this.routerFeign = event.getApplicationContext().getBean(RouterFeign.class);
+        this.routerFeign = event
+            .getApplicationContext()
+            .getBean(RouterFeign.class);
     }
 
+    /**
+     * 路由信息适配转换
+     *
+     * @param router 路由信息Bean
+     * @return 适配的路由信息
+     */
     private RouteDefinition transform2routeDefinition(RouterDTO router) {
         RouteDefinition route = new RouteDefinition();
         route.setId(String.valueOf(router.getId()));

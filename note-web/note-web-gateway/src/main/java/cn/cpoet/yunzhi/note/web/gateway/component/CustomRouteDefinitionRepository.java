@@ -4,7 +4,7 @@ import cn.cpoet.yunzhi.note.web.gateway.service.RouterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
-import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -14,10 +14,9 @@ import reactor.core.publisher.Mono;
  *
  * @author CPoet
  */
-@Primary
 @Component
 @RequiredArgsConstructor
-public class CustomRouteDefinitionRepository implements RouteDefinitionRepository {
+public class CustomRouteDefinitionRepository implements Ordered, RouteDefinitionRepository {
 
     private final RouterService routerService;
 
@@ -34,5 +33,10 @@ public class CustomRouteDefinitionRepository implements RouteDefinitionRepositor
     @Override
     public Mono<Void> delete(Mono<String> routeId) {
         return routerService.delete(routeId);
+    }
+
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE + 10;
     }
 }
