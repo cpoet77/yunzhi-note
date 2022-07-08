@@ -28,7 +28,7 @@ import java.util.Locale;
  * @see Converter
  */
 @SuppressWarnings("all")
-public class JacksonConvertersConfig {
+public class ConvertersConfig {
     private final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
     private final static String DEFAULT_TIME_FORMAT = "HH:mm:ss";
@@ -41,7 +41,7 @@ public class JacksonConvertersConfig {
 
     private final DateTimeFormatter dateTimeFormatter;
 
-    public JacksonConvertersConfig(JacksonProperties jacksonProperties) {
+    public ConvertersConfig(JacksonProperties jacksonProperties) {
         String jacksonDateFormat = jacksonProperties.getDateFormat();
         dateFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         timeFormat = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
@@ -75,6 +75,17 @@ public class JacksonConvertersConfig {
             @Override
             public LocalDateTime convert(String str) {
                 return LocalDateTime.parse(str, dateTimeFormatter);
+            }
+        };
+    }
+
+    @Bean
+    public Converter<Object, Enum> object2Enum() {
+        return new Converter<Object, Enum>() {
+            @Override
+            public Enum convert(Object source) {
+                System.out.println("123445567");
+                return null;
             }
         };
     }

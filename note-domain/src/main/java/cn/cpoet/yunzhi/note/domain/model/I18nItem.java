@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @Schema(title = "国际化项")
 @Table(name = "sys_i18n_item")
 public class I18nItem extends BaseModel {
-
     @Schema(title = "关联i18n的id")
     @Column(name = "i18n_id")
     private Long i18nId;

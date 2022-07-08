@@ -26,6 +26,10 @@ public class I18n extends BaseModel {
     @Column(name = "scenes", nullable = false)
     private String scenes;
 
+    @Schema(title = "使用分组")
+    @Column(name = "group", nullable = false)
+    private String group;
+
     @Schema(title = "状态")
     @Column(name = "status", nullable = false)
     private CommStatus status;
