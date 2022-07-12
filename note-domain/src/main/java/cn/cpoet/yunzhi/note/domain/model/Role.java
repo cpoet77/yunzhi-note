@@ -3,6 +3,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import cn.cpoet.yunzhi.note.domain.constant.CompatibleDbTypes;
+import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -20,11 +21,11 @@ import javax.persistence.Table;
 public class Role extends BaseModel {
 
     @Schema(title = "角色编码")
-    @Column(name = "code", unique = true, nullable = false)
+    @Column(name = "code", length = DbLenConst.L512, unique = true, nullable = false)
     private String code;
 
     @Schema(title = "角色名称")
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", length = DbLenConst.L512, unique = true, nullable = false)
     private String name;
 
     @Schema(title = "排序")

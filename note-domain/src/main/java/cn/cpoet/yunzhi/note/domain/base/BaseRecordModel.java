@@ -38,8 +38,8 @@ public abstract class BaseRecordModel extends Model {
      */
     @Hidden
     @SoftDelete
-    @Column(name = "deleted")
     @Schema(title = "删除标记")
+    @Column(name = "deleted", nullable = false)
     private Boolean deleted;
 
     /**
@@ -57,4 +57,16 @@ public abstract class BaseRecordModel extends Model {
     @Column(name = "created_time")
     @Schema(title = "创建时间")
     private LocalDateTime createdTime;
+
+    /**
+     * 数据前置操作
+     * <p>禁止手动调用</p>
+     */
+    @PrePersist
+    public void prePersist() {
+        // 未设置删除标识的情况下默认为false
+        if (deleted == null) {
+            deleted = Boolean.FALSE;
+        }
+    }
 }

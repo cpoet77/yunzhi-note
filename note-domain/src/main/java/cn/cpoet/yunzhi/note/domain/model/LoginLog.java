@@ -1,6 +1,7 @@
 package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseRecordModel;
+import cn.cpoet.yunzhi.note.domain.constant.CompatibleDbTypes;
 import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import cn.cpoet.yunzhi.note.domain.constant.LoginType;
 import cn.cpoet.yunzhi.note.domain.constant.LogoutType;
@@ -41,15 +42,15 @@ public class LoginLog extends BaseRecordModel {
     private String ipAddr;
 
     @Schema(title = "UA信息")
-    @Column(name = "user_agent")
+    @Column(name = "user_agent", length = DbLenConst.L512)
     private String userAgent;
 
     @Schema(title = "操作系统")
-    @Column(name = "os")
+    @Column(name = "os", length = DbLenConst.L50)
     private String os;
 
     @Schema(title = "分辨率信息")
-    @Column(name = "screen")
+    @Column(name = "screen", length = DbLenConst.L50)
     private String screen;
 
     @Schema(title = "登录时间")
@@ -61,14 +62,14 @@ public class LoginLog extends BaseRecordModel {
     private LocalDateTime logoutTime;
 
     @Schema(title = "扩展字段01")
-    @Column(name = "ext01")
+    @Column(name = "ext01", length = DbLenConst.L512)
     private String ext01;
 
     @Schema(title = "扩展字段02")
-    @Column(name = "ext02")
+    @Column(name = "ext02", length = DbLenConst.L512)
     private String ext02;
 
     @Schema(title = "扩展字段03")
-    @Column(name = "ext03")
+    @Column(name = "ext03", columnDefinition = CompatibleDbTypes.TEXT)
     private String ext03;
 }

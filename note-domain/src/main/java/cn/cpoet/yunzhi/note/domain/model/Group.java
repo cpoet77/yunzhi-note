@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
+import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -24,11 +25,11 @@ public class Group extends BaseModel {
     private Long parentId;
 
     @Schema(title = "用户组名称")
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", length = DbLenConst.L128, nullable = false)
     private String name;
 
     @Schema(title = "组介绍")
-    @Column(name = "description")
+    @Column(name = "description", length = DbLenConst.L800)
     private String description;
 
     @Schema(title = "状态")

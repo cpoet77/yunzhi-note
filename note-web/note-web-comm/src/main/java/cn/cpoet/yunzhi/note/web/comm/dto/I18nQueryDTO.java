@@ -1,4 +1,4 @@
-package cn.cpoet.yunzhi.note.web.comm.param;
+package cn.cpoet.yunzhi.note.web.comm.dto;
 
 import cn.cpoet.yunzhi.note.domain.constant.I18nLocale;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @Schema(title = "I18n查询")
-public class I18nQueryParam {
+public class I18nQueryDTO {
     @Schema(title = "使用场景")
     private String scenes;
 

@@ -1,6 +1,7 @@
 package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
+import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import cn.cpoet.yunzhi.note.domain.constant.I18nLocale;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class I18nItem extends BaseModel {
     private Long i18nId;
 
     @Schema(title = "内容")
-    @Column(name = "content")
+    @Column(name = "content", length = DbLenConst.L512)
     private String content;
 
     @Schema(title = "语言")

@@ -6,6 +6,7 @@ import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthTokenProperties;
 import cn.cpoet.yunzhi.note.auth.constant.JwtConst;
 import cn.cpoet.yunzhi.note.auth.core.AuthSubjectBuilder;
+import cn.cpoet.yunzhi.note.comm.dto.IdQueryDTO;
 import cn.cpoet.yunzhi.note.comm.feign.MemberFeign;
 import cn.cpoet.yunzhi.note.comm.util.UUIDUtil;
 import com.auth0.jwt.JWT;
@@ -20,6 +21,7 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Jwt操作支持
@@ -82,8 +84,16 @@ public class JwtSupport {
             .withUid(uid)
             .withAccount(account)
             .withGroupId(groupId)
-            .withGetRoles(memberFeign::listRole)
-            .withGetPermissions(memberFeign::listPermission)
+            .withGetRoles(this::doListRole)
+            .withGetPermissions(this::doListPermission)
             .build();
+    }
+
+    private Set<String> doListRole(Long uid) {
+        return memberFeign.listRole(new IdQueryDTO(uid));
+    }
+
+    private Set<String> doListPermission(Long uid) {
+        return memberFeign.listPermission(new IdQueryDTO(uid));
     }
 }

@@ -26,11 +26,11 @@ public class Permission extends BaseModel {
     private Long parentId;
 
     @Schema(title = "编码，用于资源权限判断")
-    @Column(name = "code", unique = true, nullable = false)
+    @Column(name = "code", length = DbLenConst.L512, unique = true, nullable = false)
     private String code;
 
     @Schema(title = "资源名称")
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", length = DbLenConst.L512, nullable = false)
     private String name;
 
     @Schema(title = "访问路径")
@@ -46,7 +46,7 @@ public class Permission extends BaseModel {
     private String description;
 
     @Schema(title = "绑定的i18n key")
-    @Column(name = "bind_i18n")
+    @Column(name = "bind_i18n", length = DbLenConst.L128)
     private String bindI18n;
 
     @Schema(title = "是否内置")

@@ -71,8 +71,8 @@
         <createTable name="sys_group" identityType="external" pkName="pk_sys_group">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="parent_id" type="bigint" notnull="true"/>
-            <column name="name" type="varchar" notnull="true"/>
-            <column name="description" type="varchar"/>
+            <column name="name" type="varchar(128)" notnull="true"/>
+            <column name="description" type="varchar(800)"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_group_status"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
@@ -83,8 +83,9 @@
         </createTable>
         <createTable name="sys_i18n" identityType="external" pkName="pk_sys_i18n">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
-            <column name="name" type="varchar" unique="uq_sys_i18n_name"/>
-            <column name="scenes" type="varchar" notnull="true"/>
+            <column name="name" type="varchar(128)" unique="uq_sys_i18n_name"/>
+            <column name="scenes" type="varchar(50)" notnull="true"/>
+            <column name="group" type="varchar(50)" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_i18n_status"/>
             <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="version" type="integer" notnull="true"/>
@@ -97,7 +98,7 @@
         <createTable name="sys_i18n_item" identityType="external" pkName="pk_sys_i18n_item">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="i18n_id" type="bigint"/>
-            <column name="content" type="varchar"/>
+            <column name="content" type="varchar(512)"/>
             <column name="locale" type="varchar(1)" notnull="true" checkConstraint="check ( locale in ('0','1','2'))" checkConstraintName="ck_sys_i18n_item_locale"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
@@ -113,11 +114,14 @@
             <column name="login_type" type="varchar(15)" notnull="true" checkConstraint="check ( login_type in ('account','mobile','email','qq-auth','wechat','wechat-mini-app','github','gitee','baidu'))" checkConstraintName="ck_sys_login_log_login_type"/>
             <column name="logout_type" type="varchar(1)" checkConstraint="check ( logout_type in ('1','2','3'))" checkConstraintName="ck_sys_login_log_logout_type"/>
             <column name="ip_addr" type="varchar(128)"/>
-            <column name="user_agent" type="varchar"/>
-            <column name="os" type="varchar"/>
-            <column name="screen" type="varchar"/>
+            <column name="user_agent" type="varchar(512)"/>
+            <column name="os" type="varchar(50)"/>
+            <column name="screen" type="varchar(50)"/>
             <column name="login_time" type="localdatetime" notnull="true"/>
             <column name="logout_time" type="localdatetime"/>
+            <column name="ext01" type="varchar(512)"/>
+            <column name="ext02" type="varchar(512)"/>
+            <column name="ext03" type="CLOB"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
             <column name="created_member" type="bigint" notnull="true"/>
@@ -125,12 +129,13 @@
         </createTable>
         <createTable name="sys_member" identityType="external" pkName="pk_sys_member">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
-            <column name="name" type="varchar"/>
-            <column name="nickName" type="varchar"/>
-            <column name="account" type="varchar" unique="uq_sys_member_account"/>
-            <column name="password" type="varchar"/>
-            <column name="salt" type="varchar"/>
-            <column name="group_id" type="bigint"/>
+            <column name="name" type="varchar(32)"/>
+            <column name="nickName" type="varchar(50)"/>
+            <column name="account" type="varchar(50)" unique="uq_sys_member_account"/>
+            <column name="avatar" type="varchar(512)"/>
+            <column name="password" type="varchar(32)"/>
+            <column name="salt" type="varchar(32)"/>
+            <column name="group_id" type="bigint" notnull="true"/>
             <column name="summary" type="varchar(512)"/>
             <column name="locked" type="boolean" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_member_status"/>
@@ -180,12 +185,12 @@
         <createTable name="sys_permission" identityType="external" pkName="pk_sys_permission">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="parent_id" type="bigint" notnull="true"/>
-            <column name="code" type="varchar" notnull="true" unique="uq_sys_permission_code"/>
-            <column name="name" type="varchar" notnull="true"/>
+            <column name="code" type="varchar(512)" notnull="true" unique="uq_sys_permission_code"/>
+            <column name="name" type="varchar(512)" notnull="true"/>
             <column name="path" type="CLOB"/>
             <column name="icon" type="varchar(512)"/>
             <column name="description" type="CLOB"/>
-            <column name="bind_i18n" type="varchar"/>
+            <column name="bind_i18n" type="varchar(128)"/>
             <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_permission_status"/>
             <column name="sorted" type="integer" notnull="true"/>
@@ -199,8 +204,8 @@
         </createTable>
         <createTable name="sys_role" identityType="external" pkName="pk_sys_role">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
-            <column name="code" type="varchar" notnull="true" unique="uq_sys_role_code"/>
-            <column name="name" type="varchar" notnull="true" unique="uq_sys_role_name"/>
+            <column name="code" type="varchar(512)" notnull="true" unique="uq_sys_role_code"/>
+            <column name="name" type="varchar(512)" notnull="true" unique="uq_sys_role_name"/>
             <column name="sorted" type="integer" notnull="true"/>
             <column name="description" type="CLOB"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_role_status"/>
@@ -230,6 +235,7 @@
             <column name="metadata" type="jsonb"/>
             <column name="sorted" type="integer" notnull="true"/>
             <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_router_status"/>
+            <column name="description" type="CLOB"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
             <column name="created_member" type="bigint" notnull="true"/>
@@ -239,6 +245,12 @@
         </createTable>
         <createTable name="sys_setting" identityType="external" pkName="pk_sys_setting">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="name" type="varchar(128)" notnull="true"/>
+            <column name="content" type="varchar(1024)"/>
+            <column name="member_id" type="bigint" notnull="true"/>
+            <column name="status" type="varchar(1)" notnull="true" checkConstraint="check ( status in ('0','1','2'))" checkConstraintName="ck_sys_setting_status"/>
+            <column name="locked" type="boolean" notnull="true"/>
+            <column name="is_built_in" type="boolean" notnull="true"/>
             <column name="version" type="integer" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
             <column name="created_member" type="bigint" notnull="true"/>

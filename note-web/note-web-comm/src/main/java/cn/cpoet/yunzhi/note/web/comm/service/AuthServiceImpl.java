@@ -1,11 +1,16 @@
 package cn.cpoet.yunzhi.note.web.comm.service;
 
 import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.api.exception.ReqsException;
 import cn.cpoet.yunzhi.note.auth.component.JwtSupport;
+import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
 import cn.cpoet.yunzhi.note.comm.util.PassUtil;
+import cn.cpoet.yunzhi.note.comm.util.ReqsUtil;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
+import cn.cpoet.yunzhi.note.domain.constant.LoginType;
 import cn.cpoet.yunzhi.note.domain.dao.MemberDao;
+import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.web.comm.constant.ReqsStatus;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
@@ -13,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 /**
@@ -24,6 +30,8 @@ import java.time.LocalDateTime;
 public class AuthServiceImpl implements AuthService {
     private final MemberDao memberDao;
     private final JwtSupport jwtSupport;
+    private final LoginLogService loginLogService;
+    private final HttpServletRequest httpServletRequest;
 
     @Override
     public AuthTokenVO login(String account, String password) {
@@ -35,6 +43,16 @@ public class AuthServiceImpl implements AuthService {
             throw new ReqsException(ReqsStatus.ACCOUNT_PASS_ERROR);
         }
         checkMemberStatus(member);
+        // 记录登录日志
+        LoginLog loginLog = new LoginLog();
+        loginLog.setMemberId(member.getId());
+        loginLog.setAccount(member.getAccount());
+        loginLog.setLoginType(LoginType.ACCOUNT);
+        RequestWrapper wrapper = ServletRequestWrapper.wrapper(httpServletRequest);
+        loginLog.setIpAddr(ReqsUtil.findIpAddress(wrapper));
+        loginLog.setUserAgent(ReqsUtil.getUserAgent(wrapper));
+        loginLog.setLoginTime(LocalDateTime.now());
+        loginLogService.log(loginLog);
         return signToken(member);
     }
 

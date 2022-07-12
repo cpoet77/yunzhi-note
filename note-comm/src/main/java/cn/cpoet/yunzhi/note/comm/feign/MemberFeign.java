@@ -1,7 +1,10 @@
 package cn.cpoet.yunzhi.note.comm.feign;
 
 import cn.cpoet.yunzhi.note.api.constant.ModuleConst;
+import cn.cpoet.yunzhi.note.comm.dto.IdQueryDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,18 +21,18 @@ public interface MemberFeign {
     /**
      * 获取角色列表
      *
-     * @param uid 用户uid
+     * @param idQuery 用户uid
      * @return 角色列表
      */
-    @RequestMapping(value = "/listRole", method = RequestMethod.GET)
-    Set<String> listRole(@RequestParam Long uid);
+    @RequestMapping(value = "/listRole", method = RequestMethod.POST)
+    Set<String> listRole(@RequestBody @Validated IdQueryDTO idQuery);
 
     /**
      * 获取权限列表
      *
-     * @param uid 用户uid
+     * @param idQuery 用户uid
      * @return 权限列表
      */
-    @RequestMapping(value = "/listPermission", method = RequestMethod.GET)
-    Set<String> listPermission(@RequestParam Long uid);
+    @RequestMapping(value = "/listPermission", method = RequestMethod.POST)
+    Set<String> listPermission(@RequestParam @Validated IdQueryDTO idQuery);
 }

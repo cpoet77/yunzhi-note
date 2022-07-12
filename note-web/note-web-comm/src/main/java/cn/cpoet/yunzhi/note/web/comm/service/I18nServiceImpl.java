@@ -4,7 +4,7 @@ import cn.cpoet.yunzhi.note.domain.model.I18n;
 import cn.cpoet.yunzhi.note.domain.model.I18nItem;
 import cn.cpoet.yunzhi.note.domain.model.query.QI18n;
 import cn.cpoet.yunzhi.note.domain.model.query.QI18nItem;
-import cn.cpoet.yunzhi.note.web.comm.param.I18nQueryParam;
+import cn.cpoet.yunzhi.note.web.comm.dto.I18nQueryDTO;
 import cn.cpoet.yunzhi.note.web.comm.vo.I18nMapVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class I18nServiceImpl implements I18nService {
     @Override
-    public I18nMapVO listI18n(I18nQueryParam i18nQueryParam) {
+    public I18nMapVO listI18n(I18nQueryDTO i18nQuery) {
         QI18n qi18n = new QI18n();
-        if (StringUtils.hasText(i18nQueryParam.getScenes())) {
-            qi18n.scenes.eq(i18nQueryParam.getScenes());
+        if (StringUtils.hasText(i18nQuery.getScenes())) {
+            qi18n.scenes.eq(i18nQuery.getScenes());
         }
-        if (StringUtils.hasText(i18nQueryParam.getGroup())) {
-            qi18n.group.eq(i18nQueryParam.getGroup());
+        if (StringUtils.hasText(i18nQuery.getGroup())) {
+            qi18n.group.eq(i18nQuery.getGroup());
         }
         List<I18n> i18ns = qi18n.findList();
         if (CollectionUtils.isEmpty(i18ns)) {
@@ -43,7 +43,7 @@ public class I18nServiceImpl implements I18nService {
             .collect(Collectors.toSet());
         List<I18nItem> i18nItems = new QI18nItem()
             .i18nId.in(i18nIds)
-            .locale.eq(i18nQueryParam.getLocale())
+            .locale.eq(i18nQuery.getLocale())
             .findList();
         Map<Long, String> contents = i18nItems
             .stream()

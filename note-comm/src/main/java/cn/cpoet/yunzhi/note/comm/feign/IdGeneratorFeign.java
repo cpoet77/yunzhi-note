@@ -19,7 +19,7 @@ public interface IdGeneratorFeign extends IdGenerator<Long> {
      * @return 生成器名称
      */
     @Override
-    @RequestMapping(value = "/getName", method = RequestMethod.GET)
+    @RequestMapping(value = "/getName", method = RequestMethod.POST)
     String getName();
 
     /**
@@ -28,6 +28,6 @@ public interface IdGeneratorFeign extends IdGenerator<Long> {
      * @return 有效ID
      */
     @Override
-    @RequestMapping(value = "/next", method = RequestMethod.GET)
+    @RequestMapping(value = "/next", method = RequestMethod.POST)
     Long nextId();
 }

@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
+import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,15 +20,15 @@ import javax.persistence.Table;
 public class I18n extends BaseModel {
 
     @Schema(title = "信息唯一编码")
-    @Column(name = "name", unique = true)
+    @Column(name = "name", length = DbLenConst.L128, unique = true)
     private String name;
 
     @Schema(title = "使用的场景")
-    @Column(name = "scenes", nullable = false)
+    @Column(name = "scenes", length = DbLenConst.L50, nullable = false)
     private String scenes;
 
     @Schema(title = "使用分组")
-    @Column(name = "group", nullable = false)
+    @Column(name = "group", length = DbLenConst.L50, nullable = false)
     private String group;
 
     @Schema(title = "状态")

@@ -1,0 +1,41 @@
+{
+    "type": "cn.cpoet.yunzhi.note.domain.model.Setting",
+    "entities": [
+        {
+            "id": 9720133182820352,
+            "name": "_siteTitle",
+            "content": "云知笔记",
+            "memberId": 0,
+            "status": 1,
+            "locked": false,
+            "isBuiltIn": true
+        },
+        {
+            "id": 9720133193830400,
+            "name": "_siteSubtitle",
+            "content": "开源私有云笔记",
+            "memberId": 0,
+            "status": 1,
+            "locked": false,
+            "isBuiltIn": true
+        },
+        {
+            "id": 9720133205364736,
+            "name": "_commonSecret",
+            "content": "FnYjs5g0EPs=",
+            "memberId": 0,
+            "status": 1,
+            "locked": false,
+            "isBuiltIn": true
+        },
+        {
+            "id": 9720133215588352,
+            "name": "_loginInfoEncrypt",
+            "content": "true",
+            "memberId": 0,
+            "status": 1,
+            "locked": false,
+            "isBuiltIn": true
+        }
+    ]
+}

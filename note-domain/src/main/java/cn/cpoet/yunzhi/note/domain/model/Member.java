@@ -3,6 +3,7 @@ package cn.cpoet.yunzhi.note.domain.model;
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
+import io.ebean.DB;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -22,15 +23,15 @@ import java.time.LocalDateTime;
 @Table(name = "sys_member")
 public class Member extends BaseModel {
     @Schema(title = "用户姓名")
-    @Column(name = "name")
+    @Column(name = "name", length = DbLenConst.STAFF_NAME)
     private String name;
 
     @Schema(title = "昵称")
-    @Column(name = "nickName")
+    @Column(name = "nickName", length = DbLenConst.L50)
     private String nickName;
 
     @Schema(title = "用户账号")
-    @Column(name = "account", unique = true)
+    @Column(name = "account", length = DbLenConst.ACCOUNT, unique = true)
     private String account;
 
     @Schema(title = "头像地址")
@@ -38,19 +39,19 @@ public class Member extends BaseModel {
     private String avatar;
 
     @Schema(title = "密码摘要")
-    @Column(name = "password")
+    @Column(name = "password", length = DbLenConst.L32)
     private String password;
 
     @Schema(title = "密码摘要盐值")
-    @Column(name = "salt")
+    @Column(name = "salt", length = DbLenConst.L32)
     private String salt;
 
     @Schema(title = "用户组id")
-    @Column(name = "group_id")
+    @Column(name = "group_id", nullable = false)
     private Long groupId;
 
     @Schema(title = "个人简介")
-    @Column(name = "summary", length = 512)
+    @Column(name = "summary", length = DbLenConst.L512)
     private String summary;
 
     @Schema(title = "账号是否锁定")

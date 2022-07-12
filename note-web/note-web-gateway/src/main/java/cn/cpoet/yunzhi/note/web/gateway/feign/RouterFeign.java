@@ -18,6 +18,6 @@ public interface RouterFeign {
      *
      * @return 启用的路由列表
      */
-    @RequestMapping(value = "/router/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/router/list", method = RequestMethod.POST)
     List<RouterDTO> list();
 }
