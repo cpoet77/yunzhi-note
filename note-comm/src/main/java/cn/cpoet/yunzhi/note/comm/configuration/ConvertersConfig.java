@@ -80,17 +80,6 @@ public class ConvertersConfig {
     }
 
     @Bean
-    public Converter<Object, Enum> object2Enum() {
-        return new Converter<Object, Enum>() {
-            @Override
-            public Enum convert(Object source) {
-                System.out.println("123445567");
-                return null;
-            }
-        };
-    }
-
-    @Bean
     @RefreshScope
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> {
