@@ -52,6 +52,12 @@ public interface ModuleConst {
     String WEB_ADMIN = MODULE_WEB_PREFIX_ + "admin";
 
     /**
+     * 长连接模块
+     * <p>编辑器持久通信模块</p>
+     */
+    String WEB_WSOCKET = MODULE_WEB_PREFIX_ + "wsocket";
+
+    /**
      * 个人空间
      */
     String WEB_SPACE = MODULE_WEB_PREFIX_ + "space";

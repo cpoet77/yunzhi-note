@@ -14,7 +14,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>note-web-base</module>
     <module>note-web-gateway</module>
     <module>note-web-comm</module>
     <module>note-web-admin</module>
@@ -22,15 +21,6 @@
     <module>note-web-wsocket</module>
   </modules>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>cn.cpoet</groupId>
-        <artifactId>note-web-base</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -48,10 +38,6 @@
       <artifactId>note-comm</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>cn.cpoet</groupId>
-      <artifactId>note-web-base</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework.cloud</groupId>
