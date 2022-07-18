@@ -14,7 +14,7 @@ public class I18nQueryDTO {
     private String scenes;
 
     @Schema(title = "使用分组")
-    private String group;
+    private String groupName;
 
     @Schema(title = "查询区域")
     private I18nLocale locale;

@@ -33,7 +33,7 @@ public class SpaceApplicationTest {
         dsConfig.setDriver("com.mysql.cj.jdbc.Driver");
         dsConfig.setUrl("jdbc:mysql://localhost:3306/yunzhi_note");
         dsConfig.setUsername("root");
-        dsConfig.setPassword("12345678");
+        dsConfig.setPassword("123456");
 
         DatabaseConfig config = new DatabaseConfig();
         config.setName("Test");

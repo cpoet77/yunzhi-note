@@ -30,8 +30,8 @@ public class I18nServiceImpl implements I18nService {
         if (StringUtils.hasText(i18nQuery.getScenes())) {
             qi18n.scenes.eq(i18nQuery.getScenes());
         }
-        if (StringUtils.hasText(i18nQuery.getGroup())) {
-            qi18n.group.eq(i18nQuery.getGroup());
+        if (StringUtils.hasText(i18nQuery.getGroupName())) {
+            qi18n.groupName.eq(i18nQuery.getGroupName());
         }
         List<I18n> i18ns = qi18n.findList();
         if (CollectionUtils.isEmpty(i18ns)) {

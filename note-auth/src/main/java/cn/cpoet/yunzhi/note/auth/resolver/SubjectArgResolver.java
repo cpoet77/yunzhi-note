@@ -1,9 +1,8 @@
 package cn.cpoet.yunzhi.note.auth.resolver;
 
-import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
+import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
  * @author CPoet
  */
 public class SubjectArgResolver implements HandlerMethodArgumentResolver {
-    @Autowired
-    private AuthContext authContext;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
@@ -32,6 +29,6 @@ public class SubjectArgResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        return authContext.getSubject(ServletRequestWrapper.wrapper(request));
+        return AppContextUtil.authContext().getSubject(ServletRequestWrapper.wrapper(request));
     }
 }

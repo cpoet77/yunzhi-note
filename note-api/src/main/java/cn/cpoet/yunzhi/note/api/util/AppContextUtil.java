@@ -1,5 +1,6 @@
 package cn.cpoet.yunzhi.note.api.util;
 
+import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
 
 import java.util.function.Supplier;
@@ -44,12 +45,30 @@ public abstract class AppContextUtil {
     }
 
     /**
+     * 获取应用上下文
+     *
+     * @return 应用上下文
+     */
+    public static AppContext appContext() {
+        return getThisApp();
+    }
+
+    /**
+     * 获取认证上下文
+     *
+     * @return 认证上下文
+     */
+    public static AuthContext authContext() {
+        return appContext().authContext();
+    }
+
+    /**
      * 获取链路跨度id
      *
      * @return 链路跨度id
      */
     public static int getSpanId() {
-        return thisApp.getTraceInfo().getSpanId();
+        return getThisApp().getTraceInfo().getSpanId();
     }
 
     /**
@@ -58,6 +77,6 @@ public abstract class AppContextUtil {
      * @return 获取链路跟踪id
      */
     public static String getTraceId() {
-        return thisApp.getTraceInfo().getTraceId();
+        return getThisApp().getTraceInfo().getTraceId();
     }
 }

@@ -13,6 +13,19 @@
             "status": 1,
             "sorted": 99,
             "deleted": false
+        },
+        {
+            "id": 9923126997291008,
+            "uri": "lb:ws://yunzhi-note-web-wsocket",
+            "predicates": [
+                "Path=/api/wsocket/**"
+            ],
+            "filters": [
+                "RewritePath=/api/wsocket/?(?<segment>.*),/$\\{segment}"
+            ],
+            "status": 1,
+            "sorted": 10,
+            "deleted": false
         }
     ]
 }

@@ -28,8 +28,8 @@ public class I18n extends BaseModel {
     private String scenes;
 
     @Schema(title = "使用分组")
-    @Column(name = "group", length = DbLenConst.L50, nullable = false)
-    private String group;
+    @Column(name = "group_name", length = DbLenConst.L50, nullable = false)
+    private String groupName;
 
     @Schema(title = "状态")
     @Column(name = "status", nullable = false)
