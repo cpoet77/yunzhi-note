@@ -105,4 +105,14 @@ public interface SystemConst {
      * 系统最小时间
      */
     LocalDateTime LOCAL_DATE_TIME_MIN = LocalDateTime.of(LOCAL_DATE_MIN, LocalTime.MIN);
+
+    /**
+     * 缓存名称：sys
+     */
+    String CACHE_NAMES_SYS = "sys";
+
+    /**
+     * 缓存名称：user
+     */
+    String CACHE_NAMES_MEMBER = "user";
 }
