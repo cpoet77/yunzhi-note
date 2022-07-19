@@ -4,6 +4,7 @@ import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SubjectType;
 import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
+import cn.cpoet.yunzhi.note.web.wsocket.constant.WSocketConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -33,6 +34,8 @@ public class WebSocketHandlerInterceptor extends HttpSessionHandshakeInterceptor
         HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
         Subject subject = AppContextUtil.authContext().getSubject(ServletRequestWrapper.wrapper(servletRequest));
         log.debug("用户尝试连接[uid={}]", subject.getUid());
+        // 缓存当前登录主体的信息
+        attributes.put(WSocketConst.SOCKET_SUBJECT_SESSION_CACHE, subject);
         return SubjectType.STAFF.equals(subject.getType());
     }
 
