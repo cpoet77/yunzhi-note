@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberDao memberDao;
 
     @Override
-    @Cacheable(key = "#subject.uid + ':MemberService#getInfo'")
+    @Cacheable(key = "'member:' + #subject.uid + ':getInfo'")
     public MemberInfoVO getInfo(Subject subject) {
         Member member = memberDao.findById(subject.getUid());
         if (member == null) {
