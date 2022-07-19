@@ -1,8 +1,10 @@
 package cn.cpoet.yunzhi.note.web.wsocket.socket;
 
 import cn.cpoet.yunzhi.note.api.auth.Subject;
-import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
+import cn.cpoet.yunzhi.note.api.exception.ReqsException;
+import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
 import cn.cpoet.yunzhi.note.web.wsocket.component.SocketSessionHolder;
+import cn.cpoet.yunzhi.note.web.wsocket.constant.WSocketConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        Subject subject = AppContextUtil.authContext().getSubject();
+        // 获取请求上下文信息
+        Object obj = session.getAttributes().get(WSocketConst.SOCKET_SUBJECT_SESSION_CACHE);
+        if (!(obj instanceof Subject)) {
+            throw new ReqsException(CommReqsStatus.ACCESS_DENIED, "无效的用户信息");
+        }
+        Subject subject = (Subject) obj;
         log.info("新的客户端连接[uid={}, sessionId={}]", subject.getUid(), session.getId());
         socketSessionHolder.addSession(subject, session);
     }
@@ -65,7 +72,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        Subject subject = AppContextUtil.authContext().getSubject();
+        Subject subject = (Subject) session.getAttributes().get(WSocketConst.SOCKET_SUBJECT_SESSION_CACHE);
         log.info("客户端[uid={},sessionId={}]关闭", subject.getUid(), session.getId());
         socketSessionHolder.removeSession(subject, session);
     }
