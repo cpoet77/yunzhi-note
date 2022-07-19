@@ -27,7 +27,13 @@ import java.time.Duration;
  */
 @ComponentScan("cn.cpoet.yunzhi.note.comm.component")
 @EnableFeignClients("cn.cpoet.yunzhi.note.comm.feign")
-@Import({ConvertersConfig.class, CommFeignConfig.class, OpenApiConfig.class, CommReactiveConfig.class, CommServletConfig.class})
+@Import({
+    ConvertersConfig.class,
+    CommFeignConfig.class,
+    OpenApiConfig.class,
+    CommReactiveConfig.class,
+    CommServletConfig.class
+})
 public class CommConfig {
     @Bean
     @RefreshScope
