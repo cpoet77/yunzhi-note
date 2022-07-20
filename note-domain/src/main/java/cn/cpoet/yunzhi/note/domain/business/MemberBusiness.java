@@ -1,17 +1,17 @@
-package cn.cpoet.yunzhi.note.domain.dao;
+package cn.cpoet.yunzhi.note.domain.business;
 
-import cn.cpoet.yunzhi.note.domain.base.BaseDao;
+import cn.cpoet.yunzhi.note.domain.base.BaseBusiness;
+import cn.cpoet.yunzhi.note.domain.base.Business;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.domain.model.query.QMember;
 import io.ebean.Database;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author CPoet
  */
-@Repository
-public class MemberDao extends BaseDao<Member> {
-    protected MemberDao(Database server) {
+@Business
+public class MemberBusiness extends BaseBusiness<Member> {
+    protected MemberBusiness(Database server) {
         super(Member.class, server);
     }
 

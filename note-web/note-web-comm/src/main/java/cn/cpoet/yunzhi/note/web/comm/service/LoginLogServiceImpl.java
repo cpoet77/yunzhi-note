@@ -1,6 +1,6 @@
 package cn.cpoet.yunzhi.note.web.comm.service;
 
-import cn.cpoet.yunzhi.note.domain.dao.LoginLogDao;
+import cn.cpoet.yunzhi.note.domain.business.LoginLogBusiness;
 import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class LoginLogServiceImpl implements LoginLogService {
-    private final LoginLogDao loginLogDao;
+    private final LoginLogBusiness loginLogBusiness;
 
     @Override
     public void log(LoginLog loginLog) {
@@ -31,6 +31,6 @@ public class LoginLogServiceImpl implements LoginLogService {
 
     @Override
     public void insert(LoginLog loginLog) {
-        loginLogDao.insert(loginLog);
+        loginLogBusiness.insert(loginLog);
     }
 }

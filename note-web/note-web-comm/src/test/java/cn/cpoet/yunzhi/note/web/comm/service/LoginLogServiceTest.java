@@ -2,7 +2,6 @@ package cn.cpoet.yunzhi.note.web.comm.service;
 
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.domain.constant.LoginType;
-import cn.cpoet.yunzhi.note.domain.dao.LoginLogDao;
 import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

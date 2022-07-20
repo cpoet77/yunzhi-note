@@ -2,7 +2,7 @@ package cn.cpoet.yunzhi.note.web.comm.service;
 
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
-import cn.cpoet.yunzhi.note.domain.dao.SettingDao;
+import cn.cpoet.yunzhi.note.domain.business.SettingBusiness;
 import cn.cpoet.yunzhi.note.domain.model.Setting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +23,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SettingServiceImpl implements SettingService {
 
-    private final SettingDao settingDao;
+    private final SettingBusiness settingBusiness;
 
     @Override
     public Map<String, Object> getPubSetting(List<String> name) {
         List<Setting> sysSettings;
         List<Setting> guestSettings;
         if (CollectionUtils.isEmpty(name)) {
-            sysSettings = settingDao.list(SystemConst.SYS_ID);
-            guestSettings = settingDao.list(SystemConst.GUEST_ID);
+            sysSettings = settingBusiness.list(SystemConst.SYS_ID);
+            guestSettings = settingBusiness.list(SystemConst.GUEST_ID);
         } else {
-            sysSettings = settingDao.listByName(name, SystemConst.SYS_ID);
-            guestSettings = settingDao.listByName(name, SystemConst.GUEST_ID);
+            sysSettings = settingBusiness.listByName(name, SystemConst.SYS_ID);
+            guestSettings = settingBusiness.listByName(name, SystemConst.GUEST_ID);
         }
         if (CollectionUtils.isEmpty(sysSettings) && CollectionUtils.isEmpty(guestSettings)) {
             return Collections.emptyMap();
@@ -53,9 +53,9 @@ public class SettingServiceImpl implements SettingService {
     public Map<String, Object> getSetting(Subject subject, List<String> name) {
         List<Setting> settings;
         if (CollectionUtils.isEmpty(name)) {
-            settings = settingDao.list(subject.getUid());
+            settings = settingBusiness.list(subject.getUid());
         } else {
-            settings = settingDao.listByName(name, subject.getUid());
+            settings = settingBusiness.listByName(name, subject.getUid());
         }
         if (CollectionUtils.isEmpty(settings)) {
             return Collections.emptyMap();
