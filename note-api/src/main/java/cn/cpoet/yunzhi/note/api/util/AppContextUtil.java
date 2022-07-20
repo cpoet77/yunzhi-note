@@ -62,6 +62,10 @@ public abstract class AppContextUtil {
         return appContext().authContext();
     }
 
+    public static <T> T getBean(Class<T> clazz) {
+        return appContext().getBean(clazz);
+    }
+
     /**
      * 获取链路跨度id
      *

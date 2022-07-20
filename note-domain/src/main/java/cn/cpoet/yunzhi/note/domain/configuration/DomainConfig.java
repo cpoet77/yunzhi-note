@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
  * @author CPoet
  */
 @Import({EbeanConfig.class, ImportConfig.class})
-@ComponentScan("cn.cpoet.yunzhi.note.domain.business")
+@ComponentScan("cn.cpoet.yunzhi.note.domain.service")
 public class DomainConfig {
     @Bean
     @RefreshScope

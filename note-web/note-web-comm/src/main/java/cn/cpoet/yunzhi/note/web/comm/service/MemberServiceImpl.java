@@ -4,8 +4,8 @@ import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.exception.ReqsException;
 import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
-import cn.cpoet.yunzhi.note.domain.business.GroupBusiness;
-import cn.cpoet.yunzhi.note.domain.business.MemberBusiness;
+import cn.cpoet.yunzhi.note.domain.service.IGroupService;
+import cn.cpoet.yunzhi.note.domain.service.IMemberService;
 import cn.cpoet.yunzhi.note.domain.model.Group;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.web.comm.vo.MemberInfoVO;
@@ -23,13 +23,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = SystemConst.CACHE_NAMES_MEMBER)
 public class MemberServiceImpl implements MemberService {
-    private final GroupBusiness groupBusiness;
-    private final MemberBusiness memberBusiness;
+    private final IGroupService iGroupService;
+    private final IMemberService iMemberService;
 
     @Override
     @Cacheable(key = "'member:' + #subject.uid + ':getInfo'")
     public MemberInfoVO getInfo(Subject subject) {
-        Member member = memberBusiness.findById(subject.getUid());
+        Member member = iMemberService.findById(subject.getUid());
         if (member == null) {
             throw new ReqsException(CommReqsStatus.USER_STATUS_ERROR);
         }
@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
         infoVO.setAccount(member.getAccount());
         infoVO.setNickName(member.getNickName());
         infoVO.setSummary(member.getSummary());
-        Group group = groupBusiness.findById(member.getGroupId());
+        Group group = iGroupService.findById(member.getGroupId());
         if (group == null) {
             throw new ReqsException(CommReqsStatus.USER_STATUS_ERROR, "用户组状态异常");
         }

@@ -118,6 +118,15 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
     }
 
     @Override
+    public <T> T getBean(Class<T> clazz) {
+        try {
+            return getApplicationContext().getBean(clazz);
+        } catch (Exception igonred) {
+        }
+        return null;
+    }
+
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }

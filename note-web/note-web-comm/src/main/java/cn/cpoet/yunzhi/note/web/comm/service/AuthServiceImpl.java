@@ -9,7 +9,7 @@ import cn.cpoet.yunzhi.note.comm.util.PassUtil;
 import cn.cpoet.yunzhi.note.comm.util.ReqsUtil;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import cn.cpoet.yunzhi.note.domain.constant.LoginType;
-import cn.cpoet.yunzhi.note.domain.business.MemberBusiness;
+import cn.cpoet.yunzhi.note.domain.service.IMemberService;
 import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.web.comm.constant.ReqsStatus;
@@ -28,14 +28,14 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final MemberBusiness memberBusiness;
     private final JwtSupport jwtSupport;
+    private final IMemberService iMemberService;
     private final LoginLogService loginLogService;
     private final HttpServletRequest httpServletRequest;
 
     @Override
     public AuthTokenVO login(String account, String password) {
-        Member member = memberBusiness.getByAccount(account);
+        Member member = iMemberService.getByAccount(account);
         if (member == null) {
             throw new ReqsException(ReqsStatus.ACCOUNT_PASS_ERROR);
         }

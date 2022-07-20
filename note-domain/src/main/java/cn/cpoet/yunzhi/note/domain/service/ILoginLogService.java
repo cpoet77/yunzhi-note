@@ -1,11 +1,12 @@
-package cn.cpoet.yunzhi.note.web.comm.service;
+package cn.cpoet.yunzhi.note.domain.service;
 
+import cn.cpoet.yunzhi.note.domain.base.BaseService;
 import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 
 /**
  * @author CPoet
  */
-public interface LoginLogService {
+public interface ILoginLogService extends BaseService<LoginLog> {
     /**
      * 记录登录日志
      *

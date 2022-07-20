@@ -59,4 +59,6 @@ public interface AppContext {
      * @return Spring应用上下文
      */
     ApplicationContext getApplicationContext();
+
+    <T> T getBean(Class<T> clazz);
 }
