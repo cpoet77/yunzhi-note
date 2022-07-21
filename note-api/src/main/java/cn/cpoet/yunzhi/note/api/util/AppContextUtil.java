@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.api.util;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
+import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import org.springframework.aop.framework.AopContext;
 
 import java.util.function.Supplier;
@@ -61,6 +62,15 @@ public abstract class AppContextUtil {
      */
     public static AuthContext authContext() {
         return getThisApp().authContext();
+    }
+
+    /**
+     * 获取全局请求上下文
+     *
+     * @return 存在则返回实例，不存在返回null
+     */
+    public static RequestWrapper getRequestWrapper() {
+        return getThisApp().getRequestWrapper();
     }
 
     /**

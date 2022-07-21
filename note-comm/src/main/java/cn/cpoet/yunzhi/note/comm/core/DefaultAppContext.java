@@ -38,6 +38,8 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
      */
     private final static String REACTIVE_APPLICATION_CONTECT = "org.springframework.boot.web.reactive.context.ReactiveWebApplicationContext";
 
+    private AuthContext authContext;
+    private RequestWrapper globalRequestWrapper;
     private ApplicationContext applicationContext;
 
     @Override
@@ -85,7 +87,9 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
 
     @Override
     public AuthContext authContext() {
-        return getApplicationContext().getBean(AuthContext.class);
+        return authContext == null
+            ? authContext = getBean(AuthContext.class)
+            : authContext;
     }
 
     @Override
@@ -112,10 +116,12 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
     @Override
     public RequestWrapper getRequestWrapper() {
         try {
-            return getApplicationContext().getBean(RequestWrapper.class);
+            return globalRequestWrapper == null
+                ? globalRequestWrapper = getBean(RequestWrapper.class)
+                : globalRequestWrapper;
         } catch (Exception ignored) {
         }
-        return null;
+        return globalRequestWrapper;
     }
 
     @Override

@@ -54,7 +54,7 @@ public class DefaultAuthContext implements AuthContext {
 
     @Override
     public RequestWrapper getDefaultRequestWrapper() {
-        return AppContextUtil.appContext().getRequestWrapper();
+        return AppContextUtil.getRequestWrapper();
     }
 
     @Override

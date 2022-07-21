@@ -3,6 +3,7 @@ package cn.cpoet.yunzhi.note.web.comm.service;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.api.exception.ReqsException;
+import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.auth.component.JwtSupport;
 import cn.cpoet.yunzhi.note.comm.core.ServletRequestWrapper;
 import cn.cpoet.yunzhi.note.comm.util.PassUtil;
@@ -31,7 +32,6 @@ public class AuthServiceImpl implements AuthService {
     private final JwtSupport jwtSupport;
     private final IMemberService iMemberService;
     private final LoginLogService loginLogService;
-    private final HttpServletRequest httpServletRequest;
 
     @Override
     public AuthTokenVO login(String account, String password) {
@@ -44,13 +44,13 @@ public class AuthServiceImpl implements AuthService {
         }
         checkMemberStatus(member);
         // 记录登录日志
+        RequestWrapper requestWrapper = AppContextUtil.getRequestWrapper();
         LoginLog loginLog = new LoginLog();
         loginLog.setMemberId(member.getId());
         loginLog.setAccount(member.getAccount());
         loginLog.setLoginType(LoginType.ACCOUNT);
-        RequestWrapper wrapper = ServletRequestWrapper.wrapper(httpServletRequest);
-        loginLog.setIpAddr(ReqsUtil.findIpAddress(wrapper));
-        loginLog.setUserAgent(ReqsUtil.getUserAgent(wrapper));
+        loginLog.setIpAddr(ReqsUtil.findIpAddress(requestWrapper));
+        loginLog.setUserAgent(ReqsUtil.getUserAgent(requestWrapper));
         loginLog.setLoginTime(LocalDateTime.now());
         loginLogService.log(loginLog);
         return signToken(member);
