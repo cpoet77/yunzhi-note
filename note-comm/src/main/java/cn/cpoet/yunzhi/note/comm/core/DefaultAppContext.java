@@ -163,7 +163,7 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
 
     @Override
     public <T> T getProperty(String key, Class<T> clazz, T defaultValue) {
-        return getProperty(key, clazz, defaultValue);
+        return getEnvironment().getProperty(key, clazz, defaultValue);
     }
 
     @Override
