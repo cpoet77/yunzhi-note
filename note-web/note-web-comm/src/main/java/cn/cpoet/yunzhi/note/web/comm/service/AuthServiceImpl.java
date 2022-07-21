@@ -13,6 +13,7 @@ import cn.cpoet.yunzhi.note.domain.model.LoginLog;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.domain.service.IMemberService;
 import cn.cpoet.yunzhi.note.web.comm.constant.ReqsStatus;
+import cn.cpoet.yunzhi.note.web.comm.dto.AccountPassDTO;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,16 +33,16 @@ public class AuthServiceImpl implements AuthService {
     private final LoginLogService loginLogService;
 
     @Override
-    public AuthTokenVO login(String account, String password) {
-        Member member = iMemberService.getByAccount(account);
+    public AuthTokenVO login(AccountPassDTO accountPass) {
+        Member member = iMemberService.getByAccount(accountPass.getAccount());
         if (member == null) {
             throw new ReqsException(ReqsStatus.ACCOUNT_PASS_ERROR);
         }
-        if (!PassUtil.verify(password, member.getSalt(), member.getPassword())) {
+        if (!PassUtil.verify(accountPass.getPassword(), member.getSalt(), member.getPassword())) {
             throw new ReqsException(ReqsStatus.ACCOUNT_PASS_ERROR);
         }
         checkMemberStatus(member);
-        handleLoginLog(member);
+        handleLoginLog(member, accountPass);
         return signToken(member);
     }
 
@@ -70,16 +71,19 @@ public class AuthServiceImpl implements AuthService {
     /**
      * 记录登录日志
      *
-     * @param member 登录人员
+     * @param member      登录人员
+     * @param accountPass 登录信息
      */
-    private void handleLoginLog(Member member) {
+    private void handleLoginLog(Member member, AccountPassDTO accountPass) {
         RequestWrapper requestWrapper = AppContextUtil.getRequestWrapper();
         LoginLog loginLog = new LoginLog();
         loginLog.setMemberId(member.getId());
-        loginLog.setAccount(member.getAccount());
+        loginLog.setAccount(accountPass.getAccount());
         loginLog.setLoginType(LoginType.ACCOUNT);
         loginLog.setIpAddr(ReqsUtil.findIpAddress(requestWrapper));
         loginLog.setUserAgent(ReqsUtil.getUserAgent(requestWrapper));
+        loginLog.setOs(accountPass.getOs());
+        loginLog.setScreen(accountPass.getScreen());
         loginLog.setLoginTime(LocalDateTime.now());
         loginLogService.log(loginLog);
     }

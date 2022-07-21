@@ -1,6 +1,7 @@
 package cn.cpoet.yunzhi.note.web.comm.service;
 
 import cn.cpoet.yunzhi.note.domain.model.Member;
+import cn.cpoet.yunzhi.note.web.comm.dto.AccountPassDTO;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
 
 /**
@@ -10,11 +11,10 @@ public interface AuthService {
     /**
      * 登录
      *
-     * @param account  账号
-     * @param password 密码
+     * @param accountPass 登录信息
      * @return 认证结果
      */
-    AuthTokenVO login(String account, String password);
+    AuthTokenVO login(AccountPassDTO accountPass);
 
     /**
      * 签发Token

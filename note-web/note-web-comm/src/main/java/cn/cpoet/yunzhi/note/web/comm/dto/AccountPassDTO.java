@@ -21,4 +21,10 @@ public class AccountPassDTO {
 
     @Schema(title = "验证码")
     private String captcha;
+
+    @Schema(title = "操作系统信息")
+    private String os;
+
+    @Schema(title = "终端分辨率")
+    private String screen;
 }

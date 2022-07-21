@@ -28,6 +28,6 @@ public class AuthController {
     @Operation(summary = "账号密码登录")
     @Authenticated(subjects = SubjectType.GUEST)
     public AuthTokenVO login(@RequestBody @Validated AccountPassDTO accountPass) {
-        return authService.login(accountPass.getAccount(), accountPass.getPassword());
+        return authService.login(accountPass);
     }
 }
