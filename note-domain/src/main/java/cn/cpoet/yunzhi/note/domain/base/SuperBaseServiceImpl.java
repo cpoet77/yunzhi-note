@@ -1,6 +1,5 @@
 package cn.cpoet.yunzhi.note.domain.base;
 
-import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.api.util.GenericsUtil;
 import io.ebean.DB;
@@ -102,10 +101,6 @@ public abstract class SuperBaseServiceImpl<ENTITY, ID> implements SuperBaseServi
 
     @Override
     public boolean isPersistId(ID id) {
-        if (id instanceof Long) {
-            long idVal = (Long) id;
-            return idVal == SystemConst.SYS_ID || idVal == SystemConst.GUEST_ID;
-        }
         return false;
     }
 }
