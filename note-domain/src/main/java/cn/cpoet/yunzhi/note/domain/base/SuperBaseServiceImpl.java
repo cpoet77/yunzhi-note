@@ -14,16 +14,14 @@ import java.util.List;
  */
 public abstract class SuperBaseServiceImpl<ENTITY, ID> implements SuperBaseService<ENTITY, ID> {
 
-    protected final Class<ENTITY> entityClass;
+    protected final Class<ENTITY> entityClass = GenericsUtil.getActualTypeArgClass(getClass());
     protected final BaseRepository<ENTITY, ID> repository;
 
     public SuperBaseServiceImpl() {
-        entityClass = GenericsUtil.getActualTypeArgClass(getClass());
         repository = buildRepository();
     }
 
     public SuperBaseServiceImpl(BaseRepository<ENTITY, ID> repository) {
-        entityClass = GenericsUtil.getActualTypeArgClass(getClass());
         this.repository = repository;
     }
 
