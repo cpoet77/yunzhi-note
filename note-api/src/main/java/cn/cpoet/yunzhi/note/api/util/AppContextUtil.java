@@ -2,6 +2,7 @@ package cn.cpoet.yunzhi.note.api.util;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
+import org.springframework.aop.framework.AopContext;
 
 import java.util.function.Supplier;
 
@@ -129,6 +130,17 @@ public abstract class AppContextUtil {
      */
     public <T> T getProperty(String key, Class<T> clazz, T defaultValue) {
         return getThisApp().getProperty(key, clazz, defaultValue);
+    }
+
+    /**
+     * 获取当前上下文中的代理对象
+     *
+     * @param <T> 代理对象类型
+     * @return 代理对象
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getAopProxy() {
+        return (T) AopContext.currentProxy();
     }
 
     /**
