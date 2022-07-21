@@ -3,8 +3,6 @@ package cn.cpoet.yunzhi.note.web.comm.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * @author CPoet
  */
@@ -16,7 +14,4 @@ public class AuthTokenVO {
 
     @Schema(title = "认证Token")
     private String token;
-
-    @Schema(title = "过期时间")
-    private LocalDateTime expired;
 }
