@@ -64,25 +64,27 @@ public class DefaultAuthContext implements AuthContext {
 
     @Override
     public boolean isFeignCalled(RequestWrapper request) {
-        String feignFlag = request.getHeader(FeignConst.FEIGN_FLAG);
-        String feignClient = request.getHeader(FeignConst.FEIGN_CLIENT);
-        if (!StringUtils.hasText(feignFlag) || !StringUtils.hasText(feignClient)) {
-            return false;
-        }
-        try {
-            // 解密FeignFlag
-            byte[] decrypt = SecretUtil.decrypt4base64(systemKeyHolder.getPrivateKey(), feignFlag);
-            FeignAuthBean feignAuthBean = objectMapper.readValue(decrypt, new TypeReference<FeignAuthBean>() {
-            });
-            // 调用者身份确认
-            if (!Objects.equals(feignAuthBean.getClient(), feignClient)) {
+        if (request != null) {
+            String feignFlag = request.getHeader(FeignConst.FEIGN_FLAG);
+            String feignClient = request.getHeader(FeignConst.FEIGN_CLIENT);
+            if (!StringUtils.hasText(feignFlag) || !StringUtils.hasText(feignClient)) {
                 return false;
             }
-            Duration intervalTime = feignProperties.getIntervalTime();
-            // 验证调用的时间差
-            return intervalTime.isZero() || System.currentTimeMillis() - feignAuthBean.getTimeMillis() <= intervalTime.toMillis();
-        } catch (GeneralSecurityException | IOException e) {
-            log.debug("验证Feign调用时数据解密失败", e);
+            try {
+                // 解密FeignFlag
+                byte[] decrypt = SecretUtil.decrypt4base64(systemKeyHolder.getPrivateKey(), feignFlag);
+                FeignAuthBean feignAuthBean = objectMapper.readValue(decrypt, new TypeReference<FeignAuthBean>() {
+                });
+                // 调用者身份确认
+                if (!Objects.equals(feignAuthBean.getClient(), feignClient)) {
+                    return false;
+                }
+                Duration intervalTime = feignProperties.getIntervalTime();
+                // 验证调用的时间差
+                return intervalTime.isZero() || System.currentTimeMillis() - feignAuthBean.getTimeMillis() <= intervalTime.toMillis();
+            } catch (GeneralSecurityException | IOException e) {
+                log.debug("验证Feign调用时数据解密失败", e);
+            }
         }
         return false;
     }
