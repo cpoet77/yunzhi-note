@@ -59,11 +59,76 @@ public abstract class AppContextUtil {
      * @return 认证上下文
      */
     public static AuthContext authContext() {
-        return appContext().authContext();
+        return getThisApp().authContext();
     }
 
+    /**
+     * 获取Bean
+     *
+     * @param clazz Bean Class
+     * @param <T>   Bean类型
+     * @return 存在则返回实例，不存在则返回Null
+     */
     public static <T> T getBean(Class<T> clazz) {
-        return appContext().getBean(clazz);
+        return getThisApp().getBean(clazz);
+    }
+
+    /**
+     * 获取Bean
+     *
+     * @param name  指定Bean名称
+     * @param clazz Bean Class
+     * @param <T>   Bean类型
+     * @return 存在返回实例，否则返回null
+     */
+    public static <T> T getBean(String name, Class<T> clazz) {
+        return getThisApp().getBean(name, clazz);
+    }
+
+    /**
+     * 获取应用配置
+     *
+     * @param key 配置名
+     * @return 配置值
+     */
+    public static String getProperty(String key) {
+        return getThisApp().getProperty(key);
+    }
+
+    /**
+     * 获取应用配置
+     *
+     * @param key          配置名
+     * @param defaultValue 默认值
+     * @return 配置值
+     */
+    public static String getProperty(String key, String defaultValue) {
+        return getThisApp().getProperty(key, defaultValue);
+    }
+
+    /**
+     * 获取应用配置
+     *
+     * @param key   配置名
+     * @param clazz 类型Class
+     * @param <T>   类型
+     * @return 配置值
+     */
+    public static <T> T getProperty(String key, Class<T> clazz) {
+        return getThisApp().getProperty(key, clazz);
+    }
+
+    /**
+     * 获取应用配置
+     *
+     * @param key          配置名
+     * @param clazz        类型Class
+     * @param defaultValue 默认值
+     * @param <T>          类型
+     * @return 配置值
+     */
+    public <T> T getProperty(String key, Class<T> clazz, T defaultValue) {
+        return getThisApp().getProperty(key, clazz, defaultValue);
     }
 
     /**

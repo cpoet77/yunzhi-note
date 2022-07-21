@@ -4,6 +4,7 @@ import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
+import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.api.util.SecretUtil;
 import cn.cpoet.yunzhi.note.auth.component.JwtSupport;
 import cn.cpoet.yunzhi.note.auth.configuration.auto.AuthTokenProperties;
@@ -29,6 +30,7 @@ import java.util.Objects;
  */
 @Slf4j
 public class DefaultAuthContext implements AuthContext {
+
     @Autowired
     private JwtSupport jwtSupport;
     @Autowired
@@ -37,14 +39,12 @@ public class DefaultAuthContext implements AuthContext {
     private SystemKeyHolder systemKeyHolder;
     @Autowired
     private FeignProperties feignProperties;
-    @Autowired(required = false)
-    private RequestWrapper globalRequestWrapper;
     @Autowired
     private AuthTokenProperties authTokenProperties;
 
     @Override
     public Subject getSubject() {
-        return getSubject(globalRequestWrapper);
+        return getSubject(getDefaultRequestWrapper());
     }
 
     @Override
@@ -53,8 +53,13 @@ public class DefaultAuthContext implements AuthContext {
     }
 
     @Override
+    public RequestWrapper getDefaultRequestWrapper() {
+        return AppContextUtil.appContext().getRequestWrapper();
+    }
+
+    @Override
     public boolean isFeignCalled() {
-        return isFeignCalled(globalRequestWrapper);
+        return isFeignCalled(getDefaultRequestWrapper());
     }
 
     @Override
@@ -108,5 +113,4 @@ public class DefaultAuthContext implements AuthContext {
         request.setAttribute(AuthConst.REQS_SUBJECT_CACHE, GuestSubject.INSTANCE);
         return GuestSubject.INSTANCE;
     }
-
 }

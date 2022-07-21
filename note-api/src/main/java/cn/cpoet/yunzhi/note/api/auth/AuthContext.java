@@ -24,6 +24,13 @@ public interface AuthContext {
     Subject getSubject(RequestWrapper request);
 
     /**
+     * 获取默认请求环境
+     *
+     * @return 默认请求环境
+     */
+    RequestWrapper getDefaultRequestWrapper();
+
+    /**
      * 是否是由Feign发起的请求
      *
      * @return bool

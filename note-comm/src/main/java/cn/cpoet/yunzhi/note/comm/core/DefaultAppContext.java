@@ -11,6 +11,7 @@ import cn.cpoet.yunzhi.note.comm.util.UUIDUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.env.Environment;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
@@ -45,10 +46,15 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
     }
 
     @Override
+    public String getSpName() {
+        return getApplicationContext().getApplicationName();
+    }
+
+    @Override
     public TraceInfo getTraceInfo() {
         RequestWrapper requestWrapper = getRequestWrapper();
         if (requestWrapper == null) {
-            return new TraceInfoBean(SystemConst.DEFAULT_SPAN_ID, UUIDUtil.randomPure());
+            return TraceInfoBean.of(SystemConst.DEFAULT_SPAN_ID, UUIDUtil.randomPure());
         }
         return getTraceInfo(requestWrapper);
     }
@@ -72,7 +78,7 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
             }
         } catch (NumberFormatException ignored) {
         }
-        TraceInfoBean traceInfoBean = new TraceInfoBean(nextSpanId, tranceId);
+        TraceInfoBean traceInfoBean = TraceInfoBean.of(nextSpanId, tranceId);
         request.setAttribute(TRACE_INFO_CACHE_KEY, traceInfoBean);
         return traceInfoBean;
     }
@@ -118,12 +124,46 @@ public class DefaultAppContext implements AppContext, ApplicationContextAware {
     }
 
     @Override
+    public Environment getEnvironment() {
+        return getApplicationContext().getEnvironment();
+    }
+
+    @Override
     public <T> T getBean(Class<T> clazz) {
         try {
             return getApplicationContext().getBean(clazz);
         } catch (Exception igonred) {
         }
         return null;
+    }
+
+    @Override
+    public <T> T getBean(String name, Class<T> clazz) {
+        try {
+            return getApplicationContext().getBean(name, clazz);
+        } catch (Exception igonred) {
+        }
+        return null;
+    }
+
+    @Override
+    public String getProperty(String key) {
+        return getEnvironment().getProperty(key);
+    }
+
+    @Override
+    public String getProperty(String key, String defaultValue) {
+        return getEnvironment().getProperty(key, defaultValue);
+    }
+
+    @Override
+    public <T> T getProperty(String key, Class<T> clazz) {
+        return getEnvironment().getProperty(key, clazz);
+    }
+
+    @Override
+    public <T> T getProperty(String key, Class<T> clazz, T defaultValue) {
+        return getProperty(key, clazz, defaultValue);
     }
 
     @Override
