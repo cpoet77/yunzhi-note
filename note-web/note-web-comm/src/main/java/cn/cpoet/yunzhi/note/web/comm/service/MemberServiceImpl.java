@@ -3,7 +3,9 @@ package cn.cpoet.yunzhi.note.web.comm.service;
 import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.exception.ReqsException;
+import cn.cpoet.yunzhi.note.comm.cache.CacheKey;
 import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
+import cn.cpoet.yunzhi.note.comm.constant.ElExpEnum;
 import cn.cpoet.yunzhi.note.domain.model.Group;
 import cn.cpoet.yunzhi.note.domain.model.Member;
 import cn.cpoet.yunzhi.note.domain.service.IGroupService;
@@ -28,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Cacheable
-    public MemberInfoVO getInfo(Subject subject) {
+    public MemberInfoVO getInfo(@CacheKey(value = "#uid", elExp = ElExpEnum.SPEL) Subject subject) {
         Member member = iMemberService.findById(subject.getUid());
         if (member == null) {
             throw new ReqsException(CommReqsStatus.USER_STATUS_ERROR);
