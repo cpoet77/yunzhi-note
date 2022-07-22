@@ -2,9 +2,12 @@ package cn.cpoet.yunzhi.note.api.util;
 
 import cn.cpoet.yunzhi.note.api.auth.AuthContext;
 import cn.cpoet.yunzhi.note.api.core.AppContext;
+import cn.cpoet.yunzhi.note.api.core.ReqsTimeHolder;
 import cn.cpoet.yunzhi.note.api.core.RequestWrapper;
 import org.springframework.aop.framework.AopContext;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -71,6 +74,17 @@ public abstract class AppContextUtil {
      */
     public static RequestWrapper getRequestWrapper() {
         return getThisApp().getRequestWrapper();
+    }
+
+    /**
+     * 获取请求开始时间
+     *
+     * @return 请求开始时间
+     */
+    public static LocalDateTime getReqsTime() {
+        return Optional
+            .ofNullable(ReqsTimeHolder.get())
+            .orElseGet(LocalDateTime::now);
     }
 
     /**

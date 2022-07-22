@@ -17,6 +17,7 @@ import cn.cpoet.yunzhi.note.web.comm.dto.AccountPassDTO;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,9 +29,11 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
     private final JwtSupport jwtSupport;
     private final IMemberService iMemberService;
     private final LoginLogService loginLogService;
+    private final Converter<LocalDateTime, String> ldt2strConverter;
 
     @Override
     public AuthTokenVO login(AccountPassDTO accountPass) {
@@ -61,7 +64,18 @@ public class AuthServiceImpl implements AuthService {
             throw new ReqsException(ReqsStatus.MEMBER_DISABLED);
         }
         if (Boolean.TRUE.equals(member.getLocked())) {
-            throw new ReqsException(ReqsStatus.MEMBER_DISABLED);
+            if (member.getLockedExpired() == null) {
+                throw new ReqsException(ReqsStatus.MEMBER_LOCKED);
+            }
+            LocalDateTime lockedExpired = member.getLockedExpired();
+            // 锁定已经失效
+            if (lockedExpired.isBefore(AppContextUtil.getReqsTime())) {
+                member.setLocked(Boolean.FALSE);
+                iMemberService.update(member);
+            } else {
+                String msg = String.format("账号被锁定至 %s", ldt2strConverter.convert(member.getExpiredTime()));
+                throw new ReqsException(ReqsStatus.MEMBER_LOCKED, msg);
+            }
         }
         if (LocalDateTime.now().isAfter(member.getExpiredTime())) {
             throw new ReqsException(ReqsStatus.MEMBER_EXPIRED);
@@ -84,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
         loginLog.setUserAgent(ReqsUtil.getUserAgent(requestWrapper));
         loginLog.setOs(accountPass.getOs());
         loginLog.setScreen(accountPass.getScreen());
-        loginLog.setLoginTime(LocalDateTime.now());
+        loginLog.setLoginTime(AppContextUtil.getReqsTime());
         loginLogService.log(loginLog);
     }
 }

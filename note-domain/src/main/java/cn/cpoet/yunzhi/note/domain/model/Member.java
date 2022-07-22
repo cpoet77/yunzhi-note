@@ -3,7 +3,6 @@ package cn.cpoet.yunzhi.note.domain.model;
 import cn.cpoet.yunzhi.note.domain.base.BaseModel;
 import cn.cpoet.yunzhi.note.domain.constant.CommStatus;
 import cn.cpoet.yunzhi.note.domain.constant.DbLenConst;
-import io.ebean.DB;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -57,6 +56,10 @@ public class Member extends BaseModel {
     @Schema(title = "账号是否锁定")
     @Column(name = "locked", nullable = false)
     private Boolean locked;
+
+    @Schema(title = "账号锁定过期时间")
+    @Column(name = "locked_expired")
+    private LocalDateTime lockedExpired;
 
     @Schema(title = " 状态")
     @Column(name = "status", nullable = false)
