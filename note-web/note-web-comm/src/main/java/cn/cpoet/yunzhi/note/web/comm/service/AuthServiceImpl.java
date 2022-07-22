@@ -17,7 +17,6 @@ import cn.cpoet.yunzhi.note.web.comm.dto.AccountPassDTO;
 import cn.cpoet.yunzhi.note.web.comm.vo.AuthTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,7 +32,6 @@ public class AuthServiceImpl implements AuthService {
     private final JwtSupport jwtSupport;
     private final IMemberService iMemberService;
     private final LoginLogService loginLogService;
-    private final Converter<LocalDateTime, String> ldt2strConverter;
 
     @Override
     public AuthTokenVO login(AccountPassDTO accountPass) {
@@ -73,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
                 member.setLocked(Boolean.FALSE);
                 iMemberService.update(member);
             } else {
-                String msg = String.format("账号被锁定至 %s", ldt2strConverter.convert(member.getExpiredTime()));
+                String msg = String.format("账号被锁定至 %s", member.getExpiredTime());
                 throw new ReqsException(ReqsStatus.MEMBER_LOCKED, msg);
             }
         }
