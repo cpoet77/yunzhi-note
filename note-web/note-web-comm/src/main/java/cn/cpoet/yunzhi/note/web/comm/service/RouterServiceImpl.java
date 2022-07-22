@@ -22,7 +22,7 @@ import java.util.List;
 public class RouterServiceImpl implements RouterService {
 
     @Override
-    @Cacheable(key = "'router:list'")
+    @Cacheable
     public List<Router> list() {
         return new QRouter()
             .status.eq(CommStatus.ENABLED)

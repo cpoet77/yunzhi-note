@@ -33,7 +33,7 @@ public class StandardKeyGenerator implements KeyGenerator {
     /**
      * 业务类后缀
      */
-    public final static String BUS_SUFFIX_REGEX = "(Service)|(ServiceImpl)|(Dao)|(DaoImpl)$";
+    public final static String BUS_SUFFIX_REGEX = "((Service)|(ServiceImpl)|(Dao)|(DaoImpl))$";
 
     private EnumMap<ElExpEnum, ElExpResolver> elExpResolvers;
 
@@ -71,7 +71,7 @@ public class StandardKeyGenerator implements KeyGenerator {
     }
 
     private String getTargetNameMd5(Object target) {
-        return DigestUtil.md5hex(target.getClass().getName());
+        return DigestUtil.md5hex16(target.getClass().getName());
     }
 
     /**

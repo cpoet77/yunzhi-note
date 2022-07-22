@@ -159,6 +159,7 @@ create table sys_member (
   group_id                      bigint not null,
   summary                       varchar(512),
   locked                        tinyint(1) not null,
+  locked_expired                datetime(6),
   status                        varchar(1) not null,
   expired_time                  datetime(6) not null,
   is_built_in                   tinyint(1) not null,

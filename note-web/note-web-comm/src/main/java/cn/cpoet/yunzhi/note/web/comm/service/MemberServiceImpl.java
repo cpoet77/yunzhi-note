@@ -40,12 +40,14 @@ public class MemberServiceImpl implements MemberService {
         infoVO.setAccount(member.getAccount());
         infoVO.setNickName(member.getNickName());
         infoVO.setSummary(member.getSummary());
-        Group group = iGroupService.findById(member.getGroupId());
-        if (group == null) {
-            throw new ReqsException(CommReqsStatus.USER_STATUS_ERROR, "用户组状态异常");
+        if (member.getGroupId() != SystemConst.DEFAULT_ENTITY_ID) {
+            Group group = iGroupService.findById(member.getGroupId());
+            if (group == null) {
+                throw new ReqsException(CommReqsStatus.USER_STATUS_ERROR, "用户组状态异常");
+            }
+            infoVO.setGroupId(group.getId());
+            infoVO.setGroupName(group.getName());
         }
-        infoVO.setGroupId(group.getId());
-        infoVO.setGroupName(group.getName());
         return infoVO;
     }
 }

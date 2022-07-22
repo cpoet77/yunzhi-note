@@ -165,6 +165,7 @@ create table sys_member (
   group_id                      number(19) not null,
   summary                       varchar2(512),
   locked                        number(1) not null,
+  locked_expired                timestamp,
   status                        varchar2(1) not null,
   expired_time                  timestamp not null,
   is_built_in                   number(1) not null,

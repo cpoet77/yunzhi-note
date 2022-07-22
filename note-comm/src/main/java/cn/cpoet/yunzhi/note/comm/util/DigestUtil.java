@@ -15,8 +15,16 @@ public abstract class DigestUtil {
         return binary2hex(md5binary(str));
     }
 
+    public static String md5hex16(String str) {
+        return interceptMd5(md5hex(str));
+    }
+
     public static String md5hex(byte[] bytes) {
         return binary2hex(md5binary(bytes));
+    }
+
+    public static String md5hex16(byte[] bytes) {
+        return interceptMd5(md5hex(bytes));
     }
 
     public static byte[] md5binary(String str) {
@@ -47,5 +55,15 @@ public abstract class DigestUtil {
             md5str.append(Integer.toHexString(digital));
         }
         return md5str.toString();
+    }
+
+    /**
+     * 截取16位md5
+     *
+     * @param str md5值
+     * @return 16位
+     */
+    public static String interceptMd5(String str) {
+        return str == null || str.length() < 24 ? str : str.substring(8, 24);
     }
 }

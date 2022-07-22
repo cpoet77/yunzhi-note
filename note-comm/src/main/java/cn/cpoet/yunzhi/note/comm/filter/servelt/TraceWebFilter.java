@@ -29,15 +29,11 @@ public class TraceWebFilter implements OrderedFilter {
                          FilterChain chain) throws IOException, ServletException {
         // 记录请求开始时间
         ReqsTimeHolder.start();
-
         // 获取链路信息并存储至MDC中
         TraceInfo traceInfo = appContext.getTraceInfo(ServletRequestWrapper.wrapper((HttpServletRequest) request));
         MDC.put(SystemConst.SPAN_ID, String.valueOf(traceInfo.getSpanId()));
         MDC.put(SystemConst.TRACE_ID, traceInfo.getTraceId());
         chain.doFilter(request, response);
-
-        // 移出请求开始时间
-        ReqsTimeHolder.remove();
     }
 
     @Override

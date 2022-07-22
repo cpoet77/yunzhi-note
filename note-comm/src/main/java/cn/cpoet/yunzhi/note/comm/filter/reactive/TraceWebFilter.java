@@ -30,16 +30,11 @@ public class TraceWebFilter implements OrderedWebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         // 记录请求开始时间
         ReqsTimeHolder.start();
-
         // 获取链路信息
         TraceInfo traceInfo = appContext.getTraceInfo(ReactiveRequestWrapper.wrapper(exchange));
         // 将链路信息存储至MDC中
         MDC.put(SystemConst.SPAN_ID, String.valueOf(traceInfo.getSpanId()));
         MDC.put(SystemConst.TRACE_ID, traceInfo.getTraceId());
-        Mono<Void> result = chain.filter(exchange);
-
-        // 移出请求记录时间
-        ReqsTimeHolder.remove();
-        return result;
+        return chain.filter(exchange);
     }
 }
