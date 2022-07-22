@@ -41,6 +41,7 @@ public class StandardKeyGenerator implements KeyGenerator {
     public Object generate(Object target, Method method, Object... params) {
         StringBuilder sb = new StringBuilder()
             .append(getTargetName(target))
+            .append(KEY_DELIMITER)
             .append(getTargetNameMd5(target))
             .append(KEY_DELIMITER)
             .append(method.getName());
