@@ -4,10 +4,10 @@ import cn.cpoet.yunzhi.note.api.auth.Subject;
 import cn.cpoet.yunzhi.note.api.constant.SystemConst;
 import cn.cpoet.yunzhi.note.api.exception.ReqsException;
 import cn.cpoet.yunzhi.note.comm.constant.CommReqsStatus;
-import cn.cpoet.yunzhi.note.domain.service.IGroupService;
-import cn.cpoet.yunzhi.note.domain.service.IMemberService;
 import cn.cpoet.yunzhi.note.domain.model.Group;
 import cn.cpoet.yunzhi.note.domain.model.Member;
+import cn.cpoet.yunzhi.note.domain.service.IGroupService;
+import cn.cpoet.yunzhi.note.domain.service.IMemberService;
 import cn.cpoet.yunzhi.note.web.comm.vo.MemberInfoVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final IMemberService iMemberService;
 
     @Override
-    @Cacheable(key = "'member:' + #subject.uid + ':getInfo'")
+    @Cacheable
     public MemberInfoVO getInfo(Subject subject) {
         Member member = iMemberService.findById(subject.getUid());
         if (member == null) {
