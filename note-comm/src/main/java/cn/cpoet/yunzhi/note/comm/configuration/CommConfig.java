@@ -5,6 +5,7 @@ import cn.cpoet.yunzhi.note.api.core.AppContext;
 import cn.cpoet.yunzhi.note.api.core.SystemKeyHolder;
 import cn.cpoet.yunzhi.note.api.util.AppContextUtil;
 import cn.cpoet.yunzhi.note.comm.aspect.FeignTargetAspect;
+import cn.cpoet.yunzhi.note.comm.cache.StandardKeyGenerator;
 import cn.cpoet.yunzhi.note.comm.configuration.auto.SecretProperties;
 import cn.cpoet.yunzhi.note.comm.core.DefaultAppContext;
 import cn.cpoet.yunzhi.note.comm.core.SimpleUUIDGenerator;
@@ -78,6 +79,12 @@ public class CommConfig {
     @Primary
     public AppContext appContext() {
         return AppContextUtil.initialize(DefaultAppContext::new);
+    }
+
+    @Bean
+    @Primary
+    public StandardKeyGenerator standardKeyGenerator() {
+        return new StandardKeyGenerator();
     }
 
     @Bean
